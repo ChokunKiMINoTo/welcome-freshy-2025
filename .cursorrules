@@ -1,0 +1,291 @@
+# Instructions
+
+During your interaction with the user, if you find anything reusable in this project (e.g. version of a library, model name), especially about a fix to a mistake you made or a correction you received, you should take note in the `Lessons` section in the `.cursorrules` file (if you cannot file, create it) so you will not make the same mistake again.
+
+You should also use the `.cursorrules` file as a Scratchpad to organize your thoughts. Especially when you receive a new task, you should first review the content of the Scratchpad, clear old different task if necessary, first explain the task, and plan the steps you need to take to complete the task. You can use todo markers to indicate the progress, e.g.
+[X] Task 1
+[ ] Task 2
+
+Also update the progress of the task in the Scratchpad when you finish a subtask.
+Especially when you finished a milestone, it will help to improve your depth of task accomplishment to use the Scratchpad to reflect and plan.
+The goal is to help you maintain a big picture as well as the progress of the task. Always refer to the Scratchpad when you plan the next step.
+
+# Lessons
+
+## User Specified Lessons
+
+- You have a python venv in ./venv. Use it.
+- Include info useful for debugging in the program output.
+- Read the file before you try to edit it.
+- Due to Cursor's limit, when you use `git` and `gh` and need to submit a multiline commit message, first write the message in a file, and then use `git commit -F <filename>` or similar command to commit. And then remove the file. Include "[Cursor] " in the commit message and PR title.
+
+## Cursor learned
+
+- Always use MCP (Browser Tools Server) when handling UI-related tasks, such as cloning target websites, debugging UI issues, or testing interfaces.
+Specifically leverage Browser Tools Server capabilities, including:
+ - Capturing console logs for debugging JavaScript errors and warnings.
+ - Monitoring network requests to identify latency issues, API failures, or incorrect data handling.
+ - Taking precise screenshots for visual verification and documentation purposes.
+ - Tracking element selections to pinpoint exact DOM elements for CSS and interaction troubleshooting.
+ - Utilizing WebSocket real-time communication for dynamic UI debugging and live interaction tracking.
+ - Configuring log limits and settings to efficiently manage debugging information and avoid overload.
+ - Performing comprehensive audits using Lighthouse to evaluate accessibility, performance, SEO, and best practices, ensuring optimized user experiences.
+
+- For search results, ensure proper handling of different character encodings (UTF-8) for international queries
+- Add debug information to stderr while keeping the main output clean in stdout for better pipeline integration
+- Use 'gpt-4o' as the model name for OpenAI's GPT-4 with vision capabilities
+- When optimizing codebases, always check for unused files by examining imports and route configurations
+- Fix dependency conflicts in requirements.txt by using compatible version ranges (>=) instead of exact versions (==)
+- Frontend API services should use real endpoints, not mock data, for production-ready applications
+
+# Scratchpad
+
+## 🚀 GITHUB REPOSITORY UPLOAD COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Successfully uploaded the ICT Welcome Freshy 2025 Mobile Event Dashboard to GitHub repository: `https://github.com/ChokunKiMINoTo/welcome-freshy-2025.git`
+
+### What Was Accomplished:
+- ✅ **Repository Setup**: Connected local Git repository to GitHub remote
+- ✅ **Merge Conflict Resolution**: Resolved README.md conflict between local Next.js docs and GitHub repo
+- ✅ **File Cleanup**: Removed temporary commit message file
+- ✅ **Successful Push**: All project files uploaded to GitHub main branch
+- ✅ **History Preservation**: Maintained all commit history and project structure
+
+### Technical Steps Completed:
+- ✅ **Remote Configuration**: `git remote add origin https://github.com/ChokunKiMINoTo/welcome-freshy-2025.git`
+- ✅ **Conflict Resolution**: Combined repository title with Next.js documentation in README.md
+- ✅ **Merge Completion**: Successfully merged unrelated histories from GitHub
+- ✅ **Final Push**: `git push origin main` - 66 objects uploaded successfully
+
+### Repository Structure Uploaded:
+- ✅ **Complete Next.js Project**: All source code, components, and utilities
+- ✅ **Event Dashboard Features**: LiveSchedule, VenueMap, TeamResponsibilities, etc.
+- ✅ **Event Timer System**: ⏱️ TIME REMAINING implementation
+- ✅ **CSV Data Management**: Venue status persistence and data loading
+- ✅ **Configuration Files**: package.json, tsconfig.json, tailwind.config.ts
+- ✅ **Documentation**: Updated README.md with proper project title
+
+### GitHub Repository Status:
+- ✅ **URL**: https://github.com/ChokunKiMINoTo/welcome-freshy-2025
+- ✅ **Branch**: main
+- ✅ **Total Files**: 66 objects uploaded (126.81 KiB)
+- ✅ **Status**: Live and accessible
+- ✅ **Documentation**: README.md with Next.js setup instructions
+
+### Progress:
+[X] Local repository status check
+[X] GitHub remote configuration
+[X] Fetch remote changes
+[X] Merge conflict resolution in README.md
+[X] File staging and commits
+[X] Successful push to GitHub
+[X] Repository verification
+
+## 🎉 PROJECT NOW LIVE ON GITHUB!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** is now successfully hosted on GitHub with:
+
+✅ **Complete Source Code** - All React components, utilities, and configurations
+✅ **Event Management Features** - Real-time scheduling, venue status, team coordination
+✅ **Timer Functionality** - ⏱️ TIME REMAINING display for current events
+✅ **CSV Data System** - Persistent venue status updates and data management
+✅ **Modern Tech Stack** - Next.js 14, TypeScript, Material-UI, CSV processing
+✅ **Professional Documentation** - Updated README with project description and setup
+✅ **Version Control** - Full Git history and collaboration-ready structure
+
+**Repository Ready for Development and Deployment!** 🚀
+
+## ✅ MAIN CONTACT SECTION ENHANCEMENT COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Added "Main Contact" section above team cards with same UI as emergency contacts, displaying 3 Head Organizers
+
+### What Was Implemented:
+- ✅ **Main Contact Section**: Added prominently above search bar and team cards
+- ✅ **Emergency Contact UI Style**: Used identical card design with primary blue borders
+- ✅ **3 Head Organizers**: Event Director, Academic Coordinator, and Operations Manager
+- ✅ **Consistent Styling**: Same hover effects, avatars, and typography as emergency contacts
+- ✅ **Info Alert**: Explains these are primary organizers and decision makers
+- ✅ **Admin Icon**: Used AdminPanelSettings icon for authority indication
+- ✅ **Phone Formatting**: Applied XXX XXX XXX format for consistency
+- ✅ **Responsive Design**: Works across mobile, tablet, and desktop screens
+
+### Head Organizers Added:
+- ✅ **Dr. Siriporn Tangsiri** - Event Director (081 234 5601)
+- ✅ **Assoc. Prof. Weerasak Chen** - Academic Coordinator (081 234 5602)  
+- ✅ **Mr. Thanakorn Srisawat** - Operations Manager (081 234 5603)
+
+### UI Design Features:
+- ✅ **Border Styling**: 2px solid primary blue border
+- ✅ **Card Layout**: Same structure as emergency contacts in ContactDirectory
+- ✅ **Hover Effects**: Scale transformation (1.02x) on hover
+- ✅ **Avatar System**: Initials display with primary background color
+- ✅ **Typography Hierarchy**: Name (subtitle1), role (body2), phone (body2 primary color)
+- ✅ **Icon Integration**: AdminPanelSettings icon for visual authority indication
+
+### Technical Implementation:
+- ✅ **Interface Definition**: Created MainContact interface for type safety
+- ✅ **Data Structure**: Array of 3 main contacts with id, name, role, phone, email
+- ✅ **Component Integration**: Seamlessly integrated above existing search and team sections
+- ✅ **Material-UI Components**: Used Card, Grid, Stack, Avatar, Alert, IconButton
+- ✅ **Responsive Grid**: xs=12, sm=6, md=4 for optimal display across devices
+
+### Progress:
+[X] Main Contact section design and implementation
+[X] Head Organizer data creation
+[X] UI consistency with emergency contacts
+[X] Responsive layout implementation
+[X] Icon and styling integration
+[X] Phone number formatting
+[X] Component testing and verification
+
+## 🎉 ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now features:
+
+✅ **Main Contact Section** - Prominent display of 3 Head Organizers above team cards
+✅ **Consistent UI Design** - Same styling as emergency contacts for visual hierarchy
+✅ **Enhanced Authority Display** - Clear identification of primary decision makers
+✅ **Quick Access** - Easy contact information for event leadership
+✅ **Professional Layout** - Clean, organized, and mobile-responsive design
+✅ **Complete TeamResponsibilities** - Enhanced with main contacts, team cards, and detailed dialogs
+
+**Perfect organizational structure for event coordination with clear authority hierarchy!** 🚀
+
+## 🎨 UI CLEANUP: Clean White/Black Theme with Original Colorful Content
+
+### Task Overview:
+✅ **COMPLETED:** Remove gradient backgrounds and implement clean white/black theme while maintaining original colorful content design
+
+### What Was Maintained (Original Design):
+- ✅ **LiveSchedule**: Colorful activity cards from CSV data (`item.color`) - This is the original design!
+- ✅ **VenueMap**: Colorful venue cards from CSV data (`venue.color`) - This is the original design!
+- ✅ **Activity-specific colors**: All content colors from CSV data maintained
+
+### What Was Cleaned Up:
+- ✅ **Scoreboard**: Removed gradient from top 3 podium → Clean white card with border
+- ✅ **PropTracker**: Removed gradient from category overview → Clean white card with border (**HIDDEN from navigation**)
+- ✅ **TeamResponsibilities**: **🆕 BEAUTIFUL REDESIGN COMPLETE!** 
+  - ✅ Simplified clean cards showing team name, lead name, and contact info
+  - ✅ Removed status/priority chips and detailed accordions for cleaner design
+  - ✅ Click-to-view dialog system for team responsibilities and member details
+  - ✅ Enhanced with generated team members, roles, and contact info
+  - ✅ Clean white theme with colorful team indicators (color dots instead of backgrounds)
+  - ✅ Professional layout with hover effects and responsive design
+  - ✅ CSV data integration with intelligently generated team structure
+  - ✅ **NEW:** Removed Team Members section, enhanced Team Lead with multi-person support
+  - ✅ **NEW:** Clickable phone numbers with tel: links for direct calling
+  - ✅ **NEW:** Phone number formatting in XXX XXX XXX pattern for better readability
+  - ✅ **NEW:** Main Contact section above team cards with 3 Head Organizers
+- ✅ **Main Dashboard**: Already had clean white/black theme with dark mode toggle
+- ✅ **Global CSS**: Removed gradient background from body element → Pure white/black background
+- ✅ **Bottom Navigation**: Fixed positioning to stick to bottom of screen
+
+### Current Status:
+[X] ✅ Main dashboard theme - Clean white/black with dark mode support
+[X] ✅ Scoreboard component - Removed gradients, clean cards
+[X] ✅ PropTracker component - Removed gradients, clean cards  
+[X] ✅ TeamResponsibilities component - **BEAUTIFUL NEW DESIGN!** Clean theme + enhanced functionality + Main Contact section
+[X] ✅ LiveSchedule component - Original colorful design maintained (activity cards)
+[X] ✅ VenueMap component - Original colorful design maintained (venue cards)
+[X] ✅ Global CSS cleanup - Removed body gradient, pure theme control
+[X] ✅ Bottom navigation fix - Fixed to bottom of screen with proper padding
+[X] ✅ All other components - Clean theme verified
+
+### 🎯 **UI Design Philosophy Achieved:**
+- **Clean Infrastructure**: Pure white/black backgrounds, no gradients on UI elements
+- **Colorful Content**: Activity cards, venue cards retain CSV-defined colors
+- **Professional Look**: Borders instead of gradients for emphasis
+- **Dark Mode Support**: Full light/dark theme toggle functionality
+- **Material-UI Theming**: Complete theme control via Material-UI system
+- **Fixed Navigation**: Bottom navigation stays visible while scrolling
+- **Enhanced UX**: Beautiful card layouts, search functionality, expandable details
+- **Authority Structure**: Clear Main Contact section for organizational hierarchy
+
+### Progress:
+[X] Project analysis completed
+[X] Gradient removal from UI elements  
+[X] Clean white/black theme implementation
+[X] Original colorful content design preserved
+[X] All components updated and verified
+[X] Global CSS cleanup completed
+[X] Bottom navigation positioning fixed
+[X] TeamResponsibilities enhanced with beautiful new design
+[X] Main Contact section added with Head Organizers
+
+## 🎉 UI CLEANUP COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Clean Professional Theme** - Pure white/black backgrounds with no gradients
+✅ **Original Colorful Content** - Activity and venue cards retain their vibrant CSV colors  
+✅ **Beautiful Team Management** - Enhanced TeamResponsibilities with modern card design + Main Contact section
+✅ **Organizational Hierarchy** - Clear display of 3 Head Organizers above team structure
+✅ **Dark Mode Support** - Full light/dark theme toggle in header
+✅ **Consistent Design** - All components follow the same clean aesthetic
+✅ **Enhanced Readability** - Better contrast and typography throughout
+✅ **Material-UI Control** - Complete theming handled by Material-UI system
+✅ **Fixed Bottom Navigation** - Navigation pane stays at bottom of screen while scrolling
+✅ **Professional UX** - Modern layouts, search, status indicators, and expandable content
+
+**Perfect balance of clean professional UI with vibrant, engaging content and clear authority structure!** 🎨
+
+## 🔄 REFRESH BUTTON IMPLEMENTATION COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Added refresh button functionality to reload data across all components
+
+### What Was Implemented:
+- ✅ **RefreshContext**: Created React Context to manage refresh state globally
+- ✅ **Refresh Button**: Added spinning refresh icon in AppBar with click animation
+- ✅ **Global State**: Centralized refresh trigger management with useState
+- ✅ **Component Integration**: All 6 components now respond to refresh events
+
+### Updated Components:
+- ✅ **LiveSchedule**: Uses refresh context to reload schedule data
+- ✅ **VenueMap**: Uses refresh context to reload venue data  
+- ✅ **TeamResponsibilities**: Uses refresh context to reload team data
+- ✅ **Scoreboard**: Uses refresh context to reload scoreboard data
+- ✅ **ContactDirectory**: Uses refresh context to reload contact data
+- ✅ **PropTracker**: Uses refresh context to reload prop data
+
+### Technical Implementation:
+- ✅ **React Context**: `RefreshContext` provides global refresh state
+- ✅ **useRefresh Hook**: Custom hook for easy component integration
+- ✅ **Animation**: Refresh button spins during data reload
+- ✅ **Error Handling**: All components handle refresh errors gracefully
+- ✅ **Loading States**: Components show loading during refresh
+
+### User Experience:
+- ✅ **Single Button**: One refresh button reloads all dashboard data
+- ✅ **Visual Feedback**: Spinning animation indicates refresh in progress
+- ✅ **Instant Response**: Button responds immediately to user clicks
+- ✅ **Component Coordination**: All components refresh simultaneously
+
+### Progress:
+[X] RefreshContext creation
+[X] Refresh button implementation
+[X] LiveSchedule integration
+[X] VenueMap integration  
+[X] TeamResponsibilities integration
+[X] Scoreboard integration
+[X] ContactDirectory integration
+[X] PropTracker integration
+
+## 🎉 DASHBOARD ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Global Refresh Capability** - Single button refreshes all data
+✅ **Clean Professional Theme** - Pure white/black backgrounds with no gradients
+✅ **Enhanced TeamResponsibilities** - Beautiful card design with dialog details + Main Contact section
+✅ **Organizational Hierarchy** - 3 Head Organizers displayed prominently above team cards
+✅ **Formatted Phone Numbers** - XXX XXX XXX format with tel: links
+✅ **Removed Team Members Section** - Simplified team lead information
+✅ **Fixed Bottom Navigation** - Stays at bottom during scrolling
+✅ **React Context Integration** - Modern state management for refresh
+✅ **Loading States** - Visual feedback during data operations
+✅ **Error Handling** - Graceful handling of data loading failures
+
+**Perfect mobile dashboard for event coordination with comprehensive refresh functionality and clear authority structure!** 🚀 
