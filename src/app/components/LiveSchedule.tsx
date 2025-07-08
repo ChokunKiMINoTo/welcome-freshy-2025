@@ -9,7 +9,6 @@ import {
   Stack,
   Grid,
   Button,
-  ButtonGroup,
   Collapse,
   Divider,
   IconButton,
@@ -705,7 +704,7 @@ const LiveSchedule: React.FC = () => {
                 No events found for selected team
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Try selecting "All" or a different team filter.
+                Try selecting &quot;All&quot; or a different team filter.
               </Typography>
             </Box>
           )}

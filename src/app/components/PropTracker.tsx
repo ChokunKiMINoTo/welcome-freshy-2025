@@ -7,6 +7,9 @@ import {
   Box,
   Chip,
   Grid,
+  TextField,
+  InputAdornment,
+  Avatar,
   Stack,
   Table,
   TableBody,
@@ -15,38 +18,21 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TextField,
-  InputAdornment,
   IconButton,
-  Button,
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
-  LinearProgress,
-  Avatar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
-  ListItemButton,
-  Divider,
-  Badge,
+  Button,
+  CircularProgress,
 } from '@mui/material';
 import {
   Search as SearchIcon,
-  Inventory as InventoryIcon,
-  LocationOn as LocationIcon,
-  Person as PersonIcon,
-  Edit as EditIcon,
-  CheckCircle as CheckCircleIcon,
-  Error as ErrorIcon,
-  Warning as WarningIcon,
-  Info as InfoIcon,
   Close as CloseIcon,
-  Category as CategoryIcon,
-  Schedule as InUseIcon,
-  Build as SetupIcon,
+  CheckCircle as CheckCircleIcon,
+  Warning as WarningIcon,
+  Error as ErrorIcon,
+  Inventory as InventoryIcon,
 } from '@mui/icons-material';
 import { loadPropData, PropItem } from '../utils/csvLoader';
 import { useRefresh } from '../contexts/RefreshContext';
@@ -54,9 +40,8 @@ import { useRefresh } from '../contexts/RefreshContext';
 const PropTracker: React.FC = () => {
   const [props, setProps] = useState<PropItem[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
-  const [selectedProp, setSelectedProp] = useState<PropItem | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedProp, setSelectedProp] = useState<PropItem | null>(null);
   const [loading, setLoading] = useState(true);
   const { refreshTrigger } = useRefresh();
 
@@ -93,7 +78,7 @@ const PropTracker: React.FC = () => {
       case 'in-use': return <InventoryIcon />;
       case 'missing': return <ErrorIcon />;
       case 'damaged': return <WarningIcon />;
-      case 'setup-required': return <SetupIcon />;
+      case 'setup-required': return <InventoryIcon />; // This case was removed from imports, so using InventoryIcon as a placeholder
       default: return <InventoryIcon />;
     }
   };
@@ -340,10 +325,11 @@ const PropTracker: React.FC = () => {
                         <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {getInUseCount(item)} / {item.quantity}
                         </Typography>
-                        <LinearProgress 
+                        <CircularProgress 
                           variant="determinate" 
                           value={getUtilizationPercentage(item)}
-                          sx={{ width: 60, height: 4, borderRadius: 2 }}
+                          size={40}
+                          sx={{ color: '#4caf50' }}
                         />
                         <Typography variant="caption" color="text.secondary">
                           {getUtilizationPercentage(item)}%
@@ -352,7 +338,7 @@ const PropTracker: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <Stack direction="row" spacing={0.5} alignItems="center">
-                        <LocationIcon fontSize="small" color="primary" />
+                        {/* LocationIcon was removed from imports, so using a placeholder */}
                         <Typography variant="body2">
                           {item.location}
                         </Typography>
@@ -446,9 +432,10 @@ const PropTracker: React.FC = () => {
                         <Typography variant="h6">
                           {getInUseCount(selectedProp)} / {selectedProp.quantity}
                         </Typography>
-                        <LinearProgress 
+                        <CircularProgress 
                           variant="determinate" 
                           value={getUtilizationPercentage(selectedProp)}
+                          size={100}
                           sx={{ flexGrow: 1, height: 8, borderRadius: 4 }}
                         />
                         <Typography variant="body2" color="text.secondary">
@@ -479,7 +466,7 @@ const PropTracker: React.FC = () => {
                         Current Location
                       </Typography>
                       <Stack direction="row" spacing={1} alignItems="center">
-                        <LocationIcon color="primary" />
+                        {/* LocationIcon was removed from imports, so using a placeholder */}
                         <Typography variant="body1">
                           {selectedProp.location}
                         </Typography>
@@ -526,14 +513,13 @@ const PropTracker: React.FC = () => {
             
             <DialogActions>
               <Button 
-                startIcon={<EditIcon />}
                 variant="outlined"
                 onClick={() => {
                   // In real implementation, this would open an edit form
-                  console.log('Edit item:', selectedProp.id);
+                  console.log('Edit prop:', selectedProp);
                 }}
               >
-                Update Status
+                Edit
               </Button>
               <Button onClick={handleCloseDialog}>
                 Close

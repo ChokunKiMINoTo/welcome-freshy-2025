@@ -11,9 +11,6 @@ import {
   Avatar,
   Stack,
   List,
-  ListItem,
-  ListItemText,
-  ListItemAvatar,
   ListItemButton,
   Divider,
   IconButton,
@@ -29,7 +26,6 @@ import {
   Phone as PhoneIcon,
   Email as EmailIcon,
   Emergency as EmergencyIcon,
-  Person as PersonIcon,
   RadioButtonChecked as RadioIcon,
   Info as InfoIcon,
   Close as CloseIcon,
@@ -242,7 +238,7 @@ const ContactDirectory: React.FC = () => {
             {regularContacts.map((contact, index) => (
               <div key={contact.id}>
                 <ListItemButton onClick={() => handleContactClick(contact)}>
-                  <ListItemAvatar>
+                  <Stack direction="row" spacing={2} alignItems="center">
                     <Avatar
                       sx={{
                         backgroundColor: getTeamColor(contact.team),
@@ -252,64 +248,29 @@ const ContactDirectory: React.FC = () => {
                     >
                       {getInitials(contact.name)}
                     </Avatar>
-                  </ListItemAvatar>
+                    
+                    <Box sx={{ flexGrow: 1 }}>
+                      <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                        {contact.name}
+                      </Typography>
+                      <Chip
+                        label={contact.team}
+                        size="small"
+                        sx={{
+                          backgroundColor: getTeamColor(contact.team),
+                          color: 'white',
+                          fontSize: '0.75rem',
+                        }}
+                      />
+                    </Box>
+                    
+                    <IconButton size="small">
+                      <InfoIcon />
+                    </IconButton>
+                  </Stack>
                   
-                  <ListItemText
-                    primary={
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
-                          {contact.name}
-                        </Typography>
-                        <Chip
-                          label={contact.team}
-                          size="small"
-                          sx={{
-                            backgroundColor: getTeamColor(contact.team),
-                            color: 'white',
-                            fontSize: '0.75rem',
-                          }}
-                        />
-                      </Stack>
-                    }
-                    secondary={
-                      <Stack spacing={0.5}>
-                        <Typography variant="body2" color="primary">
-                          {contact.role}
-                        </Typography>
-                        <Stack direction="row" spacing={2} alignItems="center">
-                          <Stack direction="row" spacing={0.5} alignItems="center">
-                            <PhoneIcon fontSize="small" />
-                            <Typography variant="body2">
-                              {contact.phone}
-                            </Typography>
-                          </Stack>
-                          {contact.lineId && (
-                            <Stack direction="row" spacing={0.5} alignItems="center">
-                              <EmailIcon fontSize="small" />
-                              <Typography variant="body2">
-                                {contact.lineId}
-                              </Typography>
-                            </Stack>
-                          )}
-                          {contact.radioChannel && (
-                            <Stack direction="row" spacing={0.5} alignItems="center">
-                              <RadioIcon fontSize="small" />
-                              <Typography variant="body2">
-                                Ch.{contact.radioChannel}
-                              </Typography>
-                            </Stack>
-                          )}
-                        </Stack>
-                      </Stack>
-                    }
-                  />
-                  
-                  <IconButton size="small">
-                    <InfoIcon />
-                  </IconButton>
+                  <Divider />
                 </ListItemButton>
-                
-                {index < regularContacts.length - 1 && <Divider />}
               </div>
             ))}
           </List>

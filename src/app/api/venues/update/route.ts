@@ -28,7 +28,6 @@ export async function POST(request: NextRequest) {
     
     // Parse and update the CSV
     const lines = csvContent.trim().split('\n');
-    const headers = lines[0];
     let venueFound = false;
     
     const updatedLines = lines.map((line, index) => {

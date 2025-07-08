@@ -1,11 +1,10 @@
 'use client';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Card,
   CardContent,
   Typography,
   Box,
-  Chip,
   Grid,
   Stack,
   Avatar,
@@ -13,7 +12,6 @@ import {
   ListItem,
   ListItemText,
   ListItemAvatar,
-  Divider,
   TextField,
   InputAdornment,
   Dialog,

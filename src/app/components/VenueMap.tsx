@@ -23,7 +23,6 @@ import {
   CircularProgress,
 } from '@mui/material';
 import {
-  LocationOn as LocationOnIcon,
   Info as InfoIcon,
   Edit as EditIcon,
   Close as CloseIcon,
