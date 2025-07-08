@@ -1,0 +1,12 @@
+id,name,role,team,phone,lineId,radioChannel,email,status,isEmergency
+alice,Alice Johnson,Registration Lead,registration,066-123-4567,alice.reg,Channel 1,alice@ict.ac.th,available,false
+bob,Bob Smith,Registration Assistant,registration,066-234-5678,bob.reg,Channel 1,bob@ict.ac.th,available,false
+david,David Wilson,MC Lead,mc,066-345-6789,david.mc,Channel 2,david@ict.ac.th,busy,false
+emma,Emma Brown,MC Assistant,mc,066-456-7890,emma.mc,Channel 2,emma@ict.ac.th,available,false
+frank,Frank Miller,Entertainment Lead,entertain,066-567-8901,frank.ent,Channel 3,frank@ict.ac.th,available,false
+ivy,Ivy Chen,Food Service Lead,fooddrink,066-678-9012,ivy.food,Channel 4,ivy@ict.ac.th,busy,false
+lisa,Lisa Zhang,Staff Coordinator,staff,066-789-0123,lisa.staff,Channel 5,lisa@ict.ac.th,available,false
+paul,Paul Rodriguez,Game Master,game,066-890-1234,paul.game,Channel 6,paul@ict.ac.th,busy,false
+emergency1,Security Office,Emergency Contact,security,066-911-1111,security.ict,Channel 9,security@ict.ac.th,available,true
+emergency2,Medical Team,Emergency Contact,medical,066-911-2222,medical.ict,Channel 9,medical@ict.ac.th,available,true
+emergency3,Event Director,Emergency Contact,management,066-911-3333,director.ict,Channel 9,director@ict.ac.th,available,true 

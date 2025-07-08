@@ -1,0 +1,6 @@
+id,type,title,message,priority,timestamp,isActive,dismissible,actions
+alert1,info,Schedule Update,Game II location changed to IT322. Please update your teams.,medium,2025-01-07 09:05,true,true,
+alert2,success,Registration Complete,All 150 students successfully registered! Great job team.,low,2025-01-07 09:00,true,true,
+alert3,warning,Lunch Preparation,Food containers arriving in 30 minutes. Innovation Space team prepare for setup.,high,2025-01-07 11:00,true,false,Contact Ivy Chen
+alert4,info,Next Activity,Get ready for Entertainment Segment II starting at 11:30 in Grand Hall.,medium,2025-01-07 11:15,true,true,
+alert5,error,Equipment Issue,Backup microphone needed in Grand Hall. Technical team respond immediately.,critical,2025-01-07 10:45,false,false,Radio Channel 5 

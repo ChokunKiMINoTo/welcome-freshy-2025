@@ -1,0 +1,1148 @@
+# Scratchpad
+
+## 🎉 TEAM DUTIES LIVESCHEDULE ENHANCEMENT COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Enhanced LiveSchedule with comprehensive team duties integration for real-time event coordination
+
+### What Was Implemented:
+
+#### 🔧 **CSV Data Enhancement:**
+- ✅ **Thai Translation**: All Thai text in team duty columns translated to English
+- ✅ **Enhanced Structure**: CSV now includes 6 team duty columns (Operation, Registration, Food & Drink, Entertain, Staff, Game)
+- ✅ **Bilingual Clarity**: Clear English descriptions for all team responsibilities
+- ✅ **Time-based Data**: Team duties perfectly aligned with event schedule
+
+#### 🎨 **LiveSchedule Component Enhancement:**
+- ✅ **Team Filter System**: 7 filter buttons (All Teams + 6 specific teams) with team-specific icons and colors
+- ✅ **Expandable Team Duties**: Click to expand/collapse detailed team responsibilities for each event
+- ✅ **Smart Filtering**: Filter events by team to see only relevant events for each team
+- ✅ **Visual Team Indicators**: Color-coded team duties with Material-UI icons
+- ✅ **Real-time Status**: Combined with existing time-based status system
+- ✅ **Enhanced UI**: Beautiful card design with hover effects and responsive layout
+
+#### 📋 **Team Structure Integration:**
+- ✅ **Operation Team** (Engineering icon, Blue) - Setup and logistics coordination
+- ✅ **Registration Team** (People icon, Purple) - Student check-in and organization
+- ✅ **Food & Drink Team** (Restaurant icon, Green) - Catering and refreshment management
+- ✅ **Entertain Team** (Theater icon, Orange) - Entertainment and activities coordination
+- ✅ **Staff Team** (Support icon, Red) - General support and guidance duties
+- ✅ **Game Team** (Sports icon, Blue) - Game activities and equipment management
+
+#### 🚀 **Technical Implementation:**
+- ✅ **Enhanced ScheduleItem Interface**: Added 6 team duty fields to data structure
+- ✅ **CSV Loader Updates**: Modified scheduleMapper to parse new team columns
+- ✅ **Team Filter Logic**: Smart filtering system that matches team names to duty assignments
+- ✅ **Expandable Cards**: Toggle system for showing/hiding detailed team responsibilities
+- ✅ **Type Safety**: Full TypeScript support with proper interfaces and type checking
+- ✅ **Error Handling**: Graceful handling of missing or empty team duties
+
+#### 🎯 **User Experience Features:**
+- ✅ **One-Click Filtering**: Instantly filter events by team responsibility
+- ✅ **Visual Hierarchy**: Clear distinction between event details and team duties
+- ✅ **Responsive Design**: Works perfectly on mobile, tablet, and desktop
+- ✅ **Intuitive Icons**: Each team has a unique, recognizable Material-UI icon
+- ✅ **Color Coordination**: Consistent color scheme for easy team identification
+- ✅ **Smart Expansion**: Only show expand button when team duties exist
+- ✅ **Real-time Integration**: Team duties sync with live event status updates
+
+### Progress:
+[X] CSV Thai translation completed
+[X] CSV data structure enhanced with team duties
+[X] ScheduleItem interface updated
+[X] CSV loader enhanced for new columns
+[X] LiveSchedule component enhanced with team features
+[X] Team filter system implemented
+[X] Expandable duty details added
+[X] Visual design and icons integrated
+[X] Responsive layout implemented
+[X] Testing and bug fixes completed
+[X] Import and linter issues resolved
+
+## 🎉 ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now features:
+
+✅ **Comprehensive Team Coordination** - Real-time team duties display with filtering
+✅ **Enhanced LiveSchedule** - Combined time-based status with team responsibility tracking
+✅ **Beautiful Team UI** - Color-coded, icon-based team identification system
+✅ **Bilingual Support** - All content translated from Thai to English for accessibility
+✅ **Smart Filtering** - One-click team-specific event filtering for focused coordination
+✅ **Expandable Details** - Click to reveal detailed team responsibilities for each event
+✅ **Real-time Updates** - Team duties sync with live event status and time updates
+✅ **Mobile-first Design** - Responsive layout optimized for mobile event coordination
+✅ **Type-safe Implementation** - Full TypeScript support with proper error handling
+
+**Perfect system for real-time multi-team event coordination with comprehensive duty tracking!** 🚀
+
+### Team Duties Data Structure (English):
+- **Operation**: Setup, logistics, venue preparation, equipment management
+- **Registration**: Student check-in, guidance, venue direction, crowd management  
+- **Food & Drink**: Catering setup, refreshment management, distribution coordination
+- **Entertain**: Entertainment activities, performance coordination, engagement management
+- **Staff**: General support, student guidance, venue assistance, crowd control
+- **Game**: Game activities, equipment setup, station management, scoring coordination
+
+**Comprehensive real-time team coordination system for the ICT Welcome Freshy 2025 event!** 🎉
+
+## ✅ MAIN CONTACT SECTION ENHANCEMENT COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Added "Main Contact" section above team cards with same UI as emergency contacts, displaying 3 Head Organizers
+
+### What Was Implemented:
+- ✅ **Main Contact Section**: Added prominently above search bar and team cards
+- ✅ **Emergency Contact UI Style**: Used identical card design with primary blue borders
+- ✅ **3 Head Organizers**: Event Director, Academic Coordinator, and Operations Manager
+- ✅ **Consistent Styling**: Same hover effects, avatars, and typography as emergency contacts
+- ✅ **Info Alert**: Explains these are primary organizers and decision makers
+- ✅ **Admin Icon**: Used AdminPanelSettings icon for authority indication
+- ✅ **Phone Formatting**: Applied XXX XXX XXX format for consistency
+- ✅ **Responsive Design**: Works across mobile, tablet, and desktop screens
+
+### Head Organizers Added:
+- ✅ **Dr. Siriporn Tangsiri** - Event Director (081 234 5601)
+- ✅ **Assoc. Prof. Weerasak Chen** - Academic Coordinator (081 234 5602)  
+- ✅ **Mr. Thanakorn Srisawat** - Operations Manager (081 234 5603)
+
+### UI Design Features:
+- ✅ **Border Styling**: 2px solid primary blue border
+- ✅ **Card Layout**: Same structure as emergency contacts in ContactDirectory
+- ✅ **Hover Effects**: Scale transformation (1.02x) on hover
+- ✅ **Avatar System**: Initials display with primary background color
+- ✅ **Typography Hierarchy**: Name (subtitle1), role (body2), phone (body2 primary color)
+- ✅ **Icon Integration**: AdminPanelSettings icon for visual authority indication
+
+### Technical Implementation:
+- ✅ **Interface Definition**: Created MainContact interface for type safety
+- ✅ **Data Structure**: Array of 3 main contacts with id, name, role, phone, email
+- ✅ **Component Integration**: Seamlessly integrated above existing search and team sections
+- ✅ **Material-UI Components**: Used Card, Grid, Stack, Avatar, Alert, IconButton
+- ✅ **Responsive Grid**: xs=12, sm=6, md=4 for optimal display across devices
+
+### Progress:
+[X] Main Contact section design and implementation
+[X] Head Organizer data creation
+[X] UI consistency with emergency contacts
+[X] Responsive layout implementation
+[X] Icon and styling integration
+[X] Phone number formatting
+[X] Component testing and verification
+
+## 🎉 ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now features:
+
+✅ **Main Contact Section** - Prominent display of 3 Head Organizers above team cards
+✅ **Consistent UI Design** - Same styling as emergency contacts for visual hierarchy
+✅ **Enhanced Authority Display** - Clear identification of primary decision makers
+✅ **Quick Access** - Easy contact information for event leadership
+✅ **Professional Layout** - Clean, organized, and mobile-responsive design
+✅ **Complete TeamResponsibilities** - Enhanced with main contacts, team cards, and detailed dialogs
+
+**Perfect organizational structure for event coordination with clear authority hierarchy!** 🚀
+
+## 🎨 UI CLEANUP: Clean White/Black Theme with Original Colorful Content
+
+### Task Overview:
+✅ **COMPLETED:** Remove gradient backgrounds and implement clean white/black theme while maintaining original colorful content design
+
+### What Was Maintained (Original Design):
+- ✅ **LiveSchedule**: Colorful activity cards from CSV data (`item.color`) - This is the original design!
+- ✅ **VenueMap**: Colorful venue cards from CSV data (`venue.color`) - This is the original design!
+- ✅ **Activity-specific colors**: All content colors from CSV data maintained
+
+### What Was Cleaned Up:
+- ✅ **Scoreboard**: Removed gradient from top 3 podium → Clean white card with border
+- ✅ **PropTracker**: Removed gradient from category overview → Clean white card with border (**HIDDEN from navigation**)
+- ✅ **TeamResponsibilities**: **🆕 BEAUTIFUL REDESIGN COMPLETE!** 
+  - ✅ Simplified clean cards showing team name, lead name, and contact info
+  - ✅ Removed status/priority chips and detailed accordions for cleaner design
+  - ✅ Click-to-view dialog system for team responsibilities and member details
+  - ✅ Enhanced with generated team members, roles, and contact info
+  - ✅ Clean white theme with colorful team indicators (color dots instead of backgrounds)
+  - ✅ Professional layout with hover effects and responsive design
+  - ✅ CSV data integration with intelligently generated team structure
+  - ✅ **NEW:** Removed Team Members section, enhanced Team Lead with multi-person support
+  - ✅ **NEW:** Clickable phone numbers with tel: links for direct calling
+  - ✅ **NEW:** Phone number formatting in XXX XXX XXX pattern for better readability
+  - ✅ **NEW:** Main Contact section above team cards with 3 Head Organizers
+- ✅ **Main Dashboard**: Already had clean white/black theme with dark mode toggle
+- ✅ **Global CSS**: Removed gradient background from body element → Pure white/black background
+- ✅ **Bottom Navigation**: Fixed positioning to stick to bottom of screen
+
+### Current Status:
+[X] ✅ Main dashboard theme - Clean white/black with dark mode support
+[X] ✅ Scoreboard component - Removed gradients, clean cards
+[X] ✅ PropTracker component - Removed gradients, clean cards  
+[X] ✅ TeamResponsibilities component - **BEAUTIFUL NEW DESIGN!** Clean theme + enhanced functionality + Main Contact section
+[X] ✅ LiveSchedule component - Original colorful design maintained (activity cards)
+[X] ✅ VenueMap component - Original colorful design maintained (venue cards)
+[X] ✅ Global CSS cleanup - Removed body gradient, pure theme control
+[X] ✅ Bottom navigation fix - Fixed to bottom of screen with proper padding
+[X] ✅ All other components - Clean theme verified
+
+### 🎯 **UI Design Philosophy Achieved:**
+- **Clean Infrastructure**: Pure white/black backgrounds, no gradients on UI elements
+- **Colorful Content**: Activity cards, venue cards retain CSV-defined colors
+- **Professional Look**: Borders instead of gradients for emphasis
+- **Dark Mode Support**: Full light/dark theme toggle functionality
+- **Material-UI Theming**: Complete theme control via Material-UI system
+- **Fixed Navigation**: Bottom navigation stays visible while scrolling
+- **Enhanced UX**: Beautiful card layouts, search functionality, expandable details
+- **Authority Structure**: Clear Main Contact section for organizational hierarchy
+
+### Progress:
+[X] Project analysis completed
+[X] Gradient removal from UI elements  
+[X] Clean white/black theme implementation
+[X] Original colorful content design preserved
+[X] All components updated and verified
+[X] Global CSS cleanup completed
+[X] Bottom navigation positioning fixed
+[X] TeamResponsibilities enhanced with beautiful new design
+[X] Main Contact section added with Head Organizers
+
+## 🎉 UI CLEANUP COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Clean Professional Theme** - Pure white/black backgrounds with no gradients
+✅ **Original Colorful Content** - Activity and venue cards retain their vibrant CSV colors  
+✅ **Beautiful Team Management** - Enhanced TeamResponsibilities with modern card design + Main Contact section
+✅ **Organizational Hierarchy** - Clear display of 3 Head Organizers above team cards
+✅ **Dark Mode Support** - Full light/dark theme toggle in header
+✅ **Consistent Design** - All components follow the same clean aesthetic
+✅ **Enhanced Readability** - Better contrast and typography throughout
+✅ **Material-UI Control** - Complete theming handled by Material-UI system
+✅ **Fixed Bottom Navigation** - Navigation pane stays at bottom of screen while scrolling
+✅ **Professional UX** - Modern layouts, search, status indicators, and expandable content
+
+**Perfect balance of clean professional UI with vibrant, engaging content and clear authority structure!** 🎨
+
+## 🔄 REFRESH BUTTON IMPLEMENTATION COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Added refresh button functionality to reload data across all components
+
+### What Was Implemented:
+- ✅ **RefreshContext**: Created React Context to manage refresh state globally
+- ✅ **Refresh Button**: Added spinning refresh icon in AppBar with click animation
+- ✅ **Global State**: Centralized refresh trigger management with useState
+- ✅ **Component Integration**: All 6 components now respond to refresh events
+
+### Updated Components:
+- ✅ **LiveSchedule**: Uses refresh context to reload schedule data
+- ✅ **VenueMap**: Uses refresh context to reload venue data  
+- ✅ **TeamResponsibilities**: Uses refresh context to reload team data
+- ✅ **Scoreboard**: Uses refresh context to reload scoreboard data
+- ✅ **ContactDirectory**: Uses refresh context to reload contact data
+- ✅ **PropTracker**: Uses refresh context to reload prop data
+
+### Technical Implementation:
+- ✅ **React Context**: `RefreshContext` provides global refresh state
+- ✅ **useRefresh Hook**: Custom hook for easy component integration
+- ✅ **Animation**: Refresh button spins during data reload
+- ✅ **Error Handling**: All components handle refresh errors gracefully
+- ✅ **Loading States**: Components show loading during refresh
+
+### User Experience:
+- ✅ **Single Button**: One refresh button reloads all dashboard data
+- ✅ **Visual Feedback**: Spinning animation indicates refresh in progress
+- ✅ **Instant Response**: Button responds immediately to user clicks
+- ✅ **Component Coordination**: All components refresh simultaneously
+
+### Progress:
+[X] RefreshContext creation
+[X] Refresh button implementation
+[X] LiveSchedule integration
+[X] VenueMap integration  
+[X] TeamResponsibilities integration
+[X] Scoreboard integration
+[X] ContactDirectory integration
+[X] PropTracker integration
+
+## 🎉 DASHBOARD ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Global Refresh Capability** - Single button refreshes all data
+✅ **Clean Professional Theme** - Pure white/black backgrounds with no gradients
+✅ **Enhanced TeamResponsibilities** - Beautiful card design with dialog details + Main Contact section
+✅ **Organizational Hierarchy** - 3 Head Organizers displayed prominently above team cards
+✅ **Formatted Phone Numbers** - XXX XXX XXX format with tel: links
+✅ **Removed Team Members Section** - Simplified team lead information
+✅ **Fixed Bottom Navigation** - Stays at bottom during scrolling
+✅ **React Context Integration** - Modern state management for refresh
+✅ **Loading States** - Visual feedback during data operations
+✅ **Error Handling** - Graceful handling of data loading failures
+
+**Perfect mobile dashboard for event coordination with comprehensive refresh functionality and clear authority structure!** 🚀
+
+## ✅ LIVESCHEDULE UI SIMPLIFICATION COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Simplified LiveSchedule UI to use cleaner, more readable layout while maintaining all team duties functionality
+
+### What Was Simplified:
+
+#### 🎨 **UI Design Improvements:**
+- ✅ **Clean Layout**: Reverted to simpler, more readable card-based design
+- ✅ **Better Spacing**: Improved typography and spacing for easier reading  
+- ✅ **Card Structure**: Organized filter buttons, current/next events, and schedule in clear card sections
+- ✅ **Team Filter Card**: Dedicated card for team filtering with clear labeling
+- ✅ **Simplified Buttons**: Smaller team filter buttons with consistent sizing
+- ✅ **Grid Layout**: Clean grid layout for event details (time, location, responsible)
+
+#### 🔧 **Functionality Maintained:**
+- ✅ **Real-time Status**: All time-based status calculations preserved
+- ✅ **Team Filtering**: 7-team filter system with icons and colors
+- ✅ **Expandable Duties**: Click to expand team responsibilities for each event
+- ✅ **Current/Next Events**: Prominent display of ongoing and upcoming events
+- ✅ **Team Duties**: Full team duties integration with color-coded chips
+- ✅ **Responsive Design**: Mobile-first responsive layout maintained
+
+#### 📱 **Enhanced Features:**
+- ✅ **Team Count Indicator**: Shows number of teams involved for each event
+- ✅ **Cleaner Expansion**: Better visual hierarchy for expanded team duties
+- ✅ **Improved Typography**: Better font weights and sizing for readability
+- ✅ **Status Integration**: Clean status chips with proper color coding
+- ✅ **Filter Labeling**: Clear section headers and labels throughout
+
+### Key Design Elements:
+- ✅ **Header**: "📅 Live Event Schedule" with consistent styling
+- ✅ **Current Time Card**: Purple background with prominent time display
+- ✅ **Team Filter Card**: Dedicated section with "🔍 Filter by Team" label
+- ✅ **NOW HAPPENING**: Orange-bordered card with team duties preview
+- ✅ **UP NEXT**: Blue-bordered card with next event information
+- ✅ **Complete Schedule**: Main card with filtered events and expandable duties
+
+### Technical Implementation:
+- ✅ **Cleaner State Management**: Simplified variable names (scheduleItems vs scheduleData)
+- ✅ **Better Error Handling**: Streamlined loading and error states
+- ✅ **Improved Filtering**: Clear team filter with dynamic section titles
+- ✅ **Enhanced Expansion**: Better visual feedback for expandable content
+- ✅ **Grid System**: Proper Material-UI Grid usage for responsive layout
+
+### Progress:
+[X] UI layout simplification
+[X] Team filtering card design
+[X] Current/next event styling
+[X] Schedule card redesign
+[X] Improved typography and spacing
+[X] Enhanced mobile responsiveness
+[X] Testing and verification
+
+## 🎉 UI SIMPLIFICATION COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard LiveSchedule** now features:
+
+✅ **Clean, Readable Design** - Simple card-based layout with clear sections
+✅ **Enhanced Team Filtering** - Dedicated filter card with visual team indicators
+✅ **Prominent Current Events** - Clear "NOW HAPPENING" and "UP NEXT" displays
+✅ **Expandable Team Duties** - Click to view detailed team responsibilities
+✅ **Real-time Updates** - All time-based features preserved and enhanced
+✅ **Mobile-Optimized** - Responsive design that works perfectly on all devices
+✅ **Professional Typography** - Improved readability with proper font weights
+
+**Perfect balance of simplicity and functionality for efficient event coordination!** 🎯
+
+## ✅ CSV PARSING FIX COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Fixed CSV parsing to properly handle commas within quoted team duty fields
+
+### Issue Identified:
+- ❌ **CSV Parsing Problem**: Simple `split(',')` was breaking on commas inside quoted fields
+- ❌ **Team Duties Misassignment**: Fields like "Check Queue registration, Game, Stage, Water station" were being split incorrectly
+- ❌ **Data Corruption**: Team responsibilities were being assigned to wrong teams due to parsing errors
+
+### Solution Implemented:
+- ✅ **Proper CSV Parser**: Created `parseCSVLine()` function that respects quoted fields
+- ✅ **Quote Handling**: Correctly processes both single and escaped double quotes
+- ✅ **Comma Protection**: Ignores commas inside quoted fields while still using them as separators
+- ✅ **Enhanced csvLoader.ts**: Updated both `parseCSV()` and `parseCSVWithHeaders()` functions
+
+### Technical Implementation:
+- ✅ **State Machine Parser**: Tracks `inQuotes` state to handle quoted field boundaries
+- ✅ **Escaped Quote Support**: Handles double quotes (`""`) as escaped quotes within fields
+- ✅ **Robust Field Extraction**: Properly separates fields even with complex content
+- ✅ **Trim & Clean**: Maintains trimming and cleaning of field values
+
+### CSV Parsing Logic:
+```typescript
+// Now correctly handles:
+"Operation","Check Queue registration, Game, Stage, Water station"
+"Game","Key time for transitions, score check-ins, and Game status confirmation"
+"Staff","Coordinate with kitchen, serve drinks, manage waste"
+```
+
+### Before vs After:
+**BEFORE (Broken):**
+- `"Check Queue registration, Game, Stage, Water station"` → `["Check Queue registration", " Game", " Stage", " Water station"]` (4 fields)
+- Team duties assigned to wrong teams due to field shifting
+
+**AFTER (Fixed):**
+- `"Check Queue registration, Game, Stage, Water station"` → `["Check Queue registration, Game, Stage, Water station"]` (1 field)
+- Team duties correctly assigned to intended teams
+
+### Progress:
+[X] CSV parsing issue analysis
+[X] Enhanced parseCSVLine() function implementation
+[X] Updated parseCSV() and parseCSVWithHeaders() functions
+[X] Proper quote and comma handling
+[X] Team duties assignment fix
+
+## 🎉 CSV PARSING ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Robust CSV Parsing** - Properly handles commas within quoted fields
+✅ **Accurate Team Duties** - Team responsibilities are correctly assigned
+✅ **Enhanced Data Integrity** - No more misinterpretation of complex duty descriptions
+✅ **Quote Support** - Handles both single and escaped quotes in CSV data
+✅ **Production Ready** - Reliable parsing for complex CSV content with punctuation
+✅ **Fixed LiveSchedule** - Team duties now display correctly without parsing errors
+
+**Perfect data handling for complex team coordination with proper CSV parsing!** 📊
+
+## ✅ UP NEXT EXPANSION STATE BUG FIX COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Fixed expansion state conflict between "UP NEXT" section and complete schedule
+
+### Issue Identified:
+- ❌ **Shared State Problem**: UP NEXT and complete schedule were sharing the same `expandedCards` state
+- ❌ **Cross-Section Interference**: Clicking expand in UP NEXT would also expand/collapse the same item in complete schedule
+- ❌ **User Experience Issue**: Confusing behavior where actions in one section affected another section
+
+### Solution Implemented:
+- ✅ **Separate State Variables**: Created `nextEventExpanded` boolean state specifically for UP NEXT section
+- ✅ **Independent Toggle Function**: Added `toggleNextEventExpanded()` function for UP NEXT section only
+- ✅ **Enhanced UP NEXT UI**: Added team duty preview chips like in NOW HAPPENING section
+- ✅ **Isolated Expansion Logic**: UP NEXT section now operates independently from complete schedule
+
+### Technical Implementation:
+- ✅ **State Separation**: 
+  - `expandedCards: Set<string>` - For complete schedule items
+  - `nextEventExpanded: boolean` - For UP NEXT section only
+- ✅ **Function Separation**:
+  - `toggleExpanded(itemId: string)` - For complete schedule
+  - `toggleNextEventExpanded()` - For UP NEXT section
+- ✅ **UI Enhancement**: Added duty preview chips in UP NEXT section for consistency with NOW HAPPENING
+
+### Before vs After:
+**BEFORE (Buggy):**
+- Clicking UP NEXT expand button would also expand/collapse the same event in complete schedule
+- User confusion due to unexpected cross-section behavior
+
+**AFTER (Fixed):**
+- UP NEXT section has independent expansion state
+- Complete schedule expansion works independently
+- No cross-section interference
+
+### Enhanced UP NEXT Features:
+- ✅ **Team Duty Preview**: Shows team duty chips like NOW HAPPENING section
+- ✅ **Independent Expansion**: Separate state for detailed duties
+- ✅ **Consistent UI**: Matches NOW HAPPENING section design
+- ✅ **Better UX**: Clear "Upcoming Team Duties" label for context
+
+### Progress:
+[X] Bug analysis and root cause identification
+[X] Separate state variable creation
+[X] Independent toggle function implementation
+[X] UP NEXT section UI enhancement
+[X] Testing and verification
+
+## 🎉 BUG FIX COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Independent Section States** - UP NEXT and complete schedule work independently
+✅ **Enhanced UP NEXT UI** - Team duty preview chips and consistent design
+✅ **Better User Experience** - No more confusing cross-section interference
+✅ **Consistent Behavior** - Each section maintains its own expansion state
+✅ **Clean State Management** - Separate state variables for different UI sections
+
+**Perfect independent section behavior with enhanced UI consistency!** 🔧
+
+**Perfect minimalist UP NEXT section with test-friendly configuration!** ✨
+
+## ✅ CONTACT PAGE HIDDEN COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Removed contact page from navigation tabs to hide it from users
+
+### Changes Made:
+- ✅ **Removed Contacts Tab**: Deleted contact tab from navigation tabs array in `page.tsx`
+- ✅ **Cleaned Up Imports**: Removed unused `ContactsIcon` and `ContactDirectory` imports
+- ✅ **Navigation Simplified**: Dashboard now only shows 4 tabs instead of 5
+- ✅ **No UI Breaking**: All other functionality remains intact
+
+### Navigation Tabs Now Include:
+- ✅ **Schedule**: Live event schedule with team duties
+- ✅ **Map**: Venue map with location information
+- ✅ **Teams**: Team responsibilities with main contacts
+- ✅ **Scores**: Event scoring and leaderboard
+
+### Navigation Tabs Removed:
+- ❌ **Contacts**: Contact directory page is now hidden from navigation
+
+### Technical Implementation:
+- ✅ **Tab Array Update**: Removed contact tab object from tabs array
+- ✅ **Import Cleanup**: Removed unused ContactsIcon and ContactDirectory imports
+- ✅ **Clean Navigation**: Bottom navigation now shows 4 tabs instead of 5
+- ✅ **Preserved Functionality**: All other components and features remain working
+
+### User Experience:
+- ✅ **Simplified Navigation**: Cleaner bottom navigation with fewer options
+- ✅ **Contact Info Still Available**: Main contacts still available in Teams section
+- ✅ **Emergency Contacts**: Emergency contact info still accessible via Teams page
+- ✅ **Focus on Core Features**: Dashboard focuses on schedule, map, teams, and scores
+
+### Progress:
+[X] Contact tab removal from navigation array
+[X] Unused import cleanup
+[X] Navigation simplification
+[X] Testing navigation functionality
+
+## 🎉 NAVIGATION CLEANUP COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now has:
+
+✅ **Simplified Navigation** - 4 core tabs without contacts page
+✅ **Clean Interface** - Focused on essential event coordination features
+✅ **Contact Info Preserved** - Main contacts still available in Teams section
+✅ **Emergency Access** - Critical contact info remains accessible
+✅ **Streamlined UX** - Cleaner navigation focused on live event needs
+
+**Perfect streamlined navigation for focused event coordination!** 🗂️
+
+## ✅ VENUE MAP CSV PERSISTENCE COMPLETE!
+
+### Task Overview:
+✅ **COMPLETED:** Implemented venue status updates that persist to CSV file and survive refresh
+
+### What Was Implemented:
+
+#### 🔧 **CSV Update System:**
+- ✅ **csvUpdater.ts**: New utility for sending status updates to API
+- ✅ **API Route**: `/api/venues/update` endpoint that modifies CSV file on server
+- ✅ **CSV Parser**: Proper handling of quoted fields and comma-separated values
+- ✅ **File System**: Direct CSV file modification using Node.js fs promises
+- ✅ **Validation**: Status validation and venue ID verification
+
+#### 🎨 **Enhanced VenueMap Component:**
+- ✅ **Real-time Updates**: Status changes immediately reflected in UI
+- ✅ **CSV Persistence**: All updates saved to CSV file and survive refresh
+- ✅ **Loading States**: Spinner animation during save operations
+- ✅ **Success/Error Handling**: Snackbar notifications for user feedback
+- ✅ **Enhanced UI**: Better status update dialog with emojis and alerts
+- ✅ **Status Options**: Added 'maintenance' status option
+- ✅ **User Feedback**: Clear information about CSV persistence
+
+#### 📋 **Technical Implementation:**
+- ✅ **API Integration**: POST requests to update venue status
+- ✅ **Error Handling**: Comprehensive error catching and user notification
+- ✅ **State Management**: Optimistic updates with rollback on failure
+- ✅ **CSV Safety**: Proper CSV formatting with quote handling
+- ✅ **TypeScript Safety**: Full type safety for status updates
+
+#### 🚀 **Status Management Features:**
+- ✅ **Four Status Types**:
+  - 🟢 **Active**: Venue is currently running activities
+  - 🟡 **Setup**: Venue is being prepared for activities
+  - 🔵 **Break**: Venue is on break between activities
+  - 🔴 **Maintenance**: Venue requires maintenance or repair
+- ✅ **Visual Indicators**: Color-coded chips and borders for status
+- ✅ **Persistence**: All status changes saved to CSV file
+- ✅ **Real-time Updates**: Immediate UI updates with backend sync
+
+#### 🎯 **User Experience Features:**
+- ✅ **Instant Feedback**: Snackbar notifications for success/error
+- ✅ **Loading Indicators**: Spinner during save operations
+- ✅ **Disabled States**: Buttons disabled during updates
+- ✅ **Status Previews**: Emoji indicators in status selection
+- ✅ **Information Alerts**: Clear messaging about CSV persistence
+- ✅ **Error Recovery**: Graceful handling of failed updates
+
+### File Structure:
+- ✅ **csvUpdater.ts**: API client for venue status updates
+- ✅ **api/venues/update/route.ts**: Next.js API route for CSV updates
+- ✅ **VenueMap.tsx**: Enhanced component with CSV persistence
+- ✅ **csvLoader.ts**: Updated with maintenance status support
+
+### Progress:
+[X] CSV update utility creation
+[X] API endpoint implementation  
+[X] VenueMap component enhancement
+[X] Status validation and error handling
+[X] User feedback implementation
+[X] CSV file modification logic
+[X] TypeScript interface updates
+[X] Testing and verification
+
+## 🎉 CSV PERSISTENCE ENHANCEMENT COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now features:
+
+✅ **Persistent Venue Status** - All status updates saved to CSV and survive refresh
+✅ **Real-time Updates** - Immediate UI updates with backend synchronization
+✅ **Enhanced Status Options** - 4 status types with emoji indicators and color coding
+✅ **Robust Error Handling** - Comprehensive error catching with user notifications
+✅ **Professional UI** - Loading states, snackbars, and improved status dialog
+✅ **CSV Safety** - Proper file handling with quote support and validation
+✅ **Type Safety** - Full TypeScript support for all update operations
+✅ **API Integration** - Clean REST API for venue status management
+
+**Perfect real-time venue management with persistent data storage!** 🗺️💾
+
+## 🧠 BRAINSTORMING: Event Enhancement Ideas
+
+### Task Overview:
+💡 **BRAINSTORMING:** Generate ideas to make the ICT Welcome Freshy 2025 event run more smoothly
+
+### Current System Analysis:
+The dashboard already has excellent foundations:
+- ✅ Real-time schedule with team duties
+- ✅ Venue status management with CSV persistence
+- ✅ Team coordination with main contacts
+- ✅ Live scoreboard and prop tracking
+- ✅ Mobile-first responsive design
+
+### 🎯 **HIGH-IMPACT IDEAS (Quick Wins)**
+
+#### **1. Real-Time Communication & Alerts**
+- 🚨 **Emergency Broadcast System** - Send urgent messages to all team leads instantly
+- 📢 **Venue-Specific Announcements** - Push notifications for venue changes/issues
+- 🔔 **Team Chat Integration** - Quick messaging between team leads
+- ⚡ **Auto-Alerts** - Automatic notifications when events are running late
+- 📱 **Push Notifications** - Browser notifications for critical updates
+
+#### **2. Live Event Monitoring**
+- ⏱️ **Event Timer System** - Visual countdown timers for current activities
+- 📊 **Real-Time Attendance Tracking** - Student check-in/check-out system
+- 🎯 **Bottleneck Detection** - Alert when venues are overcrowded
+- 📈 **Live Analytics Dashboard** - Real-time event metrics and KPIs
+- 🚦 **Traffic Light Status** - Green/Yellow/Red venue capacity indicators
+
+#### **3. Enhanced Team Coordination**
+- ✅ **Task Completion Tracking** - Check off completed duties in real-time
+- 🔄 **Staff Shift Management** - Track who's on duty when and where
+- 📍 **Team Member Location Tracking** - "Where is everyone?" feature
+- 🆘 **Help Request System** - Teams can request immediate assistance
+- 🔀 **Dynamic Team Reallocation** - Move staff between venues as needed
+
+#### **4. Student Experience Enhancement**
+- 🗺️ **Interactive Campus Map** - GPS navigation between venues
+- ⏰ **Personal Schedule Builder** - Students create their own event itinerary
+- 🎫 **QR Code Check-in** - Faster venue entry with QR scanning
+- 🏆 **Live Leaderboard** - Real-time game scores for student engagement
+- 📱 **Student Mobile App** - Dedicated app for attendees
+
+### 🚀 **MEDIUM-IMPACT IDEAS (Strategic)**
+
+#### **5. Resource & Equipment Management**
+- 📦 **Real-Time Inventory** - Track equipment usage and availability
+- 🔧 **Maintenance Requests** - Report broken equipment instantly
+- 🚛 **Equipment Movement Tracking** - Know where every item is located
+- 📋 **Setup/Teardown Checklists** - Ensure nothing is forgotten
+- 🔋 **Battery/Power Monitoring** - Track device power levels
+
+#### **6. Weather & Environmental Integration**
+- 🌤️ **Weather Alerts** - Automatic weather-based schedule adjustments
+- 🌡️ **Venue Climate Monitoring** - Temperature and comfort tracking
+- ☔ **Rain Contingency Plans** - Automatic indoor venue suggestions
+- 💨 **Air Quality Monitoring** - Ensure healthy environment for activities
+
+#### **7. Food & Logistics Management**
+- 🍕 **Food Delivery Tracking** - Know when catering arrives
+- 🥤 **Beverage Level Monitoring** - Alert when refreshments run low
+- 🚽 **Facility Usage Tracking** - Monitor restroom and facility capacity
+- 🗑️ **Waste Management** - Track when bins need emptying
+- 🚗 **Parking Management** - Real-time parking availability
+
+#### **8. Safety & Security Features**
+- 🚨 **Incident Reporting** - Quick incident documentation and escalation
+- 👥 **Crowd Density Monitoring** - Prevent overcrowding in venues
+- 🏥 **Medical Emergency Response** - Direct connection to first aid teams
+- 🔐 **Access Control** - Track who can enter restricted areas
+- 📹 **Security Camera Integration** - Monitor venue security status
+
+### 🎨 **CREATIVE IDEAS (Innovation)**
+
+#### **9. AI-Powered Intelligence**
+- 🤖 **Predictive Analytics** - Predict busy periods and potential issues
+- 📊 **Demand Forecasting** - Anticipate food/resource needs
+- 🎯 **Optimization Suggestions** - AI recommendations for better flow
+- 📈 **Pattern Recognition** - Learn from past events for improvements
+- 🗣️ **Voice Commands** - "Hey Event, where is the registration team?"
+
+#### **10. Gamification & Engagement**
+- 🎮 **Staff Achievement System** - Points for completing tasks
+- 🏅 **Team Competition** - Friendly competition between teams
+- 📸 **Photo Challenge Integration** - Social media engagement tracking
+- 🎊 **Live Event Feed** - Social media wall for event highlights
+- 🎁 **Reward System** - Digital badges for outstanding performance
+
+#### **11. Advanced Analytics & Reporting**
+- 📊 **Real-Time Dashboards** - Executive summary for organizers
+- 📈 **Event Success Metrics** - Measure key performance indicators
+- 🔍 **Post-Event Analysis** - Detailed event performance review
+- 💡 **Improvement Suggestions** - Data-driven recommendations
+- 📋 **Automated Reports** - Generate event summaries automatically
+
+#### **12. Integration & Connectivity**
+- 🔗 **University System Integration** - Connect with student databases
+- 📧 **Email/SMS Notifications** - Multi-channel communication
+- 💳 **Payment Processing** - Handle event fees and merchandise
+- 🎫 **Digital Ticketing** - QR codes for special events
+- 🖨️ **Print Station Integration** - On-demand printing for certificates
+
+### 🎯 **PRIORITIZED IMPLEMENTATION ROADMAP**
+
+#### **Phase 1: Quick Wins (1-2 days)**
+1. **Emergency Broadcast System** - Critical communication feature
+2. **Event Timer System** - Visual countdown for current activities
+3. **Task Completion Tracking** - Check off completed duties
+4. **Real-Time Attendance Counter** - Track student participation
+5. **Help Request Button** - Teams can request immediate assistance
+
+#### **Phase 2: Core Features (3-5 days)**
+1. **Team Chat Integration** - Quick messaging system
+2. **QR Code Check-in** - Faster venue entry system
+3. **Interactive Campus Map** - GPS navigation for students
+4. **Incident Reporting** - Safety and issue tracking
+5. **Real-Time Inventory** - Equipment tracking system
+
+#### **Phase 3: Advanced Features (1-2 weeks)**
+1. **AI Predictive Analytics** - Smart event optimization
+2. **Weather Integration** - Environmental contingency planning
+3. **Student Mobile App** - Dedicated attendee experience
+4. **Advanced Analytics Dashboard** - Executive reporting
+5. **Gamification System** - Staff and student engagement
+
+#### **Phase 4: Innovation (Future)**
+1. **Voice Command Interface** - Hands-free event management
+2. **AR/VR Integration** - Immersive venue visualization
+3. **Drone Monitoring** - Aerial event oversight
+4. **Blockchain Verification** - Secure credential verification
+5. **IoT Sensor Network** - Smart campus monitoring
+
+### 🎨 **SPECIFIC FEATURE DESIGNS**
+
+#### **Emergency Broadcast System**
+```typescript
+interface EmergencyAlert {
+  id: string;
+  type: 'urgent' | 'warning' | 'info';
+  message: string;
+  targetGroups: string[]; // ['all', 'team-leads', 'security']
+  timestamp: Date;
+  acknowledged: string[]; // User IDs who acknowledged
+}
+```
+
+#### **Event Timer System**
+```typescript
+interface EventTimer {
+  eventId: string;
+  startTime: Date;
+  endTime: Date;
+  status: 'upcoming' | 'active' | 'overtime' | 'completed';
+  warningThresholds: number[]; // Minutes before alerts
+}
+```
+
+#### **Task Completion Tracking**
+```typescript
+interface TaskStatus {
+  taskId: string;
+  teamId: string;
+  assignedTo: string;
+  status: 'pending' | 'in-progress' | 'completed' | 'blocked';
+  completedAt?: Date;
+  notes?: string;
+}
+```
+
+### Progress:
+[X] Current system analysis
+[X] High-impact ideas brainstorming
+[X] Medium-impact strategic features
+[X] Creative innovation ideas
+[X] Prioritized implementation roadmap
+[X] Specific feature designs
+
+## 🎉 BRAINSTORMING COMPLETE!
+
+Generated **50+ enhancement ideas** organized by impact and implementation complexity:
+
+✅ **12 High-Impact Quick Wins** - Emergency broadcasts, timers, task tracking
+✅ **20+ Strategic Features** - Resource management, safety, analytics
+✅ **15+ Innovation Ideas** - AI prediction, gamification, IoT integration
+✅ **4-Phase Implementation Plan** - From quick wins to future innovation
+✅ **Technical Specifications** - Ready-to-implement feature designs
+
+**Perfect roadmap for transforming the event dashboard into a comprehensive event management platform!** 🚀
+
+## 🎨 **UI MOCKUPS: Feature Implementation Locations**
+
+### 🔄 NEW TASK: UI Design Mockups for Feature Implementation
+
+### Task Overview:
+🎨 **MOCKUPS:** Show exactly where and how the Event Timer System, Medical Emergency Response, and Help Request Button would look in the current dashboard
+
+### 📱 **CURRENT DASHBOARD LAYOUT REFERENCE:**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 📅 ICT Welcome Freshy 2025        🌙 [Refresh] [Menu]  │ ← Header
+├─────────────────────────────────────────────────────────┤
+│                                                         │
+│ [Current Tab Content - Schedule/Map/Teams/Scores]       │ ← Main Content Area
+│                                                         │
+│                                                         │
+├─────────────────────────────────────────────────────────┤
+│ [📅] [🗺️] [👥] [🏆]                                    │ ← Bottom Navigation
+└─────────────────────────────────────────────────────────┘
+```
+
+### ⏱️ **EVENT TIMER SYSTEM IMPLEMENTATION COMPLETE!**
+
+### Task Overview:
+✅ **COMPLETED:** Added TIME REMAINING timer to NOW HAPPENING section of LiveSchedule component
+
+### What Was Implemented:
+
+#### 🔧 **Timer Functionality:**
+- ✅ **getTimeRemaining() Function**: Calculates time remaining until current event ends
+- ✅ **Real-time Updates**: Timer updates every minute with the existing timer interval
+- ✅ **Format Display**: Shows time in HH:MM format (e.g., "01:23" for 1 hour 23 minutes)
+- ✅ **Zero Handling**: Shows "00:00" when event time has passed
+- ✅ **AccessTime Icon**: Added clock icon import for visual consistency
+
+#### 🎨 **UI Integration:**
+- ✅ **NOW HAPPENING Section**: Timer prominently displayed below event title
+- ✅ **Visual Design**: Orange color (#ff9800) matching NOW HAPPENING theme
+- ✅ **Typography**: h6 variant with bold weight for prominence
+- ✅ **Icon Integration**: AccessTime icon preceding the timer text
+- ✅ **Spacing**: Proper spacing with mb: 2 margin below timer
+
+#### 📱 **Display Format:**
+```
+⏱️ TIME REMAINING: [01:23]
+```
+
+#### 🔧 **Technical Implementation:**
+- ✅ **Time Calculation**: Uses existing timeToMinutes() function for consistency
+- ✅ **Current Time Integration**: Leverages existing currentTime state
+- ✅ **Automatic Updates**: Updates with existing 60-second interval timer
+- ✅ **Error Handling**: Gracefully handles negative time values
+- ✅ **Format Consistency**: Zero-padded hours and minutes display
+
+#### 📦 **Code Changes:**
+- ✅ **Import Added**: `AccessTime as AccessTimeIcon` from @mui/icons-material
+- ✅ **Function Added**: `getTimeRemaining(endTime: string, currentTime: Date): string`
+- ✅ **UI Element Added**: Timer display box in NOW HAPPENING card
+- ✅ **Styling Applied**: Orange theme color and proper spacing
+
+### Timer Logic:
+```typescript
+const getTimeRemaining = (endTime: string, currentTime: Date): string => {
+  const endMinutes = timeToMinutes(endTime);
+  const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+  const remainingMinutes = endMinutes - currentMinutes;
+  
+  if (remainingMinutes <= 0) {
+    return "00:00";
+  }
+  
+  const hours = Math.floor(remainingMinutes / 60);
+  const minutes = remainingMinutes % 60;
+  
+  return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
+};
+```
+
+### UI Implementation:
+```tsx
+{/* Time Remaining Display */}
+<Box sx={{ mb: 2 }}>
+  <Stack direction="row" alignItems="center" spacing={1}>
+    <AccessTimeIcon sx={{ color: '#ff9800' }} />
+    <Typography variant="h6" sx={{ fontWeight: 600, color: '#ff9800' }}>
+      TIME REMAINING: [{getTimeRemaining(currentEvent.endTime, currentTime)}]
+    </Typography>
+  </Stack>
+</Box>
+```
+
+### Progress:
+[X] Timer calculation function implementation
+[X] AccessTime icon import
+[X] UI integration in NOW HAPPENING section
+[X] Real-time update integration
+[X] Visual styling and formatting
+[X] Testing and verification
+
+## 🎉 EVENT TIMER IMPLEMENTATION COMPLETE!
+
+The **ICT Welcome Freshy 2025 Mobile Event Dashboard** now features:
+
+✅ **Real-time Event Timer** - Shows remaining time for current ongoing events
+✅ **Visual Integration** - Timer seamlessly integrated into NOW HAPPENING section
+✅ **Automatic Updates** - Timer updates every minute with existing refresh system
+✅ **Professional Display** - Clean HH:MM format with clock icon
+✅ **Theme Consistency** - Orange color matching NOW HAPPENING section design
+✅ **Mobile Optimized** - Responsive timer display for all screen sizes
+
+**Perfect real-time event coordination with visual countdown timer for current activities!** ⏱️
+
+## 🏥 **2. MEDICAL EMERGENCY RESPONSE IMPLEMENTATION**
+
+#### **Location 1: Header - Emergency Button**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 📅 ICT Welcome Freshy 2025    🆘 [🔄] [🌙] [☰]         │ ← Emergency button in header
+└─────────────────────────────────────────────────────────┘
+                                   ↑
+                            RED EMERGENCY BUTTON
+```
+
+#### **Location 2: Teams Page - Medical Team Section**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 👥 Team Responsibilities                                │
+├─────────────────────────────────────────────────────────┤
+│ 🚨 EMERGENCY CONTACTS                    ◄─── NEW SECTION│
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🏥 MEDICAL TEAM - PRIORITY ACCESS                   │ │
+│ │ ├─ 👨‍⚕️ Dr. Somchai (First Aid Lead)                 │ │
+│ │ ├─ 📱 Emergency: 099-999-9999                       │ │
+│ │ ├─ 📍 Location: Medical Station (Grand Hall)        │ │
+│ │ └─ [🚨 CALL NOW] [📍 LOCATE] [📋 REPORT]            │ │
+│ └─────────────────────────────────────────────────────┘ │
+│                                                         │
+│ 📞 MAIN CONTACTS                                        │
+│ [... existing main contacts ...]                       │
+│                                                         │
+│ 👥 TEAM CARDS                                           │
+│ [... existing team cards ...]                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### **Location 3: Emergency Modal Dialog**
+```
+┌─────────────────────────────────────────────────────────┐
+│                 MODAL OVERLAY                           │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │ 🚨 MEDICAL EMERGENCY RESPONSE                   │    │
+│  ├─────────────────────────────────────────────────┤    │
+│  │                                                 │    │
+│  │ Select Emergency Type:                          │    │
+│  │ ┌─ 🩹 Minor Injury                             │    │
+│  │ ├─ 🏥 Medical Emergency                        │    │
+│  │ ├─ 🚑 Ambulance Required                       │    │
+│  │ └─ 🔥 Fire/Evacuation                          │    │
+│  │                                                 │    │
+│  │ Location: [Grand Hall ▼]                       │    │
+│  │ Details: [Text area for description...]        │    │
+│  │                                                 │    │
+│  │ ┌─────────────────────────────────────────────┐ │    │
+│  │ │ 📱 CALLING: Dr. Somchai (099-999-9999)     │ │    │
+│  │ │ 📍 DISPATCHING: Medical Team to Grand Hall  │ │    │
+│  │ │ ⏱️ ETA: 2 minutes                           │ │    │
+│  │ └─────────────────────────────────────────────┘ │    │
+│  │                                                 │    │
+│  │ [🚨 SEND ALERT] [📞 CALL] [❌ CANCEL]          │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 🆘 **3. HELP REQUEST BUTTON IMPLEMENTATION**
+
+#### **Location 1: Floating Action Button (All Pages)**
+```
+┌─────────────────────────────────────────────────────────┐
+│ Any Page Content (Schedule/Map/Teams/Scores)            │
+│                                                         │
+│                                               ┌───────┐ │
+│                                               │  🆘   │ │ ← Floating button
+│                                               │ HELP  │ │   (bottom right)
+│                                               └───────┘ │
+│                                                         │
+├─────────────────────────────────────────────────────────┤
+│ [📅] [🗺️] [👥] [🏆]                                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### **Location 2: Team Cards - Individual Help Buttons**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 👥 Team Responsibilities                                │
+├─────────────────────────────────────────────────────────┤
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🔧 Operation Team               👤 Dr. Siriporn    │ │
+│ │ Setup and logistics coordination                    │ │
+│ │ 📱 081 234 5601 | 📧 siriporn@ict.com              │ │
+│ │                                                     │ │
+│ │ [📋 View Details] [🆘 Request Help] ◄─── NEW BUTTON │ │
+│ └─────────────────────────────────────────────────────┘ │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🍕 Food & Drink Team            👤 Ms. Ploy        │ │
+│ │ Catering and refreshment management                 │ │
+│ │ 📱 081 234 5604 | 📧 ploy@ict.com                  │ │
+│ │                                                     │ │
+│ │ [📋 View Details] [🆘 Request Help] ◄─── NEW BUTTON │ │
+│ └─────────────────────────────────────────────────────┘ │
+└─────────────────────────────────────────────────────────┘
+```
+
+#### **Location 3: Help Request Modal**
+```
+┌─────────────────────────────────────────────────────────┐
+│                 MODAL OVERLAY                           │
+│  ┌─────────────────────────────────────────────────┐    │
+│  │ 🆘 REQUEST ASSISTANCE                           │    │
+│  ├─────────────────────────────────────────────────┤    │
+│  │                                                 │    │
+│  │ Request Type:                                   │    │
+│  │ ┌─ 👥 Need More Staff                          │    │
+│  │ ├─ 🔧 Equipment Issue                          │    │
+│  │ ├─ 📋 Task Clarification                       │    │
+│  │ ├─ 🚨 Urgent Problem                           │    │
+│  │ └─ 💬 General Question                         │    │
+│  │                                                 │    │
+│  │ From Team: [Operation Team ▼]                  │    │
+│  │ Location: [Grand Hall ▼]                       │    │
+│  │ Priority: [●High ○Medium ○Low]                 │    │
+│  │                                                 │    │
+│  │ Description:                                    │    │
+│  │ ┌─────────────────────────────────────────────┐ │    │
+│  │ │ Need help moving heavy tables for setup...  │ │    │
+│  │ └─────────────────────────────────────────────┘ │    │
+│  │                                                 │    │
+│  │ Send to:                                        │    │
+│  │ ☑️ Team Leads  ☑️ Main Organizers              │    │
+│  │                                                 │    │
+│  │ [📤 SEND REQUEST] [❌ CANCEL]                   │    │
+│  └─────────────────────────────────────────────────┘    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 🎯 **COMBINED FEATURES IN LIVESCHEDULE VIEW**
+
+#### **Complete Enhanced LiveSchedule Layout:**
+```
+┌─────────────────────────────────────────────────────────┐
+│ 📅 ICT Welcome Freshy 2025   🆘 [🔄] [🌙] [☰]          │ ← Emergency in header
+├─────────────────────────────────────────────────────────┤
+│ 📅 Live Event Schedule                                  │
+│                                                         │
+│ ⏰ Current Time: 09:45 AM                               │
+│                                                         │
+│ 🔄 NOW HAPPENING                                        │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🎯 Opening Ceremony                                 │ │
+│ │ ⏰ 09:00 - 10:30 📍 Grand Hall                      │ │
+│ │ 👨‍💼 Dr. Siriporn (Operation Team)                    │ │
+│ │                                                     │ │
+│ │ ⏱️ TIME REMAINING: [00:45:32] 🟢 ON TIME           │ │ ← Timer feature
+│ │ ├─ ⚠️  15 min warning at 10:15                      │ │
+│ │ └─ 📊 87 students checked in                        │ │
+│ │                                                     │ │
+│ │ [📋 Team Duties ▼] [🆘 Need Help]                   │ │ ← Help button
+│ └─────────────────────────────────────────────────────┘ │
+│                                                         │
+│ ⏭️ UP NEXT                                               │
+│ ┌─────────────────────────────────────────────────────┐ │
+│ │ 🎮 Game Activities Setup                            │ │
+│ │ ⏳ STARTS IN: [00:45:32] 🔵 PREPARATION             │ │
+│ │ └─ 📋 Setup reminder in 30 minutes                  │ │
+│ └─────────────────────────────────────────────────────┘ │
+│                                                         │
+│ [Rest of schedule with individual timers...]           │
+│                                                         │
+│                                               ┌───────┐ │
+│                                               │  🆘   │ │ ← Floating help
+│                                               │ HELP  │ │
+│                                               └───────┘ │
+├─────────────────────────────────────────────────────────┤
+│ [📅] [🗺️] [👥] [🏆]                                    │
+└─────────────────────────────────────────────────────────┘
+```
+
+### 🔧 **TECHNICAL IMPLEMENTATION NOTES**
+
+#### **Event Timer System:**
+```typescript
+// Timer component in LiveSchedule.tsx
+const EventTimer = ({ startTime, endTime, status }) => (
+  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+    <AccessTimeIcon />
+    <Typography variant="h6" color={getTimerColor(status)}>
+      {formatTimeRemaining(startTime, endTime)}
+    </Typography>
+    <Chip label={status} color={getStatusColor(status)} size="small" />
+  </Box>
+);
+```
+
+#### **Medical Emergency Response:**
+```typescript
+// Emergency button in header
+const EmergencyButton = () => (
+  <IconButton 
+    color="error" 
+    size="large"
+    onClick={handleEmergencyAlert}
+    sx={{ 
+      backgroundColor: 'error.main',
+      color: 'white',
+      '&:hover': { backgroundColor: 'error.dark' }
+    }}
+  >
+    <LocalHospitalIcon />
+  </IconButton>
+);
+```
+
+#### **Help Request Button:**
+```typescript
+// Floating action button
+const HelpButton = () => (
+  <Fab
+    color="secondary"
+    aria-label="request help"
+    sx={{
+      position: 'fixed',
+      bottom: 100, // Above bottom navigation
+      right: 16,
+      zIndex: 1000
+    }}
+    onClick={openHelpModal}
+  >
+    <HelpIcon />
+  </Fab>
+);
+```
+
+### Progress:
+[X] Event Timer System UI mockups
+[X] Medical Emergency Response layout
+[X] Help Request Button placement
+[X] Combined features visualization
+[X] Technical implementation notes
+[X] Color coding and status indicators
+
+## 🎉 UI MOCKUPS COMPLETE!
+
+**Visual representation shows exactly where and how each feature integrates:**
+
+✅ **Event Timer System** - Integrated into NOW HAPPENING, UP NEXT, and individual schedule cards
+✅ **Medical Emergency Response** - Header emergency button + dedicated medical team section + modal dialog
+✅ **Help Request Button** - Floating action button + individual team help buttons + request modal
+✅ **Seamless Integration** - All features work together without cluttering the existing clean UI
+✅ **Mobile Optimized** - Responsive design maintains usability on all screen sizes
+
+**Perfect feature placement that enhances event coordination without disrupting current workflow!** 🎯
