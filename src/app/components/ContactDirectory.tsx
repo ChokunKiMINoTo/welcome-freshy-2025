@@ -35,7 +35,7 @@ import {
   Close as CloseIcon,
 } from '@mui/icons-material';
 import { loadContactData, ContactItem } from '../utils/csvLoader';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 const ContactDirectory: React.FC = () => {
   const [contacts, setContacts] = useState<ContactItem[]>([]);

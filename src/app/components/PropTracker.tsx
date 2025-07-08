@@ -49,7 +49,7 @@ import {
   Build as SetupIcon,
 } from '@mui/icons-material';
 import { loadPropData, PropItem } from '../utils/csvLoader';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 const PropTracker: React.FC = () => {
   const [props, setProps] = useState<PropItem[]>([]);

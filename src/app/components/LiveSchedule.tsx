@@ -34,7 +34,7 @@ import {
   SportsEsports
 } from '@mui/icons-material';
 import { loadScheduleData, ScheduleItem } from '../utils/csvLoader';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 // Extended interface with calculated status
 interface ScheduleItemWithStatus extends ScheduleItem {

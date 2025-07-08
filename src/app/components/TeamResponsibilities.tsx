@@ -34,7 +34,7 @@ import {
   AdminPanelSettings as AdminIcon,
 } from '@mui/icons-material';
 import { loadTeamData, TeamItem } from '../utils/csvLoader';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 interface TeamMember {
   id: string;

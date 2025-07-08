@@ -106,13 +106,17 @@ function parseCSV<T>(csvText: string, mapper: (row: string[]) => T): T[] {
 }
 
 // Enhanced CSV parser for object-based mapping with proper comma handling
-function parseCSVWithHeaders<T>(csvText: string, mapper: (row: any) => T): T[] {
+interface CsvRowObject {
+  [key: string]: string;
+}
+
+function parseCSVWithHeaders<T>(csvText: string, mapper: (row: CsvRowObject) => T): T[] {
   const lines = csvText.trim().split('\n');
   const headers = parseCSVLine(lines[0]);
   
   return lines.slice(1).map(line => {
     const values = parseCSVLine(line);
-    const obj: any = {};
+    const obj: CsvRowObject = {};
     
     headers.forEach((header, index) => {
       obj[header] = values[index] || '';
@@ -162,7 +166,7 @@ function parseCSVLine(line: string): string[] {
 }
 
 // Type-specific mappers
-const scheduleMapper = (row: any): ScheduleItem => ({
+const scheduleMapper = (row: CsvRowObject): ScheduleItem => ({
   id: row.id || '',
   title: row.title || '',
   startTime: row.startTime || '',
@@ -202,7 +206,7 @@ const teamMapper = (row: string[]): TeamItem => ({
   currentTask: row[8] || '',
 });
 
-const contactMapper = (row: any): ContactItem => ({
+const contactMapper = (row: CsvRowObject): ContactItem => ({
   id: row.id,
   name: row.name,
   role: row.role,
@@ -215,7 +219,7 @@ const contactMapper = (row: any): ContactItem => ({
   isEmergency: row.isEmergency === 'true'
 });
 
-const scoreboardMapper = (row: any): ScoreboardItem => ({
+const scoreboardMapper = (row: CsvRowObject): ScoreboardItem => ({
   id: row.id,
   teamName: row.teamName,
   totalScore: parseInt(row.totalScore) || 0,
@@ -231,7 +235,7 @@ const scoreboardMapper = (row: any): ScoreboardItem => ({
   achievements: row.achievements
 });
 
-const propMapper = (row: any): PropItem => ({
+const propMapper = (row: CsvRowObject): PropItem => ({
   id: row.id,
   name: row.name,
   category: row.category,
@@ -245,7 +249,7 @@ const propMapper = (row: any): PropItem => ({
   notes: row.notes
 });
 
-const alertMapper = (row: any): AlertItem => ({
+const alertMapper = (row: CsvRowObject): AlertItem => ({
   id: row.id,
   type: row.type as 'error' | 'warning' | 'info' | 'success',
   title: row.title,

@@ -34,7 +34,7 @@ import {
   Close as CloseIcon,
 } from '@mui/icons-material';
 import { loadScoreboardData, ScoreboardItem } from '../utils/csvLoader';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 const Scoreboard: React.FC = () => {
   const [teams, setTeams] = useState<ScoreboardItem[]>([]);

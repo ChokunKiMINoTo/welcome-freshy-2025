@@ -1,13 +1,10 @@
 'use client';
-import { useState, createContext, useContext } from 'react';
+import { useState } from 'react';
 import {
   AppBar,
   Toolbar,
   Typography,
   Container,
-  Card,
-  CardContent,
-  Grid,
   BottomNavigation,
   BottomNavigationAction,
   Box,
@@ -22,7 +19,6 @@ import {
   Map as MapIcon,
   Group as GroupIcon,
   Leaderboard as LeaderboardIcon,
-  Inventory as InventoryIcon,
   Refresh as RefreshIcon,
   LightMode as LightModeIcon,
   DarkMode as DarkModeIcon,
@@ -35,25 +31,15 @@ import TeamResponsibilities from './components/TeamResponsibilities';
 import Scoreboard from './components/Scoreboard';
 import LiveAlerts from './components/LiveAlerts';
 
-// Create refresh context
-interface RefreshContextType {
-  refreshTrigger: number;
-  triggerRefresh: () => void;
-}
+// Import context
+import { RefreshProvider, useRefresh } from './contexts/RefreshContext';
 
-const RefreshContext = createContext<RefreshContextType>({
-  refreshTrigger: 0,
-  triggerRefresh: () => {},
-});
-
-export const useRefresh = () => useContext(RefreshContext);
-
-export default function Dashboard() {
+function DashboardContent() {
   const [currentTab, setCurrentTab] = useState(0);
-  const [alertCount, setAlertCount] = useState(2); // Example alert count
   const [darkMode, setDarkMode] = useState(false);
-  const [refreshTrigger, setRefreshTrigger] = useState(0);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  
+  const { triggerRefresh } = useRefresh();
 
   const theme = createTheme({
     palette: {
@@ -65,16 +51,6 @@ export default function Dashboard() {
     },
   });
 
-  const triggerRefresh = () => {
-    setIsRefreshing(true);
-    setRefreshTrigger(prev => prev + 1);
-    
-    // Show refresh animation for 2 seconds
-    setTimeout(() => {
-      setIsRefreshing(false);
-    }, 2000);
-  };
-
   const tabs = [
     { label: 'Schedule', icon: <ScheduleIcon />, component: <LiveSchedule /> },
     { label: 'Map', icon: <MapIcon />, component: <VenueMap /> },
@@ -83,8 +59,14 @@ export default function Dashboard() {
   ];
 
   const handleRefresh = () => {
+    setIsRefreshing(true);
     triggerRefresh();
     console.log('Refreshing all component data...');
+    
+    // Show refresh animation for 2 seconds
+    setTimeout(() => {
+      setIsRefreshing(false);
+    }, 2000);
   };
 
   const toggleDarkMode = () => {
@@ -92,80 +74,86 @@ export default function Dashboard() {
   };
 
   return (
-    <RefreshContext.Provider value={{ refreshTrigger, triggerRefresh }}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <Box sx={{ pb: 9 }}> {/* Increased bottom padding for fixed navigation */}
-          {/* Header */}
-          <AppBar position="sticky">
-            <Toolbar>
-              <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 600 }}>
-                ICT Welcome Freshy 2025 Staff Dashboard
-              </Typography>
-              <Chip 
-                label="LIVE" 
-                color="error" 
-                size="small" 
-                sx={{ mr: 1, fontWeight: 600 }}
-              />
-              <IconButton color="inherit" onClick={toggleDarkMode}>
-                {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
-              </IconButton>
-              <IconButton 
-                color="inherit" 
-                onClick={handleRefresh}
-                disabled={isRefreshing}
-                sx={{
-                  animation: isRefreshing ? 'spin 1s linear infinite' : 'none',
-                  '@keyframes spin': {
-                    '0%': {
-                      transform: 'rotate(0deg)',
-                    },
-                    '100%': {
-                      transform: 'rotate(360deg)',
-                    },
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box sx={{ pb: 9 }}> {/* Increased bottom padding for fixed navigation */}
+        {/* Header */}
+        <AppBar position="sticky">
+          <Toolbar>
+            <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 600 }}>
+              ICT Welcome Freshy 2025 Staff Dashboard
+            </Typography>
+            <Chip 
+              label="LIVE" 
+              color="error" 
+              size="small" 
+              sx={{ mr: 1, fontWeight: 600 }}
+            />
+            <IconButton color="inherit" onClick={toggleDarkMode}>
+              {darkMode ? <LightModeIcon /> : <DarkModeIcon />}
+            </IconButton>
+            <IconButton 
+              color="inherit" 
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              sx={{
+                animation: isRefreshing ? 'spin 1s linear infinite' : 'none',
+                '@keyframes spin': {
+                  '0%': {
+                    transform: 'rotate(0deg)',
                   },
-                }}
-              >
-                <RefreshIcon />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
+                  '100%': {
+                    transform: 'rotate(360deg)',
+                  },
+                },
+              }}
+            >
+              <RefreshIcon />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
 
-          {/* Live Alerts - Always visible at top */}
-          <LiveAlerts />
+        {/* Live Alerts - Always visible at top */}
+        <LiveAlerts />
 
-          {/* Main Content */}
-          <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
-            {tabs[currentTab].component}
-          </Container>
+        {/* Main Content */}
+        <Container maxWidth="lg" sx={{ mt: 2, mb: 4 }}>
+          {tabs[currentTab].component}
+        </Container>
 
-          {/* Bottom Navigation - Fixed to bottom */}
-          <BottomNavigation
-            value={currentTab}
-            onChange={(event, newValue) => setCurrentTab(newValue)}
-            showLabels
-            sx={{
-              position: 'fixed',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              width: '100%',
-              zIndex: 1000,
-              borderTop: 1,
-              borderColor: 'divider',
-            }}
-          >
-            {tabs.map((tab, index) => (
-              <BottomNavigationAction
-                key={index}
-                label={tab.label}
-                icon={tab.icon}
-              />
-            ))}
-          </BottomNavigation>
-        </Box>
-      </ThemeProvider>
-    </RefreshContext.Provider>
+        {/* Bottom Navigation - Fixed to bottom */}
+        <BottomNavigation
+          value={currentTab}
+          onChange={(event, newValue) => setCurrentTab(newValue)}
+          showLabels
+          sx={{
+            position: 'fixed',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            width: '100%',
+            zIndex: 1000,
+            borderTop: 1,
+            borderColor: 'divider',
+          }}
+        >
+          {tabs.map((tab, index) => (
+            <BottomNavigationAction
+              key={index}
+              label={tab.label}
+              icon={tab.icon}
+            />
+          ))}
+        </BottomNavigation>
+      </Box>
+    </ThemeProvider>
+  );
+}
+
+export default function Dashboard() {
+  return (
+    <RefreshProvider>
+      <DashboardContent />
+    </RefreshProvider>
   );
 }

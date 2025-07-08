@@ -31,7 +31,7 @@ import {
 } from '@mui/icons-material';
 import { loadVenueData, VenueItem } from '../utils/csvLoader';
 import { updateVenueStatus } from '../utils/csvUpdater';
-import { useRefresh } from '../page';
+import { useRefresh } from '../contexts/RefreshContext';
 
 const VenueMap: React.FC = () => {
   const [venues, setVenues] = useState<VenueItem[]>([]);
