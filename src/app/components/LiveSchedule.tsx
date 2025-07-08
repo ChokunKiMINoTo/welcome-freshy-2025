@@ -1,5 +1,5 @@
 'use client';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   Card,
   CardContent,
@@ -53,13 +53,13 @@ const LiveSchedule: React.FC = () => {
   const { refreshTrigger } = useRefresh();
 
   // Function to convert time string (HH:MM) to minutes since midnight
-  const timeToMinutes = (timeString: string): number => {
+  const timeToMinutes = useCallback((timeString: string): number => {
     const [hours, minutes] = timeString.split(':').map(Number);
     return hours * 60 + minutes;
-  };
+  }, []);
 
   // Function to calculate status based on current time
-  const calculateStatus = (startTime: string, endTime: string, currentTime: Date): 'completed' | 'ongoing' | 'upcoming' => {
+  const calculateStatus = useCallback((startTime: string, endTime: string, currentTime: Date): 'completed' | 'ongoing' | 'upcoming' => {
     const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
     const startMinutes = timeToMinutes(startTime);
     const endMinutes = timeToMinutes(endTime);
@@ -71,7 +71,7 @@ const LiveSchedule: React.FC = () => {
     } else {
       return 'completed';
     }
-  };
+  }, [timeToMinutes]);
 
   // Get team duties for a schedule item
   const getTeamDuties = (item: ScheduleItemWithStatus) => {
@@ -144,7 +144,7 @@ const LiveSchedule: React.FC = () => {
     };
 
     loadData();
-  }, [refreshTrigger, currentTime]);
+  }, [refreshTrigger, currentTime, calculateStatus]);
 
   // Update current time every minute and recalculate statuses
   useEffect(() => {
@@ -162,7 +162,7 @@ const LiveSchedule: React.FC = () => {
     }, 60000); // Update every minute
 
     return () => clearInterval(timer);
-  }, []);
+  }, [calculateStatus]);
 
   const getStatusColor = (status: string) => {
     switch (status) {

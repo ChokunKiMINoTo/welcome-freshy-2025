@@ -235,7 +235,7 @@ const ContactDirectory: React.FC = () => {
           </Typography>
           
           <List>
-            {regularContacts.map((contact, index) => (
+            {regularContacts.map((contact) => (
               <div key={contact.id}>
                 <ListItemButton onClick={() => handleContactClick(contact)}>
                   <Stack direction="row" spacing={2} alignItems="center">

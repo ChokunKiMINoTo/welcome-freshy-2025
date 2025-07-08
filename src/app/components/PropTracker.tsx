@@ -92,14 +92,6 @@ const PropTracker: React.FC = () => {
     }
   };
 
-  const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: true 
-    });
-  };
-
   const getCategoryIcon = (category: string) => {
     switch (category.toLowerCase()) {
       case 'sound': return '🎵';
