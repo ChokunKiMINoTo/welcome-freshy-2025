@@ -1,0 +1,22 @@
+id,name,category,quantity,location,assignedTo,status,priority,description,lastUpdated,notes
+mic1,Wireless Microphone Set,Audio,4,Grand Hall,David Wilson,in-use,high,Professional wireless mic system,2025-01-07 09:00,Channel 1-4
+speakers1,PA Speaker System,Audio,2,Grand Hall,Frank Miller,in-use,high,Main event speakers,2025-01-07 08:30,
+laptop1,Event Laptop,Tech,3,IT321,Paul Rodriguez,in-use,medium,Game coordination laptops,2025-01-07 09:15,Password: game2025
+projector1,Main Projector,Tech,1,Grand Hall,Emma Brown,in-use,high,Main stage projection,2025-01-07 08:45,
+tables1,Registration Tables,Furniture,6,Hall of Fame,Alice Johnson,in-use,medium,Student check-in tables,2025-01-07 07:30,
+chairs1,Event Chairs,Furniture,200,Grand Hall,Lisa Zhang,available,low,General seating,2025-01-07 08:00,Stacked and ready
+banners1,Welcome Banners,Decoration,8,Various,Carol Davis,in-use,medium,ICT Welcome signage,2025-01-07 07:45,
+games1,Game Equipment Set A,Games,1,IT321,Paul Rodriguez,in-use,high,Game I materials,2025-01-07 09:10,
+games2,Game Equipment Set B,Games,1,IT322,Quinn Foster,in-use,high,Game II materials,2025-01-07 09:15,
+games3,Game Equipment Set C,Games,1,IT323,Rachel Green,in-use,high,Game III materials,2025-01-07 09:20,
+games4,Game Equipment Set D,Games,1,Storage,Sam Murphy,available,medium,Game IV materials,2025-01-07 08:00,Ready for afternoon
+games5,Game Equipment Set E,Games,1,Storage,Sam Murphy,available,medium,Game V materials,2025-01-07 08:00,Ready for afternoon
+games6,Game Equipment Set F,Games,1,Storage,Sam Murphy,available,medium,Game VI materials,2025-01-07 08:00,Ready for afternoon
+food1,Lunch Containers,Food,50,Innovation Space,Ivy Chen,setup-required,high,Student meal containers,2025-01-07 10:00,Delivery at 11:30
+drinks1,Water Bottles,Food,100,Innovation Space,Jack Wang,available,medium,Refreshment supplies,2025-01-07 08:00,
+first-aid,First Aid Kit,Safety,3,Various,Medical Team,available,critical,Emergency medical supplies,2025-01-07 07:00,Check expiry dates
+radio1,Communication Radios,Communication,10,Event HQ,Lisa Zhang,in-use,high,Staff coordination radios,2025-01-07 07:30,Channels 1-9
+extension1,Extension Cords,Tech,15,Storage,Mike Adams,available,low,Power supply extensions,2025-01-07 08:00,Various lengths
+name-tags,Name Tags,Registration,200,Hall of Fame,Bob Smith,in-use,medium,Student identification tags,2025-01-07 08:00,Pre-printed
+prizes1,Game Prizes,Games,30,Storage,Paul Rodriguez,available,medium,Winner rewards,2025-01-07 08:00,Gift vouchers
+cleaning1,Cleaning Supplies,Maintenance,1,Storage,Nina Patel,available,low,Event cleanup materials,2025-01-07 08:00,End of day use 

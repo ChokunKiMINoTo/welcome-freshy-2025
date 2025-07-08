@@ -1,0 +1,13 @@
+id,name,leadName,leadContact,memberCount,status,priority,color,currentTask
+operation,Operation,Chokun,0924241905,7,active,high,#1e90ff,"Overall Event Coordination"
+staff,Staff,Sholay,0621415199,22,active,medium,#70a1ff,"General Support"
+game,Game,Tartar Wave,0956063587 0814027636,38,active,high,#ff4757,"Setting up Game Stations"
+entertain,Entertain,Pear Kin Pie,0924133944 0917821714 0629275256,18,active,high,#2ed573,"Preparing Performance Setup"
+fooddrink,Food & Drink,Prem,0941495218,16,active,high,#ffa726,"Coordinating Lunch Service"
+mc,MC,Aum,0819316332,5,active,high,#e056fd,"Script Preparation"
+nurse,Nurse,Dr.Non,0995612268,5,active,critical,#ff3838,"Medical Station Ready"
+photo,Photo,Few,0944471519,6,active,medium,#26c0d3,"Photo Session Setup"
+registration,Registration,Peace,0994526449,10,active,high,#ff6b6b,"Student Check-in"
+audiovideo,Audio Visual,Nua,09949614924,3,active,high,#5352ed,"Sound & Video Check"
+prop,Prop,,,4,active,medium,#7bed9f,"Props Distribution"
+digitalart,Digital Art,,,4,active,medium,#3742fa,"Creating Event Graphics"
