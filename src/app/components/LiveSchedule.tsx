@@ -12,7 +12,8 @@ import {
   Collapse,
   Divider,
   IconButton,
-  Tooltip
+  Tooltip,
+  useTheme
 } from '@mui/material';
 import {
   PlayArrow as PlayArrowIcon,
@@ -46,11 +47,19 @@ type TeamFilter = 'all' | 'operation' | 'registration' | 'foodDrink' | 'entertai
 const LiveSchedule: React.FC = () => {
   const [scheduleItems, setScheduleItems] = useState<ScheduleItemWithStatus[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date());
-  const [loading, setLoading] = useState(true);
   const [selectedTeam, setSelectedTeam] = useState<TeamFilter>('all');
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const [nextEventExpanded, setNextEventExpanded] = useState(false);
+  const [loading, setLoading] = useState(true);
   const { refreshTrigger } = useRefresh();
+  const theme = useTheme();
+
+  // Fixed test time initialization
+//   const [currentTime, setCurrentTime] = useState(() => {
+//     const testTime = new Date();
+//     testTime.setHours(8, 0, 0, 0); // Set to 8:00 AM
+//     return testTime;
+//   });
 
   // Function to convert time string (HH:MM) to minutes since midnight
   const timeToMinutes = useCallback((timeString: string): number => {
@@ -72,6 +81,73 @@ const LiveSchedule: React.FC = () => {
       return 'completed';
     }
   }, [timeToMinutes]);
+
+  // Theme-aware color functions
+  const getStatusColor = useCallback((status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    switch (status) {
+      case 'completed': 
+        return isDark ? '#66bb6a' : '#4caf50'; // Lighter green for dark mode
+      case 'ongoing': 
+        return isDark ? '#ffb74d' : '#ff9800'; // Lighter orange for dark mode
+      case 'upcoming': 
+        return isDark ? '#64b5f6' : '#2196f3'; // Lighter blue for dark mode
+      default: 
+        return isDark ? '#bdbdbd' : '#9e9e9e'; // Lighter gray for dark mode
+    }
+  }, [theme.palette.mode]);
+
+  const getStatusBackgroundColor = useCallback((status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    switch (status) {
+      case 'completed': 
+        return isDark ? 'rgba(102, 187, 106, 0.1)' : 'rgba(76, 175, 80, 0.1)';
+      case 'ongoing': 
+        return isDark ? 'rgba(255, 183, 77, 0.15)' : 'rgba(255, 152, 0, 0.1)';
+      case 'upcoming': 
+        return isDark ? 'rgba(100, 181, 246, 0.1)' : 'rgba(33, 150, 243, 0.1)';
+      default: 
+        return isDark ? 'rgba(189, 189, 189, 0.1)' : 'rgba(158, 158, 158, 0.1)';
+    }
+  }, [theme.palette.mode]);
+
+  const getCurrentTimeBackgroundColor = useCallback(() => {
+    const isDark = theme.palette.mode === 'dark';
+    return isDark ? 'rgba(69, 104, 220, 0.15)' : '#f3e5f5';
+  }, [theme.palette.mode]);
+
+  // Theme-aware card background color function
+  const getCardBackgroundColor = useCallback((originalColor: string, status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    
+    if (isDark) {
+      // In dark mode, use subtle status-based backgrounds instead of original colors
+      switch (status) {
+        case 'completed': 
+          return 'rgba(102, 187, 106, 0.08)';
+        case 'ongoing': 
+          return 'rgba(255, 183, 77, 0.12)';
+        case 'upcoming': 
+          return 'rgba(100, 181, 246, 0.08)';
+        default: 
+          return theme.palette.background.paper;
+      }
+    } else {
+      // In light mode, use original colors but with reduced opacity
+      return originalColor + '40'; // Add transparency
+    }
+  }, [theme.palette.mode, theme.palette.background.paper]);
+
+  // Theme-aware border color function
+  const getBorderColor = useCallback((status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    
+    if (status === 'ongoing') {
+      return isDark ? '#ffb74d' : '#ff9800';
+    } else {
+      return isDark ? 'rgba(255, 255, 255, 0.12)' : '#e0e0e0';
+    }
+  }, [theme.palette.mode]);
 
   // Get team duties for a schedule item
   const getTeamDuties = (item: ScheduleItemWithStatus) => {
@@ -164,15 +240,6 @@ const LiveSchedule: React.FC = () => {
     return () => clearInterval(timer);
   }, [calculateStatus]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'completed': return '#4caf50';
-      case 'ongoing': return '#ff9800';
-      case 'upcoming': return '#2196f3';
-      default: return '#9e9e9e';
-    }
-  };
-
   const getStatusIcon = (status: string) => {
     switch (status) {
       case 'completed': return <CheckCircleIcon />;
@@ -241,7 +308,7 @@ const LiveSchedule: React.FC = () => {
       </Typography>
       
       {/* Current Time */}
-      <Card sx={{ mb: 2, backgroundColor: '#f3e5f5' }}>
+      <Card sx={{ mb: 2, backgroundColor: getCurrentTimeBackgroundColor() }}>
         <CardContent sx={{ py: 2 }}>
           <Stack direction="row" alignItems="center" spacing={2}>
             <ScheduleIcon color="primary" />
@@ -297,11 +364,15 @@ const LiveSchedule: React.FC = () => {
 
       {/* Current Event Highlight - Based on Real Time */}
       {currentEvent && (
-        <Card sx={{ mb: 3, border: '2px solid #ff9800', backgroundColor: '#fff3e0' }}>
+        <Card sx={{ 
+          mb: 3, 
+          border: `2px solid ${getStatusColor('ongoing')}`, 
+          backgroundColor: getStatusBackgroundColor('ongoing')
+        }}>
           <CardContent>
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-              <PlayArrowIcon sx={{ color: '#ff9800' }} />
-              <Typography variant="h6" sx={{ fontWeight: 600, color: '#ff9800' }}>
+              <PlayArrowIcon sx={{ color: getStatusColor('ongoing') }} />
+              <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('ongoing') }}>
                 NOW HAPPENING
               </Typography>
             </Stack>
@@ -313,8 +384,8 @@ const LiveSchedule: React.FC = () => {
             {/* Time Remaining Display */}
             <Box sx={{ mb: 2 }}>
               <Stack direction="row" alignItems="center" spacing={1}>
-                <AccessTimeIcon sx={{ color: '#ff9800' }} />
-                <Typography variant="h6" sx={{ fontWeight: 600, color: '#ff9800' }}>
+                <AccessTimeIcon sx={{ color: getStatusColor('ongoing') }} />
+                <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('ongoing') }}>
                   TIME REMAINING: [{getTimeRemaining(currentEvent.endTime, currentTime)}]
                 </Typography>
               </Stack>
@@ -358,7 +429,7 @@ const LiveSchedule: React.FC = () => {
                     <IconButton
                       onClick={() => toggleExpanded(currentEvent.id)}
                       size="small"
-                      sx={{ color: '#ff9800' }}
+                      sx={{ color: getStatusColor('ongoing') }}
                     >
                       {expandedCards.has(currentEvent.id) ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
@@ -440,11 +511,15 @@ const LiveSchedule: React.FC = () => {
 
       {/* Next Event - Based on Real Time */}
       {nextEvent && (
-        <Card sx={{ mb: 3, border: '2px solid #2196f3', backgroundColor: '#e3f2fd' }}>
+        <Card sx={{ 
+          mb: 3, 
+          border: `2px solid ${getStatusColor('upcoming')}`, 
+          backgroundColor: getStatusBackgroundColor('upcoming')
+        }}>
           <CardContent>
             <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-              <PauseIcon sx={{ color: '#2196f3' }} />
-              <Typography variant="h6" sx={{ fontWeight: 600, color: '#2196f3' }}>
+              <PauseIcon sx={{ color: getStatusColor('upcoming') }} />
+              <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('upcoming') }}>
                 UP NEXT
               </Typography>
               {/* Show/Hide Button moved up here */}
@@ -454,7 +529,7 @@ const LiveSchedule: React.FC = () => {
                     <IconButton
                       onClick={toggleNextEventExpanded}
                       size="small"
-                      sx={{ color: '#2196f3' }}
+                      sx={{ color: getStatusColor('upcoming') }}
                     >
                       {nextEventExpanded ? <ExpandLess /> : <ExpandMore />}
                     </IconButton>
@@ -565,8 +640,8 @@ const LiveSchedule: React.FC = () => {
                   key={item.id}
                   variant="outlined"
                   sx={{ 
-                    backgroundColor: item.color,
-                    border: item.status === 'ongoing' ? '2px solid #ff9800' : '1px solid #e0e0e0',
+                    backgroundColor: getCardBackgroundColor(item.color, item.status),
+                    border: `${item.status === 'ongoing' ? '2px' : '1px'} solid ${getBorderColor(item.status)}`,
                   }}
                 >
                   <CardContent sx={{ py: 2 }}>
@@ -587,7 +662,7 @@ const LiveSchedule: React.FC = () => {
                               <IconButton
                                 onClick={() => toggleExpanded(item.id)}
                                 size="small"
-                                sx={{ color: '#666' }}
+                                sx={{ color: theme.palette.text.secondary }}
                               >
                                 {isExpanded ? <ExpandLess /> : <ExpandMore />}
                               </IconButton>
@@ -638,7 +713,10 @@ const LiveSchedule: React.FC = () => {
                               label={`${teamDuties.length} team${teamDuties.length > 1 ? 's' : ''}`}
                               size="small"
                               variant="outlined"
-                              sx={{ color: '#666', borderColor: '#666' }}
+                              sx={{ 
+                                color: theme.palette.text.secondary, 
+                                borderColor: theme.palette.text.secondary 
+                              }}
                             />
                           )}
                         </Stack>
