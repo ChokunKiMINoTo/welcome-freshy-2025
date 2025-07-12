@@ -434,10 +434,6 @@ export default function LiveSchedule() {
   if (isLoading) {
     return (
       <Box sx={{ p: 3 }}>
-        <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
-          📅 Live Schedule
-        </Typography>
-        
         <Stack spacing={3}>
           <Card sx={{ ...getGlassmorphismStyle('ongoing') }}>
             <CardContent>
@@ -478,11 +474,7 @@ export default function LiveSchedule() {
   }
 
   return (
-    <Box sx={{ p: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 700 }}>
-        📅 Live Schedule
-      </Typography>
-      
+    <Box>
       {/* Current Time Display */}
       <Box sx={{ mb: 3, textAlign: 'center' }}>
         <Typography variant="h5" color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
@@ -638,6 +630,42 @@ export default function LiveSchedule() {
                             </Stack>
                           </Box>
                         </Box>
+
+                        {/* Team Duties for UP NEXT */}
+                        {(() => {
+                          const teamDuties = getTeamDuties(nextEvent);
+                          return teamDuties.length > 0 && (
+                            <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
+                              <Typography variant="subtitle2" gutterBottom>
+                                Team Duties:
+                              </Typography>
+                              <Grid container spacing={1}>
+                                {teamDuties.map((duty) => (
+                                  <Grid key={duty.team} size={{ xs: 12, sm: 6, md: 4 }}>
+                                    <Card
+                                      variant="outlined"
+                                      sx={{
+                                        backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.5),
+                                        backdropFilter: 'blur(4px)',
+                                        borderRadius: '8px',
+                                        border: `1px solid ${alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.2 : 0.1)}`,
+                                      }}
+                                    >
+                                      <CardContent sx={{ p: 1.5 }}>
+                                        <Typography variant="caption" color="primary" sx={{ fontWeight: 600 }}>
+                                          {duty.team}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ mt: 0.5 }}>
+                                          {duty.duty}
+                                        </Typography>
+                                      </CardContent>
+                                    </Card>
+                                  </Grid>
+                                ))}
+                              </Grid>
+                            </Box>
+                          );
+                        })()}
                       </CardContent>
                     </Card>
                   </Grow>
@@ -655,10 +683,6 @@ export default function LiveSchedule() {
         <Fade in timeout={900}>
           <Card sx={{ ...getGlassmorphismStyle('default') }}>
             <CardContent>
-              <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-                📋 Timeline Schedule {selectedTeam !== 'all' && `- ${teamFilters.find(f => f.key === selectedTeam)?.label} Team`}
-              </Typography>
-              
               {/* Filter Controls */}
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
                 <TextField
@@ -709,10 +733,11 @@ export default function LiveSchedule() {
                         sx={{
                           ...getGlassmorphismStyle(item.status),
                           cursor: hasTeamDuties ? 'pointer' : 'default',
+                          borderWidth: item.status === 'ongoing' ? 2 : 1,
                         }}
                         onClick={() => hasTeamDuties && toggleExpanded(item.id)}
                       >
-                        <CardContent sx={{ py: 2 }}>
+                        <CardContent sx={{ py: 2, px: 2 }}>
                           <Grid container spacing={2} alignItems="center">
                             <Grid size={{ xs: 12, sm: 6 }}>
                               <Stack direction="row" spacing={1} alignItems="center">
@@ -773,7 +798,7 @@ export default function LiveSchedule() {
                                     <Card
                                       variant="outlined"
                                       sx={{
-                                        backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                                        backgroundColor: theme.palette.background.paper,
                                         backdropFilter: 'blur(4px)',
                                         borderRadius: '8px',
                                       }}
