@@ -240,17 +240,17 @@ export default function LiveSchedule() {
   const { refreshTrigger } = useRefresh();
   
   const [scheduleItems, setScheduleItems] = useState<ScheduleItemWithStatus[]>([]);
-//   const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTeam, setSelectedTeam] = useState<TeamFilter>('all');
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const [searchTerm, setSearchTerm] = useState('');
 
   // Fixed test time initialization
-  const [currentTime, setCurrentTime] = useState(() => {
-    const testTime = new Date();
-    testTime.setHours(8, 40, 0, 0); // Set to 8:00 AM
-    return testTime;
-  });
+  // const [currentTime, setCurrentTime] = useState(() => {
+  //   const testTime = new Date();
+  //   testTime.setHours(8, 40, 0, 0); // Set to 8:00 AM
+  //   return testTime;
+  // });
 
   // Format time function that handles both strings and Date objects
   const formatTime = (time: string | Date): string => {
@@ -435,7 +435,7 @@ export default function LiveSchedule() {
     return (
       <Box sx={{ p: 3 }}>
         <Stack spacing={3}>
-          <Card sx={{ ...getGlassmorphismStyle('ongoing') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 🔴 NOW HAPPENING
@@ -444,7 +444,7 @@ export default function LiveSchedule() {
             </CardContent>
           </Card>
           
-          <Card sx={{ ...getGlassmorphismStyle('upcoming') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 🔵 UP NEXT
@@ -456,7 +456,7 @@ export default function LiveSchedule() {
             </CardContent>
           </Card>
           
-          <Card sx={{ ...getGlassmorphismStyle('default') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Typography variant="h6" gutterBottom>
                 📋 Timeline Schedule
@@ -486,7 +486,7 @@ export default function LiveSchedule() {
       <Stack spacing={3}>
         {/* NOW HAPPENING Section */}
         <Fade in timeout={500}>
-          <Card sx={{ ...getGlassmorphismStyle('ongoing') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
                 <StatusDot status="ongoing" />
@@ -501,7 +501,7 @@ export default function LiveSchedule() {
                     <Card
                       variant="outlined"
                       sx={{
-                        ...getGlassmorphismStyle('ongoing'),
+                        ...getGlassmorphismStyle(),
                         animation: `${glow} 3s ease-in-out infinite`,
                       }}
                     >
@@ -586,7 +586,7 @@ export default function LiveSchedule() {
 
         {/* UP NEXT Section */}
         <Fade in timeout={700}>
-          <Card sx={{ ...getGlassmorphismStyle('upcoming') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
                 <StatusDot status="upcoming" />
@@ -600,7 +600,7 @@ export default function LiveSchedule() {
                   <Grow key={nextEvent.id} in timeout={900}>
                     <Card
                       variant="outlined"
-                      sx={{ ...getGlassmorphismStyle('upcoming') }}
+                      sx={{ ...getGlassmorphismStyle() }}
                     >
                       <CardContent sx={{ py: 2 }}>
                         <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
@@ -681,7 +681,7 @@ export default function LiveSchedule() {
 
         {/* Timeline Schedule Section */}
         <Fade in timeout={900}>
-          <Card sx={{ ...getGlassmorphismStyle('default') }}>
+          <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               {/* Filter Controls */}
               <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
@@ -731,7 +731,7 @@ export default function LiveSchedule() {
                       <Card
                         variant="outlined"
                         sx={{
-                          ...getGlassmorphismStyle(item.status),
+                          ...getGlassmorphismStyle(),
                           cursor: hasTeamDuties ? 'pointer' : 'default',
                           borderWidth: item.status === 'ongoing' ? 2 : 1,
                         }}
