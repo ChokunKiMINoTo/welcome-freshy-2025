@@ -7,7 +7,6 @@ import {
   Typography,
   Grid,
   Stack,
-  Chip,
   Box,
   TextField,
   FormControl,
@@ -18,7 +17,6 @@ import {
   Collapse,
   Tooltip,
   LinearProgress,
-  CircularProgress,
   Skeleton,
   Fade,
   Grow,
@@ -27,18 +25,12 @@ import {
   keyframes,
 } from '@mui/material';
 import {
-  Schedule as ScheduleIcon,
   LocationOn as LocationOnIcon,
   Person as PersonIcon,
-  CheckCircle as CheckCircleIcon,
-  RadioButtonChecked as OngoingIcon,
-  RadioButtonUnchecked as UpcomingIcon,
   ExpandMore,
   ExpandLess,
   AccessTime as AccessTimeIcon,
   PlayArrow as PlayArrowIcon,
-  Pause as PauseIcon,
-  Stop as StopIcon,
   Engineering,
   People,
   Restaurant,
@@ -171,63 +163,38 @@ const StatusDot = ({ status }: { status: string }) => {
 };
 
 // Digital clock time display component
-const DigitalTimeDisplay = ({ time, isMonospace = true }: { time: string; isMonospace?: boolean }) => {
+const DigitalTimeDisplay = ({ time, isMonospace = true, size = 'medium' }: { time: string; isMonospace?: boolean; size?: 'small' | 'medium' | 'large' }) => {
   const theme = useTheme();
+  
+  const getSizeStyles = (size: string) => {
+    switch (size) {
+      case 'small':
+        return { fontSize: '0.875rem', padding: '2px 6px' };
+      case 'large':
+        return { fontSize: '1.5rem', padding: '8px 16px' };
+      default:
+        return { fontSize: '1rem', padding: '4px 8px' };
+    }
+  };
+
+  const sizeStyles = getSizeStyles(size);
   
   return (
     <Box
       sx={{
         fontFamily: isMonospace ? 'Monaco, Consolas, "Courier New", monospace' : 'inherit',
-        fontSize: '0.875rem',
+        fontSize: sizeStyles.fontSize,
         fontWeight: 600,
         color: theme.palette.text.primary,
         backgroundColor: alpha(theme.palette.background.paper, 0.8),
-        padding: '2px 6px',
-        borderRadius: '4px',
+        padding: sizeStyles.padding,
+        borderRadius: '8px',
         border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
         backdropFilter: 'blur(4px)',
+        boxShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.1)}`,
       }}
     >
       {time}
-    </Box>
-  );
-};
-
-// Circular progress countdown component
-const CountdownTimer = ({ duration, elapsed }: { duration: number; elapsed: number }) => {
-  const theme = useTheme();
-  const progress = Math.min((elapsed / duration) * 100, 100);
-  
-  return (
-    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
-      <CircularProgress
-        variant="determinate"
-        value={progress}
-        size={40}
-        thickness={4}
-        sx={{
-          color: theme.palette.primary.main,
-          '& .MuiCircularProgress-circle': {
-            strokeLinecap: 'round',
-          },
-        }}
-      />
-      <Box
-        sx={{
-          top: 0,
-          left: 0,
-          bottom: 0,
-          right: 0,
-          position: 'absolute',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
-          {Math.round(progress)}%
-        </Typography>
-      </Box>
     </Box>
   );
 };
@@ -273,19 +240,17 @@ export default function LiveSchedule() {
   const { refreshTrigger } = useRefresh();
   
   const [scheduleItems, setScheduleItems] = useState<ScheduleItemWithStatus[]>([]);
-  const [currentTime, setCurrentTime] = useState(new Date());
+//   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTeam, setSelectedTeam] = useState<TeamFilter>('all');
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
-  const [nextEventExpanded, setNextEventExpanded] = useState(false);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
 
   // Fixed test time initialization
-//   const [currentTime, setCurrentTime] = useState(() => {
-//     const testTime = new Date();
-//     testTime.setHours(8, 0, 0, 0); // Set to 8:00 AM
-//     return testTime;
-//   });
+  const [currentTime, setCurrentTime] = useState(() => {
+    const testTime = new Date();
+    testTime.setHours(8, 40, 0, 0); // Set to 8:00 AM
+    return testTime;
+  });
 
   // Format time function that handles both strings and Date objects
   const formatTime = (time: string | Date): string => {
@@ -328,73 +293,6 @@ export default function LiveSchedule() {
     }
   }, []);
 
-  // Theme-aware color functions
-  const getStatusColor = useCallback((status: string) => {
-    const isDark = theme.palette.mode === 'dark';
-    switch (status) {
-      case 'completed': 
-        return isDark ? '#66bb6a' : '#4caf50'; // Lighter green for dark mode
-      case 'ongoing': 
-        return isDark ? '#ffb74d' : '#ff9800'; // Lighter orange for dark mode
-      case 'upcoming': 
-        return isDark ? '#64b5f6' : '#2196f3'; // Lighter blue for dark mode
-      default: 
-        return isDark ? '#bdbdbd' : '#9e9e9e'; // Lighter gray for dark mode
-    }
-  }, [theme.palette.mode]);
-
-  const getStatusBackgroundColor = useCallback((status: string) => {
-    const isDark = theme.palette.mode === 'dark';
-    switch (status) {
-      case 'completed': 
-        return isDark ? 'rgba(102, 187, 106, 0.1)' : 'rgba(76, 175, 80, 0.1)';
-      case 'ongoing': 
-        return isDark ? 'rgba(255, 183, 77, 0.15)' : 'rgba(255, 152, 0, 0.1)';
-      case 'upcoming': 
-        return isDark ? 'rgba(100, 181, 246, 0.1)' : 'rgba(33, 150, 243, 0.1)';
-      default: 
-        return isDark ? 'rgba(189, 189, 189, 0.1)' : 'rgba(158, 158, 158, 0.1)';
-    }
-  }, [theme.palette.mode]);
-
-  const getCurrentTimeBackgroundColor = useCallback(() => {
-    const isDark = theme.palette.mode === 'dark';
-    return isDark ? 'rgba(69, 104, 220, 0.15)' : '#f3e5f5';
-  }, [theme.palette.mode]);
-
-  // Theme-aware card background color function
-  const getCardBackgroundColor = useCallback((originalColor: string, status: string) => {
-    const isDark = theme.palette.mode === 'dark';
-    
-    if (isDark) {
-      // In dark mode, use subtle status-based backgrounds instead of original colors
-      switch (status) {
-        case 'completed': 
-          return 'rgba(102, 187, 106, 0.08)';
-        case 'ongoing': 
-          return 'rgba(255, 183, 77, 0.12)';
-        case 'upcoming': 
-          return 'rgba(100, 181, 246, 0.08)';
-        default: 
-          return theme.palette.background.paper;
-      }
-    } else {
-      // In light mode, use original colors but with reduced opacity
-      return originalColor + '40'; // Add transparency
-    }
-  }, [theme.palette.mode, theme.palette.background.paper]);
-
-  // Theme-aware border color function
-  const getBorderColor = useCallback((status: string) => {
-    const isDark = theme.palette.mode === 'dark';
-    
-    if (status === 'ongoing') {
-      return isDark ? '#ffb74d' : '#ff9800';
-    } else {
-      return isDark ? 'rgba(255, 255, 255, 0.12)' : '#e0e0e0';
-    }
-  }, [theme.palette.mode]);
-
   // Get team duties for a schedule item
   const getTeamDuties = (item: ScheduleItemWithStatus) => {
     const duties = [
@@ -409,16 +307,25 @@ export default function LiveSchedule() {
     return duties;
   };
 
-  // Filter schedule based on selected team
+  // Filter schedule based on selected team and search term
   const getFilteredSchedule = () => {
-    if (selectedTeam === 'all') return scheduleItems;
-    
-    return scheduleItems.filter(item => {
+    let filtered = selectedTeam === 'all' ? scheduleItems : scheduleItems.filter(item => {
       const duties = getTeamDuties(item);
       return duties.some(duty => 
         duty.team.toLowerCase().replace(/\s+/g, '').replace('&', '') === selectedTeam.replace(/([A-Z])/g, ' $1').trim().toLowerCase().replace(/\s+/g, '').replace('&', '')
       );
     });
+
+    // Apply search filter
+    if (searchTerm.trim()) {
+      filtered = filtered.filter(item => 
+        item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        item.location.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    return filtered;
   };
 
   // Toggle card expansion
@@ -430,10 +337,6 @@ export default function LiveSchedule() {
       newExpanded.add(itemId);
     }
     setExpandedCards(newExpanded);
-  };
-
-  const toggleNextEventExpanded = () => {
-    setNextEventExpanded(!nextEventExpanded);
   };
 
   // Team filter buttons data
@@ -450,7 +353,6 @@ export default function LiveSchedule() {
   // Load CSV data and calculate statuses
   useEffect(() => {
     const loadData = async () => {
-      setLoading(true);
       try {
         const data = await loadScheduleData();
         const dataWithStatus = data.map(item => ({
@@ -460,8 +362,6 @@ export default function LiveSchedule() {
         setScheduleItems(dataWithStatus);
       } catch (error) {
         console.error('Failed to load schedule data:', error);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -485,15 +385,6 @@ export default function LiveSchedule() {
 
     return () => clearInterval(timer);
   }, [calculateStatus]);
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'completed': return <CheckCircleIcon />;
-      case 'ongoing': return <PlayArrowIcon />;
-      case 'upcoming': return <PauseIcon />;
-      default: return <ScheduleIcon />;
-    }
-  };
 
   // Get current event (status === 'ongoing')
   const getCurrentEvent = () => {
@@ -529,15 +420,13 @@ export default function LiveSchedule() {
       background: baseBackground,
       backdropFilter: 'blur(10px)',
       border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
-      boxShadow: status === 'ongoing' 
-        ? `0 8px 32px ${alpha(theme.palette.warning.main, 0.15)}, 0 2px 8px ${alpha(theme.palette.warning.main, 0.1)}`
-        : `0 4px 20px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}, 0 1px 4px ${alpha(theme.palette.common.black, isDark ? 0.2 : 0.04)}`,
+      // Remove status-specific shadows - use same shadow for all cards
+      boxShadow: `0 4px 20px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}, 0 1px 4px ${alpha(theme.palette.common.black, isDark ? 0.2 : 0.04)}`,
       transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       '&:hover': {
         transform: 'translateY(-2px)',
-        boxShadow: status === 'ongoing'
-          ? `0 12px 40px ${alpha(theme.palette.warning.main, 0.2)}, 0 4px 12px ${alpha(theme.palette.warning.main, 0.15)}`
-          : `0 8px 32px ${alpha(theme.palette.common.black, isDark ? 0.4 : 0.12)}, 0 2px 8px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}`,
+        // Remove status-specific hover shadows - use same shadow for all cards
+        boxShadow: `0 8px 32px ${alpha(theme.palette.common.black, isDark ? 0.4 : 0.12)}, 0 2px 8px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}`,
       },
     };
   }, [theme]);
@@ -596,10 +485,10 @@ export default function LiveSchedule() {
       
       {/* Current Time Display */}
       <Box sx={{ mb: 3, textAlign: 'center' }}>
-        <Typography variant="h6" color="text.secondary" gutterBottom>
-          Current Time
+        <Typography variant="h5" color="text.secondary" gutterBottom sx={{ fontWeight: 600 }}>
+          🕐 Current Time
         </Typography>
-        <DigitalTimeDisplay time={formatTime(currentTime)} />
+        <DigitalTimeDisplay time={formatTime(currentTime)} size="large" />
       </Box>
 
       <Stack spacing={3}>
@@ -646,10 +535,6 @@ export default function LiveSchedule() {
                           <Box sx={{ flex: { xs: 1, sm: 1 }, display: 'flex', justifyContent: 'center' }}>
                             <Stack spacing={1} alignItems="center">
                               <DigitalTimeDisplay time={`${formatTime(currentEvent.startTime)} - ${formatTime(currentEvent.endTime)}`} />
-                              <CountdownTimer 
-                                duration={currentEvent.duration} 
-                                elapsed={Math.floor((currentTime.getTime() - parseTime(currentEvent.startTime).getTime()) / 60000)} 
-                              />
                               <DurationBar 
                                 duration={currentEvent.duration} 
                                 elapsed={Math.floor((currentTime.getTime() - parseTime(currentEvent.startTime).getTime()) / 60000)} 
@@ -658,6 +543,42 @@ export default function LiveSchedule() {
                             </Stack>
                           </Box>
                         </Box>
+                        
+                        {/* Team Duties for NOW HAPPENING */}
+                        {(() => {
+                          const teamDuties = getTeamDuties(currentEvent);
+                          return teamDuties.length > 0 && (
+                            <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
+                              <Typography variant="subtitle2" gutterBottom>
+                                Team Duties:
+                              </Typography>
+                              <Grid container spacing={1}>
+                                {teamDuties.map((duty) => (
+                                  <Grid key={duty.team} size={{ xs: 12, sm: 6, md: 4 }}>
+                                    <Card
+                                      variant="outlined"
+                                      sx={{
+                                        backgroundColor: alpha(theme.palette.background.paper, theme.palette.mode === 'dark' ? 0.1 : 0.5),
+                                        backdropFilter: 'blur(4px)',
+                                        borderRadius: '8px',
+                                        border: `1px solid ${alpha(theme.palette.divider, theme.palette.mode === 'dark' ? 0.2 : 0.1)}`,
+                                      }}
+                                    >
+                                      <CardContent sx={{ p: 1.5 }}>
+                                        <Typography variant="caption" color="primary" sx={{ fontWeight: 600 }}>
+                                          {duty.team}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ mt: 0.5 }}>
+                                          {duty.duty}
+                                        </Typography>
+                                      </CardContent>
+                                    </Card>
+                                  </Grid>
+                                ))}
+                              </Grid>
+                            </Box>
+                          );
+                        })()}
                       </CardContent>
                     </Card>
                   </Grow>
