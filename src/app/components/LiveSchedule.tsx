@@ -1,37 +1,51 @@
 'use client';
+
 import React, { useState, useEffect, useCallback } from 'react';
 import {
   Card,
   CardContent,
   Typography,
-  Box,
-  Chip,
-  Stack,
   Grid,
-  Button,
-  Collapse,
-  Divider,
+  Stack,
+  Chip,
+  Box,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
   IconButton,
+  Collapse,
   Tooltip,
-  useTheme
+  LinearProgress,
+  CircularProgress,
+  Skeleton,
+  Fade,
+  Grow,
+  useTheme,
+  alpha,
+  keyframes,
 } from '@mui/material';
 import {
-  PlayArrow as PlayArrowIcon,
-  Pause as PauseIcon,
   Schedule as ScheduleIcon,
-  Person as PersonIcon,
   LocationOn as LocationOnIcon,
+  Person as PersonIcon,
   CheckCircle as CheckCircleIcon,
-  AccessTime as AccessTimeIcon,
-  Group,
+  RadioButtonChecked as OngoingIcon,
+  RadioButtonUnchecked as UpcomingIcon,
   ExpandMore,
   ExpandLess,
-  People,
+  AccessTime as AccessTimeIcon,
+  PlayArrow as PlayArrowIcon,
+  Pause as PauseIcon,
+  Stop as StopIcon,
   Engineering,
+  People,
   Restaurant,
   TheaterComedy,
   SupportAgent,
-  SportsEsports
+  SportsEsports,
+  Group,
 } from '@mui/icons-material';
 import { loadScheduleData, ScheduleItem } from '../utils/csvLoader';
 import { useRefresh } from '../contexts/RefreshContext';
@@ -44,15 +58,227 @@ interface ScheduleItemWithStatus extends ScheduleItem {
 // Team filter type
 type TeamFilter = 'all' | 'operation' | 'registration' | 'foodDrink' | 'entertain' | 'staff' | 'game';
 
-const LiveSchedule: React.FC = () => {
+// Keyframes for animations
+const shimmer = keyframes`
+  0% {
+    background-position: -468px 0;
+  }
+  100% {
+    background-position: 468px 0;
+  }
+`;
+
+const pulse = keyframes`
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+`;
+
+const glow = keyframes`
+  0% {
+    box-shadow: 0 0 5px rgba(255, 183, 77, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 183, 77, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 5px rgba(255, 183, 77, 0.3);
+  }
+`;
+
+// Loading skeleton component
+const EventCardSkeleton = () => {
+  const theme = useTheme();
+  
+  return (
+    <Card
+      variant="outlined"
+      sx={{
+        borderRadius: '12px',
+        background: `linear-gradient(90deg, ${alpha(theme.palette.background.paper, 0.1)} 25%, ${alpha(theme.palette.background.paper, 0.2)} 50%, ${alpha(theme.palette.background.paper, 0.1)} 75%)`,
+        backgroundSize: '400% 100%',
+        animation: `${shimmer} 1.5s ease-in-out infinite`,
+        backdropFilter: 'blur(10px)',
+        border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+      }}
+    >
+      <CardContent sx={{ py: 2 }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid size={{ xs: 12, sm: 6 }}>
+            <Stack direction="row" spacing={1} alignItems="center">
+              <Skeleton variant="circular" width={24} height={24} />
+              <Box sx={{ flexGrow: 1 }}>
+                <Skeleton variant="text" width="70%" height={24} />
+                <Skeleton variant="text" width="90%" height={16} />
+              </Box>
+            </Stack>
+          </Grid>
+          <Grid size={{ xs: 6, sm: 3 }}>
+            <Skeleton variant="text" width="80%" height={20} />
+            <Skeleton variant="text" width="60%" height={16} />
+          </Grid>
+          <Grid size={{ xs: 6, sm: 3 }}>
+            <Skeleton variant="text" width="70%" height={20} />
+            <Skeleton variant="text" width="50%" height={16} />
+          </Grid>
+          <Grid size={{ xs: 12 }}>
+            <Stack direction="row" spacing={1}>
+              <Skeleton variant="rounded" width={80} height={24} />
+              <Skeleton variant="rounded" width={60} height={24} />
+            </Stack>
+          </Grid>
+        </Grid>
+      </CardContent>
+    </Card>
+  );
+};
+
+// Animated status dot component
+const StatusDot = ({ status }: { status: string }) => {
+  const theme = useTheme();
+  
+  const getDotColor = (status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    switch (status) {
+      case 'completed': return isDark ? '#66bb6a' : '#4caf50';
+      case 'ongoing': return isDark ? '#ffb74d' : '#ff9800';
+      case 'upcoming': return isDark ? '#64b5f6' : '#2196f3';
+      default: return isDark ? '#bdbdbd' : '#9e9e9e';
+    }
+  };
+
+  return (
+    <Box
+      sx={{
+        width: 12,
+        height: 12,
+        borderRadius: '50%',
+        backgroundColor: getDotColor(status),
+        animation: status === 'ongoing' ? `${pulse} 2s ease-in-out infinite` : 'none',
+        boxShadow: status === 'ongoing' ? `0 0 10px ${alpha(getDotColor(status), 0.6)}` : 'none',
+      }}
+    />
+  );
+};
+
+// Digital clock time display component
+const DigitalTimeDisplay = ({ time, isMonospace = true }: { time: string; isMonospace?: boolean }) => {
+  const theme = useTheme();
+  
+  return (
+    <Box
+      sx={{
+        fontFamily: isMonospace ? 'Monaco, Consolas, "Courier New", monospace' : 'inherit',
+        fontSize: '0.875rem',
+        fontWeight: 600,
+        color: theme.palette.text.primary,
+        backgroundColor: alpha(theme.palette.background.paper, 0.8),
+        padding: '2px 6px',
+        borderRadius: '4px',
+        border: `1px solid ${alpha(theme.palette.divider, 0.2)}`,
+        backdropFilter: 'blur(4px)',
+      }}
+    >
+      {time}
+    </Box>
+  );
+};
+
+// Circular progress countdown component
+const CountdownTimer = ({ duration, elapsed }: { duration: number; elapsed: number }) => {
+  const theme = useTheme();
+  const progress = Math.min((elapsed / duration) * 100, 100);
+  
+  return (
+    <Box sx={{ position: 'relative', display: 'inline-flex' }}>
+      <CircularProgress
+        variant="determinate"
+        value={progress}
+        size={40}
+        thickness={4}
+        sx={{
+          color: theme.palette.primary.main,
+          '& .MuiCircularProgress-circle': {
+            strokeLinecap: 'round',
+          },
+        }}
+      />
+      <Box
+        sx={{
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+          position: 'absolute',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Typography variant="caption" component="div" color="text.secondary" sx={{ fontSize: '0.7rem' }}>
+          {Math.round(progress)}%
+        </Typography>
+      </Box>
+    </Box>
+  );
+};
+
+// Duration progress bar component
+const DurationBar = ({ duration, elapsed, status }: { duration: number; elapsed: number; status: string }) => {
+  const theme = useTheme();
+  const progress = Math.min((elapsed / duration) * 100, 100);
+  
+  const getBarColor = (status: string) => {
+    switch (status) {
+      case 'completed': return theme.palette.success.main;
+      case 'ongoing': return theme.palette.warning.main;
+      case 'upcoming': return theme.palette.info.main;
+      default: return theme.palette.grey[400];
+    }
+  };
+
+  return (
+    <Box sx={{ width: '100%', mt: 1 }}>
+      <LinearProgress
+        variant="determinate"
+        value={progress}
+        sx={{
+          height: 4,
+          borderRadius: 2,
+          backgroundColor: alpha(getBarColor(status), 0.2),
+          '& .MuiLinearProgress-bar': {
+            backgroundColor: getBarColor(status),
+            borderRadius: 2,
+          },
+        }}
+      />
+      <Typography variant="caption" color="text.secondary" sx={{ fontSize: '0.7rem', mt: 0.5 }}>
+        {elapsed}min / {duration}min
+      </Typography>
+    </Box>
+  );
+};
+
+export default function LiveSchedule() {
+  const theme = useTheme();
+  const { refreshTrigger } = useRefresh();
+  
   const [scheduleItems, setScheduleItems] = useState<ScheduleItemWithStatus[]>([]);
   const [currentTime, setCurrentTime] = useState(new Date());
   const [selectedTeam, setSelectedTeam] = useState<TeamFilter>('all');
   const [expandedCards, setExpandedCards] = useState<Set<string>>(new Set());
   const [nextEventExpanded, setNextEventExpanded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { refreshTrigger } = useRefresh();
-  const theme = useTheme();
+  const [searchTerm, setSearchTerm] = useState('');
 
   // Fixed test time initialization
 //   const [currentTime, setCurrentTime] = useState(() => {
@@ -61,26 +287,46 @@ const LiveSchedule: React.FC = () => {
 //     return testTime;
 //   });
 
-  // Function to convert time string (HH:MM) to minutes since midnight
-  const timeToMinutes = useCallback((timeString: string): number => {
+  // Format time function that handles both strings and Date objects
+  const formatTime = (time: string | Date): string => {
+    if (time instanceof Date) {
+      return time.toLocaleTimeString('en-US', { 
+        hour: '2-digit', 
+        minute: '2-digit',
+        hour12: false 
+      });
+    }
+    return time;
+  };
+
+  // Parse time string to Date object for calculations
+  const parseTime = (timeString: string): Date => {
+    const [hours, minutes] = timeString.split(':').map(Number);
+    const date = new Date(currentTime);
+    date.setHours(hours, minutes, 0, 0);
+    return date;
+  };
+
+  // Get time in minutes from time string
+  const timeToMinutes = (timeString: string): number => {
     const [hours, minutes] = timeString.split(':').map(Number);
     return hours * 60 + minutes;
-  }, []);
+  };
 
-  // Function to calculate status based on current time
+  // Calculate status based on current time
   const calculateStatus = useCallback((startTime: string, endTime: string, currentTime: Date): 'completed' | 'ongoing' | 'upcoming' => {
     const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
     const startMinutes = timeToMinutes(startTime);
     const endMinutes = timeToMinutes(endTime);
-
-    if (currentMinutes < startMinutes) {
-      return 'upcoming';
-    } else if (currentMinutes >= startMinutes && currentMinutes < endMinutes) {
+    
+    if (currentMinutes >= endMinutes) {
+      return 'completed';
+    } else if (currentMinutes >= startMinutes) {
       return 'ongoing';
     } else {
-      return 'completed';
+      return 'upcoming';
     }
-  }, [timeToMinutes]);
+  }, []);
 
   // Theme-aware color functions
   const getStatusColor = useCallback((status: string) => {
@@ -249,26 +495,6 @@ const LiveSchedule: React.FC = () => {
     }
   };
 
-  const formatTime = (timeString: string) => {
-    return timeString;
-  };
-
-  // Calculate time remaining for current event
-  const getTimeRemaining = (endTime: string, currentTime: Date): string => {
-    const endMinutes = timeToMinutes(endTime);
-    const currentMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-    const remainingMinutes = endMinutes - currentMinutes;
-    
-    if (remainingMinutes <= 0) {
-      return "00:00";
-    }
-    
-    const hours = Math.floor(remainingMinutes / 60);
-    const minutes = remainingMinutes % 60;
-    
-    return `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}`;
-  };
-
   // Get current event (status === 'ongoing')
   const getCurrentEvent = () => {
     return scheduleItems.find(item => item.status === 'ongoing');
@@ -284,512 +510,377 @@ const LiveSchedule: React.FC = () => {
   const currentEvent = getCurrentEvent();
   const nextEvent = getNextEvent();
 
-  if (loading) {
+  // Loading state
+  const [isLoading, setIsLoading] = useState(true);
+  
+  // Simulate loading delay
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 1000);
+    return () => clearTimeout(timer);
+  }, [refreshTrigger]);
+
+  // Enhanced glassmorphism card styling
+  const getGlassmorphismStyle = useCallback((status: string) => {
+    const isDark = theme.palette.mode === 'dark';
+    const baseBackground = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)';
+    
+    return {
+      borderRadius: '12px',
+      background: baseBackground,
+      backdropFilter: 'blur(10px)',
+      border: `1px solid ${alpha(theme.palette.divider, 0.1)}`,
+      boxShadow: status === 'ongoing' 
+        ? `0 8px 32px ${alpha(theme.palette.warning.main, 0.15)}, 0 2px 8px ${alpha(theme.palette.warning.main, 0.1)}`
+        : `0 4px 20px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}, 0 1px 4px ${alpha(theme.palette.common.black, isDark ? 0.2 : 0.04)}`,
+      transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+      '&:hover': {
+        transform: 'translateY(-2px)',
+        boxShadow: status === 'ongoing'
+          ? `0 12px 40px ${alpha(theme.palette.warning.main, 0.2)}, 0 4px 12px ${alpha(theme.palette.warning.main, 0.15)}`
+          : `0 8px 32px ${alpha(theme.palette.common.black, isDark ? 0.4 : 0.12)}, 0 2px 8px ${alpha(theme.palette.common.black, isDark ? 0.3 : 0.08)}`,
+      },
+    };
+  }, [theme]);
+
+  if (isLoading) {
     return (
-      <Box>
-        <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-          📅 Live Event Schedule
+      <Box sx={{ p: 3 }}>
+        <Typography variant="h4" gutterBottom sx={{ mb: 3 }}>
+          📅 Live Schedule
         </Typography>
-        <Card>
-          <CardContent>
-            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
-              <Typography>Loading schedule...</Typography>
-            </Box>
-          </CardContent>
-        </Card>
+        
+        <Stack spacing={3}>
+          <Card sx={{ ...getGlassmorphismStyle('ongoing') }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                🔴 NOW HAPPENING
+              </Typography>
+              <EventCardSkeleton />
+            </CardContent>
+          </Card>
+          
+          <Card sx={{ ...getGlassmorphismStyle('upcoming') }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                🔵 UP NEXT
+              </Typography>
+              <Stack spacing={1}>
+                <EventCardSkeleton />
+                <EventCardSkeleton />
+              </Stack>
+            </CardContent>
+          </Card>
+          
+          <Card sx={{ ...getGlassmorphismStyle('default') }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom>
+                📋 Timeline Schedule
+              </Typography>
+              <Stack spacing={1}>
+                {[...Array(5)].map((_, index) => (
+                  <EventCardSkeleton key={index} />
+                ))}
+              </Stack>
+            </CardContent>
+          </Card>
+        </Stack>
       </Box>
     );
   }
 
   return (
-    <Box>
-      <Typography variant="h5" gutterBottom sx={{ mb: 3, fontWeight: 600 }}>
-        📅 Live Event Schedule
+    <Box sx={{ p: 3 }}>
+      <Typography variant="h4" gutterBottom sx={{ mb: 3, fontWeight: 700 }}>
+        📅 Live Schedule
       </Typography>
       
-      {/* Current Time */}
-      <Card sx={{ mb: 2, backgroundColor: getCurrentTimeBackgroundColor() }}>
-        <CardContent sx={{ py: 2 }}>
-          <Stack direction="row" alignItems="center" spacing={2}>
-            <ScheduleIcon color="primary" />
-            <Typography variant="h6" sx={{ fontWeight: 600 }}>
-              Current Time: {currentTime.toLocaleTimeString('en-US', { 
-                hour: '2-digit', 
-                minute: '2-digit',
-                hour12: false 
-              })}
-            </Typography>
-          </Stack>
-        </CardContent>
-      </Card>
+      {/* Current Time Display */}
+      <Box sx={{ mb: 3, textAlign: 'center' }}>
+        <Typography variant="h6" color="text.secondary" gutterBottom>
+          Current Time
+        </Typography>
+        <DigitalTimeDisplay time={formatTime(currentTime)} />
+      </Box>
 
-      {/* Team Filter Buttons */}
-      <Card sx={{ mb: 3 }}>
-        <CardContent sx={{ py: 2 }}>
-          <Typography variant="subtitle1" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
-            🔍 Filter by Team:
-          </Typography>
-          <Box sx={{ overflowX: 'auto' }}>
-            <Stack direction="row" spacing={1} sx={{ minWidth: 'max-content' }}>
-              {teamFilters.map((filter) => {
-                const IconComponent = filter.icon;
-                const isSelected = selectedTeam === filter.key;
-                
-                return (
-                  <Button
-                    key={filter.key}
-                    variant={isSelected ? 'contained' : 'outlined'}
-                    startIcon={<IconComponent />}
-                    onClick={() => setSelectedTeam(filter.key as TeamFilter)}
-                    sx={{
-                      backgroundColor: isSelected ? filter.color : 'transparent',
-                      borderColor: filter.color,
-                      color: isSelected ? 'white' : filter.color,
-                      '&:hover': {
-                        backgroundColor: isSelected ? filter.color : `${filter.color}20`,
-                      },
-                      minWidth: 'max-content',
-                      textTransform: 'none',
-                    }}
-                    size="small"
-                  >
-                    {filter.label}
-                  </Button>
-                );
-              })}
-            </Stack>
-          </Box>
-        </CardContent>
-      </Card>
-
-      {/* Current Event Highlight - Based on Real Time */}
-      {currentEvent && (
-        <Card sx={{ 
-          mb: 3, 
-          border: `2px solid ${getStatusColor('ongoing')}`, 
-          backgroundColor: getStatusBackgroundColor('ongoing')
-        }}>
-          <CardContent>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-              <PlayArrowIcon sx={{ color: getStatusColor('ongoing') }} />
-              <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('ongoing') }}>
-                NOW HAPPENING
-              </Typography>
-            </Stack>
-            
-            <Typography variant="h5" sx={{ fontWeight: 600, mb: 1 }}>
-              {currentEvent.title}
-            </Typography>
-            
-            {/* Time Remaining Display */}
-            <Box sx={{ mb: 2 }}>
-              <Stack direction="row" alignItems="center" spacing={1}>
-                <AccessTimeIcon sx={{ color: getStatusColor('ongoing') }} />
-                <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('ongoing') }}>
-                  TIME REMAINING: [{getTimeRemaining(currentEvent.endTime, currentTime)}]
+      <Stack spacing={3}>
+        {/* NOW HAPPENING Section */}
+        <Fade in timeout={500}>
+          <Card sx={{ ...getGlassmorphismStyle('ongoing') }}>
+            <CardContent>
+              <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
+                <StatusDot status="ongoing" />
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  🔴 NOW HAPPENING
                 </Typography>
               </Stack>
-            </Box>
-            
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 6 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <ScheduleIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {formatTime(currentEvent.startTime)} - {formatTime(currentEvent.endTime)}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: 6 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <LocationOnIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {currentEvent.location}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <PersonIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {currentEvent.responsible}
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
-
-            {/* Current Event Team Duties */}
-            {getTeamDuties(currentEvent).length > 0 && (
-              <Box sx={{ mt: 2 }}>
-                <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
-                  <Typography variant="subtitle2">
-                    🎯 Active Team Duties:
-                  </Typography>
-                  <Tooltip title={expandedCards.has(currentEvent.id) ? 'Hide detailed duties' : 'Show detailed duties'}>
-                    <IconButton
-                      onClick={() => toggleExpanded(currentEvent.id)}
-                      size="small"
-                      sx={{ color: getStatusColor('ongoing') }}
+              
+              {currentEvent ? (
+                <Stack spacing={2}>
+                  <Grow key={currentEvent.id} in timeout={700}>
+                    <Card
+                      variant="outlined"
+                      sx={{
+                        ...getGlassmorphismStyle('ongoing'),
+                        animation: `${glow} 3s ease-in-out infinite`,
+                      }}
                     >
-                      {expandedCards.has(currentEvent.id) ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                  </Tooltip>
-                </Stack>
-                
-                <Stack direction="row" spacing={1} flexWrap="wrap">
-                  {getTeamDuties(currentEvent).map((duty, index) => {
-                    const IconComponent = duty.icon;
-                    return (
-                      <Chip
-                        key={index}
-                        icon={<IconComponent />}
-                        label={`${duty.team}: ${duty.duty.length > 25 ? duty.duty.substring(0, 25) + '...' : duty.duty}`}
-                        sx={{
-                          backgroundColor: `${duty.color}20`,
-                          color: duty.color,
-                          border: `1px solid ${duty.color}`,
-                          mb: 0.5,
-                        }}
-                        size="small"
-                      />
-                    );
-                  })}
-                </Stack>
-
-                {/* Expandable Detailed Duties for Current Event */}
-                <Collapse in={expandedCards.has(currentEvent.id)}>
-                  <Divider sx={{ my: 2 }} />
-                  <Typography variant="subtitle2" gutterBottom>
-                    📋 Detailed Team Responsibilities:
-                  </Typography>
-                  
-                  <Stack spacing={1}>
-                    {getTeamDuties(currentEvent).map((duty, index) => {
-                      const IconComponent = duty.icon;
-                      return (
-                        <Box
-                          key={index}
-                          sx={{
-                            display: 'flex',
-                            alignItems: 'flex-start',
-                            gap: 1,
-                            p: 1.5,
-                            borderRadius: 1,
-                            backgroundColor: `${duty.color}10`,
-                            border: `1px solid ${duty.color}30`,
-                          }}
-                        >
-                          <IconComponent 
-                            sx={{ 
-                              color: duty.color, 
-                              fontSize: 20, 
-                              mt: 0.2,
-                              flexShrink: 0 
-                            }} 
-                          />
-                          <Box>
-                            <Typography 
-                              variant="subtitle2" 
-                              sx={{ color: duty.color, fontWeight: 600 }}
-                            >
-                              {duty.team}
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                              {duty.duty}
-                            </Typography>
-                          </Box>
-                        </Box>
-                      );
-                    })}
-                  </Stack>
-                </Collapse>
-              </Box>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Next Event - Based on Real Time */}
-      {nextEvent && (
-        <Card sx={{ 
-          mb: 3, 
-          border: `2px solid ${getStatusColor('upcoming')}`, 
-          backgroundColor: getStatusBackgroundColor('upcoming')
-        }}>
-          <CardContent>
-            <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-              <PauseIcon sx={{ color: getStatusColor('upcoming') }} />
-              <Typography variant="h6" sx={{ fontWeight: 600, color: getStatusColor('upcoming') }}>
-                UP NEXT
-              </Typography>
-              {/* Show/Hide Button moved up here */}
-              {getTeamDuties(nextEvent).length > 0 && (
-                <Box sx={{ ml: 'auto' }}>
-                  <Tooltip title={nextEventExpanded ? 'Hide detailed duties' : 'Show detailed duties'}>
-                    <IconButton
-                      onClick={toggleNextEventExpanded}
-                      size="small"
-                      sx={{ color: getStatusColor('upcoming') }}
-                    >
-                      {nextEventExpanded ? <ExpandLess /> : <ExpandMore />}
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              )}
-            </Stack>
-            
-            <Typography variant="h6" sx={{ fontWeight: 600, mb: 1 }}>
-              {nextEvent.title}
-            </Typography>
-            
-            <Grid container spacing={2}>
-              <Grid size={{ xs: 6 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <ScheduleIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {formatTime(nextEvent.startTime)} - {formatTime(nextEvent.endTime)}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: 6 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <LocationOnIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {nextEvent.location}
-                  </Typography>
-                </Stack>
-              </Grid>
-              <Grid size={{ xs: 12 }}>
-                <Stack direction="row" spacing={0.5} alignItems="center">
-                  <PersonIcon fontSize="small" color="action" />
-                  <Typography variant="body2">
-                    {nextEvent.responsible}
-                  </Typography>
-                </Stack>
-              </Grid>
-            </Grid>
-
-            {/* Expandable Detailed Duties for Next Event */}
-            {getTeamDuties(nextEvent).length > 0 && (
-              <Collapse in={nextEventExpanded}>
-                <Divider sx={{ my: 2 }} />
-                <Typography variant="subtitle2" gutterBottom>
-                  📋 Detailed Team Responsibilities:
-                </Typography>
-                
-                <Stack spacing={1}>
-                  {getTeamDuties(nextEvent).map((duty, index) => {
-                    const IconComponent = duty.icon;
-                    return (
-                      <Box
-                        key={index}
-                        sx={{
-                          display: 'flex',
-                          alignItems: 'flex-start',
-                          gap: 1,
-                          p: 1.5,
-                          borderRadius: 1,
-                          backgroundColor: `${duty.color}10`,
-                          border: `1px solid ${duty.color}30`,
-                        }}
-                      >
-                        <IconComponent 
-                          sx={{ 
-                            color: duty.color, 
-                            fontSize: 20, 
-                            mt: 0.2,
-                            flexShrink: 0 
-                          }} 
-                        />
-                        <Box>
-                          <Typography 
-                            variant="subtitle2" 
-                            sx={{ color: duty.color, fontWeight: 600 }}
-                          >
-                            {duty.team}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
-                            {duty.duty}
-                          </Typography>
-                        </Box>
-                      </Box>
-                    );
-                  })}
-                </Stack>
-              </Collapse>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Full Schedule with Real-Time Status and Team Duties */}
-      <Card>
-        <CardContent>
-          <Typography variant="h6" gutterBottom sx={{ mb: 2 }}>
-            📋 Timeline Schedule {selectedTeam !== 'all' && `- ${teamFilters.find(f => f.key === selectedTeam)?.label} Team`}
-          </Typography>
-          
-          <Stack spacing={1}>
-            {filteredSchedule.map((item) => {
-              const isExpanded = expandedCards.has(item.id);
-              const teamDuties = getTeamDuties(item);
-              const hasTeamDuties = teamDuties.length > 0;
-
-              return (
-                <Card
-                  key={item.id}
-                  variant="outlined"
-                  sx={{ 
-                    backgroundColor: getCardBackgroundColor(item.color, item.status),
-                    border: `${item.status === 'ongoing' ? '2px' : '1px'} solid ${getBorderColor(item.status)}`,
-                  }}
-                >
-                  <CardContent sx={{ py: 2 }}>
-                    <Grid container spacing={2} alignItems="center">
-                      <Grid size={{ xs: 12, sm: 6 }}>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          {getStatusIcon(item.status)}
-                          <Box sx={{ flexGrow: 1 }}>
-                            <Typography variant="body1" sx={{ fontWeight: 600 }}>
-                              {item.title}
-                            </Typography>
-                            <Typography variant="caption" color="text.secondary">
-                              {item.description}
-                            </Typography>
-                          </Box>
-                          {hasTeamDuties && (
-                            <Tooltip title={isExpanded ? 'Hide team duties' : 'Show team duties'}>
-                              <IconButton
-                                onClick={() => toggleExpanded(item.id)}
-                                size="small"
-                                sx={{ color: theme.palette.text.secondary }}
-                              >
-                                {isExpanded ? <ExpandLess /> : <ExpandMore />}
-                              </IconButton>
-                            </Tooltip>
-                          )}
-                        </Stack>
-                      </Grid>
-                      
-                      <Grid size={{ xs: 6, sm: 3 }}>
-                        <Typography variant="body2" sx={{ fontWeight: 500 }}>
-                          {formatTime(item.startTime)} - {formatTime(item.endTime)}
-                        </Typography>
-                        <Typography variant="caption" color="text.secondary">
-                          {item.duration} mins
-                        </Typography>
-                      </Grid>
-                      
-                      <Grid size={{ xs: 6, sm: 3 }}>
-                        <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mb: 1 }}>
-                          <LocationOnIcon fontSize="small" color="action" />
-                          <Typography variant="body2">
-                            {item.location || 'Various'}
-                          </Typography>
-                        </Stack>
-                        <Stack direction="row" spacing={0.5} alignItems="center">
-                          <PersonIcon fontSize="small" color="action" />
-                          <Typography variant="caption">
-                            {item.responsible}
-                          </Typography>
-                        </Stack>
-                      </Grid>
-                      
-                      <Grid size={{ xs: 12 }}>
-                        <Stack direction="row" spacing={1} alignItems="center">
-                          <Chip
-                            icon={getStatusIcon(item.status)}
-                            label={item.status.toUpperCase()}
-                            size="small"
-                            sx={{
-                              backgroundColor: getStatusColor(item.status),
-                              color: 'white',
-                              '& .MuiChip-icon': { color: 'white' }
-                            }}
-                          />
-                          {/* Show team count indicator if duties exist */}
-                          {hasTeamDuties && (
-                            <Chip
-                              label={`${teamDuties.length} team${teamDuties.length > 1 ? 's' : ''}`}
-                              size="small"
-                              variant="outlined"
-                              sx={{ 
-                                color: theme.palette.text.secondary, 
-                                borderColor: theme.palette.text.secondary 
-                              }}
-                            />
-                          )}
-                        </Stack>
-                      </Grid>
-                    </Grid>
-
-                    {/* Team Duties Expansion */}
-                    <Collapse in={isExpanded && hasTeamDuties}>
-                      <Divider sx={{ my: 2 }} />
-                      <Typography variant="subtitle2" gutterBottom>
-                        📋 Team Responsibilities:
-                      </Typography>
-                      
-                      <Stack spacing={1}>
-                        {teamDuties.map((duty, index) => {
-                          const IconComponent = duty.icon;
-                          return (
-                            <Box
-                              key={index}
-                              sx={{
-                                display: 'flex',
-                                alignItems: 'flex-start',
-                                gap: 1,
-                                p: 1.5,
-                                borderRadius: 1,
-                                backgroundColor: `${duty.color}10`,
-                                border: `1px solid ${duty.color}30`,
-                              }}
-                            >
-                              <IconComponent 
-                                sx={{ 
-                                  color: duty.color, 
-                                  fontSize: 20, 
-                                  mt: 0.2,
-                                  flexShrink: 0 
-                                }} 
-                              />
-                              <Box>
-                                <Typography 
-                                  variant="subtitle2" 
-                                  sx={{ color: duty.color, fontWeight: 600 }}
-                                >
-                                  {duty.team}
+                      <CardContent sx={{ py: 2 }}>
+                        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
+                          <Box sx={{ flex: { xs: 1, sm: 2 } }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <PlayArrowIcon sx={{ color: theme.palette.warning.main }} />
+                              <Box sx={{ flexGrow: 1 }}>
+                                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                                  {currentEvent.title}
                                 </Typography>
                                 <Typography variant="body2" color="text.secondary">
-                                  {duty.duty}
+                                  {currentEvent.description}
                                 </Typography>
+                                <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
+                                  <LocationOnIcon fontSize="small" color="action" />
+                                  <Typography variant="body2">{currentEvent.location}</Typography>
+                                </Stack>
                               </Box>
-                            </Box>
-                          );
-                        })}
-                      </Stack>
-                    </Collapse>
-                  </CardContent>
-                </Card>
-              );
-            })}
-          </Stack>
+                            </Stack>
+                          </Box>
+                          <Box sx={{ flex: { xs: 1, sm: 1 }, display: 'flex', justifyContent: 'center' }}>
+                            <Stack spacing={1} alignItems="center">
+                              <DigitalTimeDisplay time={`${formatTime(currentEvent.startTime)} - ${formatTime(currentEvent.endTime)}`} />
+                              <CountdownTimer 
+                                duration={currentEvent.duration} 
+                                elapsed={Math.floor((currentTime.getTime() - parseTime(currentEvent.startTime).getTime()) / 60000)} 
+                              />
+                              <DurationBar 
+                                duration={currentEvent.duration} 
+                                elapsed={Math.floor((currentTime.getTime() - parseTime(currentEvent.startTime).getTime()) / 60000)} 
+                                status="ongoing"
+                              />
+                            </Stack>
+                          </Box>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grow>
+                </Stack>
+              ) : (
+                <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                  No events currently happening
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Fade>
 
-          {filteredSchedule.length === 0 && (
-            <Box sx={{ textAlign: 'center', py: 4 }}>
-              <Typography variant="h6" color="text.secondary">
-                No events found for selected team
+        {/* UP NEXT Section */}
+        <Fade in timeout={700}>
+          <Card sx={{ ...getGlassmorphismStyle('upcoming') }}>
+            <CardContent>
+              <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
+                <StatusDot status="upcoming" />
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  🔵 UP NEXT
+                </Typography>
+              </Stack>
+              
+              {nextEvent ? (
+                <Stack spacing={2}>
+                  <Grow key={nextEvent.id} in timeout={900}>
+                    <Card
+                      variant="outlined"
+                      sx={{ ...getGlassmorphismStyle('upcoming') }}
+                    >
+                      <CardContent sx={{ py: 2 }}>
+                        <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, alignItems: 'center' }}>
+                          <Box sx={{ flex: { xs: 1, sm: 2 } }}>
+                            <Stack direction="row" spacing={2} alignItems="center">
+                              <AccessTimeIcon sx={{ color: theme.palette.info.main }} />
+                              <Box sx={{ flexGrow: 1 }}>
+                                <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
+                                  {nextEvent.title}
+                                </Typography>
+                                <Typography variant="body2" color="text.secondary">
+                                  {nextEvent.description}
+                                </Typography>
+                                <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
+                                  <LocationOnIcon fontSize="small" color="action" />
+                                  <Typography variant="body2">{nextEvent.location}</Typography>
+                                </Stack>
+                              </Box>
+                            </Stack>
+                          </Box>
+                          <Box sx={{ flex: { xs: 1, sm: 1 }, display: 'flex', justifyContent: 'center' }}>
+                            <Stack spacing={1} alignItems="center">
+                              <DigitalTimeDisplay time={`${formatTime(nextEvent.startTime)} - ${formatTime(nextEvent.endTime)}`} />
+                              <Typography variant="caption" color="text.secondary">
+                                Starts in {Math.floor((parseTime(nextEvent.startTime).getTime() - currentTime.getTime()) / 60000)} minutes
+                              </Typography>
+                            </Stack>
+                          </Box>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grow>
+                </Stack>
+              ) : (
+                <Typography variant="body1" color="text.secondary" sx={{ textAlign: 'center', py: 2 }}>
+                  No upcoming events
+                </Typography>
+              )}
+            </CardContent>
+          </Card>
+        </Fade>
+
+        {/* Timeline Schedule Section */}
+        <Fade in timeout={900}>
+          <Card sx={{ ...getGlassmorphismStyle('default') }}>
+            <CardContent>
+              <Typography variant="h6" gutterBottom sx={{ mb: 2, fontWeight: 600 }}>
+                📋 Timeline Schedule {selectedTeam !== 'all' && `- ${teamFilters.find(f => f.key === selectedTeam)?.label} Team`}
               </Typography>
-              <Typography variant="body2" color="text.secondary">
-                Try selecting &quot;All&quot; or a different team filter.
-              </Typography>
-            </Box>
-          )}
-        </CardContent>
-      </Card>
+              
+              {/* Filter Controls */}
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ mb: 3 }}>
+                <TextField
+                  fullWidth
+                  size="small"
+                  placeholder="Search events..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '8px',
+                      backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                      backdropFilter: 'blur(4px)',
+                    },
+                  }}
+                />
+                <FormControl size="small" sx={{ minWidth: 150 }}>
+                  <InputLabel>Filter by Team</InputLabel>
+                  <Select
+                    value={selectedTeam}
+                    onChange={(e) => setSelectedTeam(e.target.value)}
+                    label="Filter by Team"
+                    sx={{
+                      borderRadius: '8px',
+                      backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                      backdropFilter: 'blur(4px)',
+                    }}
+                  >
+                    {teamFilters.map((filter) => (
+                      <MenuItem key={filter.key} value={filter.key}>
+                        {filter.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </Stack>
+              
+              <Stack spacing={1}>
+                {filteredSchedule.map((item, index) => {
+                  const isExpanded = expandedCards.has(item.id);
+                  const teamDuties = getTeamDuties(item);
+                  const hasTeamDuties = teamDuties.length > 0;
+
+                  return (
+                    <Grow key={item.id} in timeout={1000 + index * 50}>
+                      <Card
+                        variant="outlined"
+                        sx={{
+                          ...getGlassmorphismStyle(item.status),
+                          cursor: hasTeamDuties ? 'pointer' : 'default',
+                        }}
+                        onClick={() => hasTeamDuties && toggleExpanded(item.id)}
+                      >
+                        <CardContent sx={{ py: 2 }}>
+                          <Grid container spacing={2} alignItems="center">
+                            <Grid size={{ xs: 12, sm: 6 }}>
+                              <Stack direction="row" spacing={1} alignItems="center">
+                                <StatusDot status={item.status} />
+                                <Box sx={{ flexGrow: 1 }}>
+                                  <Typography variant="body1" sx={{ fontWeight: 600 }}>
+                                    {item.title}
+                                  </Typography>
+                                  <Typography variant="caption" color="text.secondary">
+                                    {item.description}
+                                  </Typography>
+                                </Box>
+                                {hasTeamDuties && (
+                                  <Tooltip title={isExpanded ? 'Hide team duties' : 'Show team duties'}>
+                                    <IconButton
+                                      size="small"
+                                      sx={{ color: theme.palette.text.secondary }}
+                                    >
+                                      {isExpanded ? <ExpandLess /> : <ExpandMore />}
+                                    </IconButton>
+                                  </Tooltip>
+                                )}
+                              </Stack>
+                            </Grid>
+                            
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                              <DigitalTimeDisplay time={`${formatTime(item.startTime)} - ${formatTime(item.endTime)}`} />
+                              <Typography variant="caption" color="text.secondary" sx={{ display: 'block', mt: 0.5 }}>
+                                {item.duration} mins
+                              </Typography>
+                            </Grid>
+                            
+                            <Grid size={{ xs: 6, sm: 3 }}>
+                              <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mb: 1 }}>
+                                <LocationOnIcon fontSize="small" color="action" />
+                                <Typography variant="body2">
+                                  {item.location || 'Various'}
+                                </Typography>
+                              </Stack>
+                              <Stack direction="row" spacing={0.5} alignItems="center">
+                                <PersonIcon fontSize="small" color="action" />
+                                <Typography variant="caption">
+                                  {item.responsible}
+                                </Typography>
+                              </Stack>
+                            </Grid>
+                          </Grid>
+
+                          {/* Team Duties Collapse */}
+                          <Collapse in={isExpanded} timeout="auto" unmountOnExit>
+                            <Box sx={{ mt: 2, pt: 2, borderTop: `1px solid ${alpha(theme.palette.divider, 0.1)}` }}>
+                              <Typography variant="subtitle2" gutterBottom>
+                                Team Duties:
+                              </Typography>
+                              <Grid container spacing={1}>
+                                {teamDuties.map((duty) => (
+                                  <Grid key={duty.team} size={{ xs: 12, sm: 6, md: 4 }}>
+                                    <Card
+                                      variant="outlined"
+                                      sx={{
+                                        backgroundColor: alpha(theme.palette.background.paper, 0.5),
+                                        backdropFilter: 'blur(4px)',
+                                        borderRadius: '8px',
+                                      }}
+                                    >
+                                      <CardContent sx={{ p: 1.5 }}>
+                                        <Typography variant="caption" color="primary" sx={{ fontWeight: 600 }}>
+                                          {duty.team}
+                                        </Typography>
+                                        <Typography variant="body2" sx={{ mt: 0.5 }}>
+                                          {duty.duty}
+                                        </Typography>
+                                      </CardContent>
+                                    </Card>
+                                  </Grid>
+                                ))}
+                              </Grid>
+                            </Box>
+                          </Collapse>
+                        </CardContent>
+                      </Card>
+                    </Grow>
+                  );
+                })}
+              </Stack>
+            </CardContent>
+          </Card>
+        </Fade>
+      </Stack>
     </Box>
   );
-};
-
-export default LiveSchedule; 
+} 

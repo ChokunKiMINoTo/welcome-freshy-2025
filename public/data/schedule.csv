@@ -1,6 +1,6 @@
 id,title,startTime,endTime,duration,location,responsible,description,color,Operation,Registration,Food & Drink,Entertain,Staff,Game
 staff-registration,Staff Registration,07:00,07:50,50,Bit & Bytes,Registration,Staff check-in and preparation,#ffb3ba,Ensure all teams are present,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff
-staff-meeting,Staff Meeting,07:50,08:00,10,404-405,Lead,Final briefing for event staff,#ffd6e0,Assign radio,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties
+staff-meeting,Staff Meeting,07:50,08:00,10,Bit & Bytes,Lead,Final briefing for event staff,#ffd6e0,Assign radio,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties
 registration,Registration,08:00,09:00,60,Hall of Fame,Registration,Student registration and welcome,#ffb3ba,"Check Queue registration, Game, Stage, Water station","Operate check-in booths, issue badges, support walk-ins",—,—,Guide students to designated areas,—
 opening,Opening,09:00,09:10,10,Grand,MC,Opening ceremony,#e6ccff,"Coordinate with MC, AV, and Photo teams",—,—,Stand distributed according to layout,Arrange students to sit by groups,—
 ice-breaking-1,Ice Breaking Activities Part I,09:10,09:40,30,Grand,Entertain,First round of ice breaking games,#bae1ff,Coordinate timing with AV & Entertain team,—,Prepare morning break snacks/drinks,,—,—
