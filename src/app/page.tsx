@@ -78,7 +78,13 @@ function DashboardContent() {
       <CssBaseline />
       <Box sx={{ pb: 9 }}> {/* Increased bottom padding for fixed navigation */}
         {/* Header */}
-        <AppBar position="sticky">
+        <AppBar 
+          position="sticky"
+          sx={{
+            background: 'linear-gradient(135deg, #4568dc 0%, #b06ab3 100%)',
+            boxShadow: '0 4px 20px rgba(69, 104, 220, 0.3)',
+          }}
+        >
           <Toolbar>
             <Typography variant="h6" sx={{ flexGrow: 1, fontWeight: 600 }}>
               ICT Welcome Freshy 2025 Staff Dashboard

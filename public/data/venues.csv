@@ -1,6 +1,6 @@
 id,name,status,activities,color
-grand,Grand Hall,active,"Opening, Entertainment, Games",#ff6b6b
-it321,IT Room 321,active,Game I,#4ecdc4
+grand,Grand Hall,setup,"Opening, Entertainment, Games",#ff6b6b
+it321,IT Room 321,setup,Game I,#4ecdc4
 it322,IT Room 322,active,Game II,#45b7d1
 it323,IT Room 323,active,Game III,#96ceb4
 it331,IT Room 331,setup,Game V,#feca57

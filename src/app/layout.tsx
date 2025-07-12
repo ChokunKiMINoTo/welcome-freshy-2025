@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   title: "ICT Welcome Freshy 2025 - Event Dashboard",
   description: "Mobile event dashboard for staff and team leads during ICT Welcome Freshy 2025",
   viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
-  themeColor: "#1976d2",
+  themeColor: "#4568dc",
   manifest: "/manifest.json",
 };
 
@@ -33,7 +33,7 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <meta name="theme-color" content="#1976d2" />
+        <meta name="theme-color" content="#4568dc" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Freshy Dashboard" />
