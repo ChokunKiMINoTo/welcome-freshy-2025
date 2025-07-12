@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from '@mui/material/styles';
@@ -19,9 +19,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ICT Welcome Freshy 2025 - Event Dashboard",
   description: "Mobile event dashboard for staff and team leads during ICT Welcome Freshy 2025",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no",
-  themeColor: "#4568dc",
   manifest: "/manifest.json",
+};
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  themeColor: "#4568dc",
 };
 
 export default function RootLayout({
@@ -32,8 +38,6 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <meta name="theme-color" content="#4568dc" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="Freshy Dashboard" />
