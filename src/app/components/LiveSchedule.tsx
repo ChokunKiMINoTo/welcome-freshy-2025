@@ -135,10 +135,16 @@ const EventCardSkeleton = () => {
 };
 
 // Animated status dot component
-const StatusDot = ({ status }: { status: string }) => {
+const StatusDot = ({ status, color }: { status: string; color?: string }) => {
   const theme = useTheme();
   
-  const getDotColor = (status: string) => {
+  const getDotColor = (status: string, customColor?: string) => {
+    // If a custom color is provided, use it; otherwise fall back to status-based colors
+    if (customColor) {
+      return customColor;
+    }
+    
+    // Fallback to status-based colors if no custom color is provided
     const isDark = theme.palette.mode === 'dark';
     switch (status) {
       case 'completed': return isDark ? '#66bb6a' : '#4caf50';
@@ -148,15 +154,17 @@ const StatusDot = ({ status }: { status: string }) => {
     }
   };
 
+  const dotColor = getDotColor(status, color);
+
   return (
     <Box
       sx={{
         width: 12,
         height: 12,
         borderRadius: '50%',
-        backgroundColor: getDotColor(status),
+        backgroundColor: dotColor,
         animation: status === 'ongoing' ? `${pulse} 2s ease-in-out infinite` : 'none',
-        boxShadow: status === 'ongoing' ? `0 0 10px ${alpha(getDotColor(status), 0.6)}` : 'none',
+        boxShadow: status === 'ongoing' ? `0 0 10px ${alpha(dotColor, 0.6)}` : 'none',
       }}
     />
   );
@@ -489,7 +497,7 @@ export default function LiveSchedule() {
           <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                <StatusDot status="ongoing" />
+                <StatusDot status="ongoing" color={currentEvent?.color} />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   🔴 NOW HAPPENING
                 </Typography>
@@ -589,7 +597,7 @@ export default function LiveSchedule() {
           <Card sx={{ ...getGlassmorphismStyle() }}>
             <CardContent>
               <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 2 }}>
-                <StatusDot status="upcoming" />
+                <StatusDot status="upcoming" color={nextEvent?.color} />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   🔵 UP NEXT
                 </Typography>
@@ -741,7 +749,7 @@ export default function LiveSchedule() {
                           <Grid container spacing={2} alignItems="center">
                             <Grid size={{ xs: 12, sm: 6 }}>
                               <Stack direction="row" spacing={1} alignItems="center">
-                                <StatusDot status={item.status} />
+                                <StatusDot status={item.status} color={item.color} />
                                 <Box sx={{ flexGrow: 1 }}>
                                   <Typography variant="body1" sx={{ fontWeight: 600 }}>
                                     {item.title}
