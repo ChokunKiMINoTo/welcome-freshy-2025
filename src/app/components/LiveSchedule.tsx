@@ -411,7 +411,7 @@ export default function LiveSchedule() {
   }, [refreshTrigger]);
 
   // Enhanced glassmorphism card styling
-  const getGlassmorphismStyle = useCallback((status: string) => {
+  const getGlassmorphismStyle = useCallback(() => {
     const isDark = theme.palette.mode === 'dark';
     const baseBackground = isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(255, 255, 255, 0.8)';
     
