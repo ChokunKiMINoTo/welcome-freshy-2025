@@ -1,6 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 
+interface VenueData {
+  id: string;
+  name: string;
+  status: string;
+  location?: string;
+  activities?: string;
+  color?: string;
+  lastUpdated: string;
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { id, status } = await request.json();
@@ -23,7 +33,7 @@ export async function POST(request: NextRequest) {
 
     // Update venue status in Vercel KV
     const venueKey = `venue:${id}`;
-    const venueData = await kv.get(venueKey);
+    const venueData = await kv.get(venueKey) as VenueData | null;
     
     if (!venueData) {
       return NextResponse.json(
@@ -33,7 +43,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Update the status
-    const updatedVenue = {
+    const updatedVenue: VenueData = {
       ...venueData,
       status: status,
       lastUpdated: new Date().toISOString()
@@ -44,10 +54,10 @@ export async function POST(request: NextRequest) {
 
     // Also update the venues list for easy retrieval
     const venuesListKey = 'venues:list';
-    let venuesList = await kv.get(venuesListKey) || [];
+    let venuesList = await kv.get(venuesListKey) as VenueData[] || [];
     
     // Update the specific venue in the list
-    venuesList = venuesList.map((venue: any) => 
+    venuesList = venuesList.map((venue: VenueData) => 
       venue.id === id ? { ...venue, status: status, lastUpdated: new Date().toISOString() } : venue
     );
     
@@ -73,7 +83,7 @@ export async function POST(request: NextRequest) {
 export async function GET() {
   try {
     const venuesListKey = 'venues:list';
-    const venues = await kv.get(venuesListKey) || [];
+    const venues = await kv.get(venuesListKey) as VenueData[] || [];
     
     return NextResponse.json({
       success: true,

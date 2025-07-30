@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextResponse } from 'next/server';
 import { kv } from '@vercel/kv';
 import { promises as fs } from 'fs';
 import path from 'path';
 
-export async function POST(request: NextRequest) {
+export async function POST() {
   try {
     // Read the CSV file
     const csvPath = path.join(process.cwd(), 'public', 'data', 'venues.csv');
@@ -11,7 +11,6 @@ export async function POST(request: NextRequest) {
     
     // Parse CSV and convert to JSON
     const lines = csvContent.trim().split('\n');
-    const headers = lines[0].split(',').map(h => h.trim());
     const venues = [];
     
     for (let i = 1; i < lines.length; i++) {

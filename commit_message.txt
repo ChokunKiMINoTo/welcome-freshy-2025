@@ -1,0 +1,44 @@
+[Cursor] Fix Vercel deployment: Implement Vercel KV for venue status updates
+
+🚨 Problem Fixed:
+- Vercel serverless functions have read-only file system
+- Venue status updates using fs.writeFile() don't work on Vercel
+- Implemented Vercel KV (Redis) database solution
+
+🔧 Technical Implementation:
+- Replaced file system writes with Vercel KV database operations
+- Created new API endpoints for venue management
+- Added fallback to CSV loading if KV is unavailable
+- Updated venue data loading to use KV API
+
+📊 New API Endpoints:
+- POST /api/venues/update - Update venue status
+- GET /api/venues/update - Retrieve all venues
+- POST /api/venues/init - Initialize venue data from CSV
+
+🎯 Key Changes:
+- Modified /api/venues/update/route.ts to use @vercel/kv
+- Created /api/venues/init/route.ts for data initialization
+- Updated loadVenueData() in csvLoader.ts to use KV API
+- Added @vercel/kv package dependency
+
+📝 Setup Requirements:
+- Install Vercel CLI: npm install -g vercel
+- Create KV database: vercel kv create
+- Link to project: vercel kv link
+- Initialize data: POST /api/venues/init
+
+✅ Benefits:
+- Works on Vercel deployment
+- Real-time venue status updates
+- Scalable Redis-based storage
+- Free tier available for small projects
+- Maintains backward compatibility with CSV fallback
+
+🔍 Troubleshooting:
+- Added comprehensive setup guide in VERCEL_SETUP.md
+- Environment variables configuration
+- Alternative solutions (Supabase, Cloud Storage)
+- Step-by-step deployment instructions
+
+This resolves the venue status update issue on Vercel deployment! 🚀 
