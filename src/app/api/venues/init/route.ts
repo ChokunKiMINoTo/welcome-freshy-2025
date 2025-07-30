@@ -1,7 +1,14 @@
 import { NextResponse } from 'next/server';
-import { kv } from '@vercel/kv';
+import { createClient } from 'redis';
 import { promises as fs } from 'fs';
 import path from 'path';
+
+// Create Redis client
+const redis = createClient({
+  url: process.env.REDIS_URL || 'redis://localhost:6379'
+});
+
+redis.on('error', (err) => console.log('Redis Client Error', err));
 
 export async function POST() {
   try {
@@ -12,6 +19,9 @@ export async function POST() {
     // Parse CSV and convert to JSON
     const lines = csvContent.trim().split('\n');
     const venues = [];
+    
+    // Connect to Redis
+    await redis.connect();
     
     for (let i = 1; i < lines.length; i++) {
       const columns = parseCSVLine(lines[i]);
@@ -27,20 +37,28 @@ export async function POST() {
       venues.push(venue);
       
       // Store individual venue
-      await kv.set(`venue:${venue.id}`, venue);
+      await redis.set(`venue:${venue.id}`, JSON.stringify(venue));
     }
     
     // Store venues list
-    await kv.set('venues:list', venues);
+    await redis.set('venues:list', JSON.stringify(venues));
+    
+    // Disconnect from Redis
+    await redis.disconnect();
     
     return NextResponse.json({
       success: true,
-      message: `Initialized ${venues.length} venues in Vercel KV`,
+      message: `Initialized ${venues.length} venues in Redis`,
       venues: venues
     });
     
   } catch (error) {
     console.error('Error initializing venues:', error);
+    try {
+      await redis.disconnect();
+    } catch (disconnectError) {
+      console.error('Error disconnecting from Redis:', disconnectError);
+    }
     return NextResponse.json(
       { error: 'Failed to initialize venues', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
