@@ -281,12 +281,12 @@ export async function loadVenueData(): Promise<VenueItem[]> {
       const data = await response.json();
       if (data.success && data.venues) {
         // Transform KV data to VenueItem format
-        return data.venues.map((venue: { id: string; name: string; status: string; location?: string; activities?: string; color?: string }) => ({
+        return data.venues.map((venue: { id: string; name: string; status: string; activities: string; color: string }) => ({
           id: venue.id,
           name: venue.name,
           status: venue.status as 'active' | 'break' | 'setup' | 'maintenance',
-          activities: venue.location || venue.activities || '',
-          color: venue.color || '#000000',
+          activities: venue.activities,
+          color: venue.color,
         }));
       }
     }

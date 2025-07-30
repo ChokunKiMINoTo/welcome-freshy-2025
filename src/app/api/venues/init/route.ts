@@ -19,9 +19,8 @@ export async function POST() {
         id: columns[0],
         name: columns[1],
         status: columns[2],
-        location: columns[3],
-        capacity: columns[4],
-        description: columns[5],
+        activities: columns[3],
+        color: columns[4],
         lastUpdated: new Date().toISOString()
       };
       
@@ -43,7 +42,7 @@ export async function POST() {
   } catch (error) {
     console.error('Error initializing venues:', error);
     return NextResponse.json(
-      { error: 'Failed to initialize venues' },
+      { error: 'Failed to initialize venues', details: error instanceof Error ? error.message : 'Unknown error' },
       { status: 500 }
     );
   }

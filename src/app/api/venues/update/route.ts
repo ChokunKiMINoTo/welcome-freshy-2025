@@ -5,9 +5,8 @@ interface VenueData {
   id: string;
   name: string;
   status: string;
-  location?: string;
-  activities?: string;
-  color?: string;
+  activities: string;
+  color: string;
   lastUpdated: string;
 }
 
