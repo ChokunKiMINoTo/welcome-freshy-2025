@@ -1,30 +1,28 @@
 id,title,startTime,endTime,duration,location,responsible,description,color,Operation,Registration,Food & Drink,Entertain,Staff,Game
-staff-registration,Staff Registration,07:00,07:50,50,Bit & Bytes,Registration,Staff check-in and preparation,#ff4d6d,Ensure all teams are present,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff
-staff-meeting,Staff Meeting,07:50,08:00,10,Bit & Bytes,Lead,Final briefing for event staff,#ff85a1,Assign radio,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties
-registration,Registration,08:00,09:00,60,Hall of Fame,Registration,Student registration and welcome,#ff4d6d,"Check Queue registration, Game, Stage, Water station","Operate check-in booths, issue badges, support walk-ins",—,—,Guide students to designated areas,—
+staff-registration,Staff Registration,07:30,07:50,20,IT204,Registration,Staff check-in and preparation,#ff4d6d,Ensure all teams are present,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff,Setup & register all staff
+staff-meeting,Staff Meeting,07:50,08:00,10,IT204,Head,Final briefing for event staff,#ff85a1,Assign radio,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties,Join meeting & align duties
+registration,Registration,08:00,09:00,60,Innovation Space,Registration,Student registration and welcome,#ff4d6d,"Check Queue registration, Game, Stage, Water station","Operate check-in booths, issue badges, support walk-ins",—,—,Guide students to designated areas,—
 opening,Opening,09:00,09:10,10,Grand,MC,Opening ceremony,#c04dff,"Coordinate with MC, AV, and Photo teams",—,—,Stand distributed according to layout,Arrange students to sit by groups,—
-ice-breaking-1,Ice Breaking Activities Part I,09:10,09:40,30,Grand,Entertain,First round of ice breaking games,#3b82f6,Coordinate timing with AV & Entertain team,—,Prepare morning break snacks/drinks,,—,—
-entertain-1,Entertain I,09:40,09:50,10,Grand,Entertain,Entertainment performance,#3b82f6,,—,—,—,—,Game take break
-break-1,Break I,09:50,10:00,10,Innovation Space,Food & Drink,Short break and refreshments,#ffc04d,Confirm Food team ready,—,Distribute break,—,—,Game standby
-go-to-game-1,Go to the Game,10:00,10:10,10,-,Staff,Transition to game stations,#22c55e,Confirm Game teams ready,—,,—,Guide students to game stations,—
-game-1,Game I,10:10,10:35,25,IT321,Game,First game session,#fff44f,Monitor timing,—,Lunch preparation,—,—,—
-go-to-game-2,Go to next Game,10:35,10:40,5,-,Staff,Transition between games,#22c55e,"Key time for transitions, score check-ins, and Game status confirmation",Support Game Staff: Monitor transition,—,—,Guide students to next station,—
-game-2,Game II,10:40,11:05,25,IT322,Game,Second game session,#fff44f,,Monitor game & assist with score input,Team has lunch,,—,—
-go-to-game-3,Go to next Game,11:05,11:10,5,-,Staff,Transition between games,#22c55e,,Support Game Staff: Monitor transition,—,—,Guide students to next station,
-game-3,Game III,11:10,11:35,25,IT323,Game,Third game session,#fff44f,,Monitor game & assist with score input,—,—,—,—
-back-to-stage,Back to main Stage,11:35,11:45,10,-,Staff,Return to main venue,#22c55e,Ensure all groups return to Grand on time,—,—,—,Guide students back to Grand hall,—
-appointment,Appointment,11:45,11:50,5,Grand,MC,Special announcement,#c04dff,—,—,—,—,Staff lunch break,—
-lunch,Lunch,11:50,12:45,55,Innovation Space,Food & Drink,Lunch break,#ffc04d,Support Food team in flow control,—,Distribute lunch to participants,Standby,12:40 Guide students back to venue,—
-entertain-3,Entertain III,12:45,12:55,10,Grand,Entertain,Post-lunch entertainment,#3b82f6,Coordinate timing with AV & Entertain team,—,—,—,—,—
-ice-breaking-2,Ice Breaking Activities Part II,12:55,13:25,30,Grand,Entertain,Second round of ice breaking games,#3b82f6,,—,—,—,—,Game standby
+ice-breaking-entertain-1,Ice Breaking & Entertain Part I,09:10,09:50,40,Grand,Entertain,First round of ice breaking games and entertainment,#3b82f6,Coordinate timing with AV & Entertain team,—,—,—,—,—
+go-to-game-1,Go to the Game,09:50,10:00,10,-,Staff,Transition to game stations,#22c55e,Confirm Food team ready,—,—,—,Guide students to game stations,Game take break
+break-1,Break I,10:00,10:15,15,Game Room,Food & Drink,Short break and refreshments,#ffc04d,Confirm Game teams ready,—,Distribute break,—,—,Game standby
+game-1,Game I,10:15,10:40,25,IT321,Game,First game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist with score input,—,—,—,—
+go-to-game-2,Go to next Game,10:40,10:45,5,-,Staff,Transition between games,#22c55e,"Key time for transitions, score check-ins, and Game status confirmation",Support Game Staff: Monitor transition,—,—,Guide students to next station,—
+game-2,Game II,10:45,11:10,25,IT322,Game,Second game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist with score input,—,—,—,—
+go-to-game-3,Go to next Game,11:10,11:15,5,-,Staff,Transition between games,#22c55e,"Key time for transitions, score check-ins, and Game status confirmation",Support Game Staff: Monitor transition,—,—,Guide students to next station,
+game-3,Game III,11:15,11:40,25,IT323,Game,Third game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist with score input,—,—,—,—
+go-to-lunch,Go to Lunch,11:40,11:45,5,-,Staff,Transition to lunch area,#22c55e,Check escalator,—,—,—,Guide students to lunch area,—
+lunch,Lunch,11:45,12:45,60,Innovation Space,Food & Drink,Lunch break,#ffc04d,Support Food team in flow control,—,Distribute lunch to participants,Standby,12:35 Guide students back to venue,—
+ice-breaking-entertain-2,Ice Breaking & Entertain Part II,12:45,13:25,40,Grand,Entertain,Second round of ice breaking games and entertainment,#3b82f6,Coordinate timing with AV & Entertain team,—,—,—,—,Game standby
 go-to-game-4,Go to the Game,13:25,13:35,10,-,Staff,Transition to afternoon games,#22c55e,Confirm Game teams ready,—,—,—,Guide students to game stations,—
 game-4,Game IV,13:35,14:00,25,IT332,Game,Fourth game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist with score input,—,—,—,—
-go-to-game-5,Go to next Game,14:00,14:05,5,-,Staff,Transition between games,#22c55e,,Support Game Staff: Monitor transition,—,—,Guide students to next station,—
-game-5,Game V,14:05,14:30,25,IT331,Game,Fifth game session,#fff44f,,Monitor game & assist with score input,—,—,—,—
-go-to-game-6,Go to next Game,14:30,14:35,5,-,Staff,Transition between games,#22c55e,,Support Game Staff: Monitor transition,—,—,Guide students to next station,—
-game-6,Game VI,14:35,15:00,25,Grand,Game,Final game session,#fff44f,,Monitor game & assist; begin score rankingfinalization,Prepare afternoon break (snacks/drinks),Team Break,—,—
-go-to-innovation,Go to Innovation Space,15:00,15:10,10,-,Staff,Move to break area,#22c55e,Confirm Food team is ready,Complete score ranking & report to Ops,—,Standby,Guide students to break area,—
-break-2,Break II,15:10,15:20,10,Innovation Space,Food & Drink,Final break before closing,#ffc04d,Ensure final ranking report from Regis is ready; coordinate award setup,—,Distribute break,—,—,—
-entertain-4,Entertain IV,15:20,15:30,10,Grand,Entertain,Pre-closing entertainment,#3b82f6,,—,—,—,Come to Grand hall,—
-rewards,Rewards,15:30,15:55,25,Grand,MC,Award ceremony and recognition,#c04dff,,Support by confirming rankings & awards,—,—,—,—
-closing,Closing,15:55,16:05,10,Grand,MC,Closing ceremony,#c04dff,Final wrap-up coordination with all teams,—,—,—,—,—
+go-to-game-5,Go to next Game,14:00,14:05,5,-,Staff,Transition between games,#22c55e,"Key time for transitions, score check-ins, and Game status confirmation",Support Game Staff: Monitor transition,—,—,Guide students to next station,—
+game-5,Game V,14:05,14:30,25,IT331,Game,Fifth game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist with score input,—,—,—,—
+go-to-game-6,Go to next Game,14:30,14:35,5,-,Staff,Transition between games,#22c55e,"Key time for transitions, score check-ins, and Game status confirmation",Support Game Staff: Monitor transition,—,—,Guide students to next station,—
+game-6,Game VI,14:35,15:00,25,Grand,Game,Final game session,#fff44f,"Key time for transitions, score check-ins, and Game status confirmation",Monitor game & assist; begin score ranking finalization,—,Team Break,—,—
+break-2,Break II,15:00,15:10,10,Game Room,Food & Drink,Final break before closing,#ffc04d,Confirm Food team is ready,Complete score ranking & report to Ops,Distribute break,—,—,—
+back-to-stage,Back to Main Stage,15:10,15:20,10,-,Staff,Return to main venue for awards,#22c55e,Ensure final ranking report from Regis is ready; coordinate award setup,—,—,—,Guide students back to Grand hall,—
+rewards,Rewards,15:20,15:45,25,Grand,MC,Award ceremony and recognition,#c04dff,,Signing awards,—,—,—,—
+closing,Closing,15:45,15:55,10,Grand,MC,Closing ceremony,#c04dff,Final wrap-up coordination with all teams,—,—,—,—,—
+entertain-medley,Entertain Medley,15:55,16:05,10,Grand,Entertain,Final entertainment performance,#3b82f6,,—,—,—,—,—
+,,,,,,,,,,,,,,

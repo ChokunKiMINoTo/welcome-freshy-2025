@@ -275,8 +275,25 @@ export async function loadScheduleData(): Promise<ScheduleItem[]> {
 
 export async function loadVenueData(): Promise<VenueItem[]> {
   try {
-    const response = await fetch('/data/venues.csv');
-    const csvText = await response.text();
+    // Try to load from KV API first
+    const response = await fetch('/api/venues/update');
+    if (response.ok) {
+      const data = await response.json();
+      if (data.success && data.venues) {
+        // Transform KV data to VenueItem format
+        return data.venues.map((venue: any) => ({
+          id: venue.id,
+          name: venue.name,
+          status: venue.status as 'active' | 'break' | 'setup' | 'maintenance',
+          activities: venue.location || venue.activities || '',
+          color: venue.color || '#000000',
+        }));
+      }
+    }
+    
+    // Fallback to CSV if KV is not available
+    const csvResponse = await fetch('/data/venues.csv');
+    const csvText = await csvResponse.text();
     return parseCSV(csvText, venueMapper);
   } catch (error) {
     console.error('Error loading venue data:', error);

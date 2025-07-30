@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { kv } from '@vercel/kv';
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,46 +21,43 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Read the current CSV file
-    const csvPath = path.join(process.cwd(), 'public', 'data', 'venues.csv');
-    const csvContent = await fs.readFile(csvPath, 'utf-8');
+    // Update venue status in Vercel KV
+    const venueKey = `venue:${id}`;
+    const venueData = await kv.get(venueKey);
     
-    // Parse and update the CSV
-    const lines = csvContent.trim().split('\n');
-    let venueFound = false;
-    
-    const updatedLines = lines.map((line, index) => {
-      if (index === 0) return line; // Keep headers
-      
-      const columns = parseCSVLine(line);
-      const venueId = columns[0];
-      
-      if (venueId === id) {
-        venueFound = true;
-        columns[2] = status; // Update status column (index 2)
-        return columns.map(col => 
-          col.includes(',') || col.includes('"') ? `"${col.replace(/"/g, '""')}"` : col
-        ).join(',');
-      }
-      
-      return line;
-    });
-
-    if (!venueFound) {
+    if (!venueData) {
       return NextResponse.json(
         { error: `Venue with id '${id}' not found` },
         { status: 404 }
       );
     }
 
-    // Write the updated CSV back to file
-    const updatedCSV = updatedLines.join('\n');
-    await fs.writeFile(csvPath, updatedCSV, 'utf-8');
+    // Update the status
+    const updatedVenue = {
+      ...venueData,
+      status: status,
+      lastUpdated: new Date().toISOString()
+    };
+
+    // Store updated venue data
+    await kv.set(venueKey, updatedVenue);
+
+    // Also update the venues list for easy retrieval
+    const venuesListKey = 'venues:list';
+    let venuesList = await kv.get(venuesListKey) || [];
+    
+    // Update the specific venue in the list
+    venuesList = venuesList.map((venue: any) => 
+      venue.id === id ? { ...venue, status: status, lastUpdated: new Date().toISOString() } : venue
+    );
+    
+    await kv.set(venuesListKey, venuesList);
 
     return NextResponse.json({
       success: true,
       message: `Venue '${id}' status updated to '${status}'`,
       timestamp: new Date().toISOString(),
+      venue: updatedVenue
     });
 
   } catch (error) {
@@ -73,34 +69,21 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// Helper function to parse CSV line properly
-function parseCSVLine(line: string): string[] {
-  const result: string[] = [];
-  let current = '';
-  let inQuotes = false;
-  let i = 0;
-  
-  while (i < line.length) {
-    const char = line[i];
+// GET endpoint to retrieve all venues
+export async function GET() {
+  try {
+    const venuesListKey = 'venues:list';
+    const venues = await kv.get(venuesListKey) || [];
     
-    if (char === '"') {
-      if (inQuotes && line[i + 1] === '"') {
-        current += '"';
-        i += 2;
-      } else {
-        inQuotes = !inQuotes;
-        i++;
-      }
-    } else if (char === ',' && !inQuotes) {
-      result.push(current.trim());
-      current = '';
-      i++;
-    } else {
-      current += char;
-      i++;
-    }
+    return NextResponse.json({
+      success: true,
+      venues: venues
+    });
+  } catch (error) {
+    console.error('Error retrieving venues:', error);
+    return NextResponse.json(
+      { error: 'Failed to retrieve venues' },
+      { status: 500 }
+    );
   }
-  
-  result.push(current.trim());
-  return result;
 } 
