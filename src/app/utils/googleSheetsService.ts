@@ -71,11 +71,14 @@ export class GoogleSheetsService {
 
     const headers = worksheetData[0];
     const teamNameColIndex = this.findColumnIndex(headers, 'ชื่อกลุ่มน้อง');
-    const scoreColIndex = this.findColumnIndex(headers, 'รวมคะแนน');
+    const scoreColIndex = this.findColumnIndex(headers, 'คะแนนรวม');
 
     if (teamNameColIndex === -1 || scoreColIndex === -1) {
-      console.error('Required columns not found');
-      console.error('Available headers:', headers);
+      console.error('Required columns not found. Looking for:', {
+        teamNameCol: 'ชื่อกลุ่มน้อง',
+        scoreCol: 'คะแนนรวม',
+        headers: headers
+      });
       return [];
     }
 
@@ -93,55 +96,80 @@ export class GoogleSheetsService {
       }
     }
 
-    return gameData;
+    // Group by team name and sum scores
+    const teamScores = new Map<string, number>();
+    gameData.forEach(item => {
+      const currentScore = teamScores.get(item.teamName) || 0;
+      teamScores.set(item.teamName, currentScore + item.score);
+    });
+
+    // Convert back to GameData array
+    return Array.from(teamScores.entries()).map(([teamName, totalScore]) => ({
+      teamName,
+      score: totalScore
+    }));
   }
 
   async getScoreboardData(): Promise<TeamScore[]> {
     try {
       const spreadsheetId = process.env.GOOGLE_SHEETS_ID || 'your-spreadsheet-id';
       
-      // Try to get data from the first worksheet (Sheet1) first
-      let worksheetData = await this.getWorksheetData(spreadsheetId, 'Sheet1');
-      
-      // If Sheet1 is empty, try other common worksheet names
-      if (!worksheetData || worksheetData.length === 0) {
-        const commonRanges = [
-          'A:G', // Full range
-          'Sheet1!A:G',
-          'เกม!A:G',
-          'A1:G100', // Specific range
-        ];
-        
-        for (const range of commonRanges) {
-          worksheetData = await this.getWorksheetData(spreadsheetId, range);
-          if (worksheetData && worksheetData.length > 0) {
-            console.log('Found data in range:', range);
-            break;
-          }
-        }
-      }
+      // Fetch data from all worksheets
+      const [game1Data, game2Data, game3Data, game6Data] = await Promise.all([
+        this.getWorksheetData(spreadsheetId, 'เกมที่ 1 : เกมแน่จริงก็เรียงให้ตรง'),
+        this.getWorksheetData(spreadsheetId, 'เกมที่ 2 : เกมกระซิบต่อบอกให้ถูก'),
+        this.getWorksheetData(spreadsheetId, 'เกมที่ 3 : เกมคําเดียวก็เกินพอ'),
+        this.getWorksheetData(spreadsheetId, 'เกมที่ 6 : Shadow Boxing'),
+      ]);
 
-      if (!worksheetData || worksheetData.length === 0) {
-        console.error('No data found in any worksheet');
-        return [];
-      }
+      console.log('Raw data from worksheets:', {
+        game1: game1Data.length,
+        game2: game2Data.length,
+        game3: game3Data.length,
+        game6: game6Data.length
+      });
 
-      // Parse the data
-      const gameScores = this.parseGameData(worksheetData);
+      // Parse each game's data
+      const game1Scores = this.parseGameData(game1Data);
+      const game2Scores = this.parseGameData(game2Data);
+      const game3Scores = this.parseGameData(game3Data);
+      const game6Scores = this.parseGameData(game6Data);
 
-      // Create team scores (treating this as a single game for now)
-      const teamScores: TeamScore[] = gameScores.map((game, index) => {
+      console.log('Parsed scores:', {
+        game1: game1Scores.length,
+        game2: game2Scores.length,
+        game3: game3Scores.length,
+        game6: game6Scores.length
+      });
+
+      // Combine all team names
+      const allTeamNames = new Set([
+        ...game1Scores.map(g => g.teamName),
+        ...game2Scores.map(g => g.teamName),
+        ...game3Scores.map(g => g.teamName),
+        ...game6Scores.map(g => g.teamName),
+      ]);
+
+      // Create team scores
+      const teamScores: TeamScore[] = Array.from(allTeamNames).map(teamName => {
+        const game1Score = game1Scores.find(g => g.teamName === teamName)?.score || 0;
+        const game2Score = game2Scores.find(g => g.teamName === teamName)?.score || 0;
+        const game3Score = game3Scores.find(g => g.teamName === teamName)?.score || 0;
+        const game6Score = game6Scores.find(g => g.teamName === teamName)?.score || 0;
+
+        const totalScore = game1Score + game2Score + game3Score + game6Score;
+
         return {
-          teamName: game.teamName,
-          game1: game.score, // Use the total score as game1
-          game2: 0, // Not available in this format
-          game3: 0, // Not available in this format
-          game6: 0, // Not available in this format
-          totalScore: game.score,
+          teamName,
+          game1: game1Score,
+          game2: game2Score,
+          game3: game3Score,
+          game6: game6Score,
+          totalScore,
           rank: 0, // Will be calculated after sorting
-          trend: 'same' as const,
+          trend: 'same' as const, // Default trend
           lastUpdated: new Date().toISOString(),
-          achievements: this.generateAchievements(game.score, 0, 0, 0),
+          achievements: this.generateAchievements(game1Score, game2Score, game3Score, game6Score),
         };
       });
 
@@ -161,14 +189,14 @@ export class GoogleSheetsService {
   private generateAchievements(game1: number, game2: number, game3: number, game6: number): string {
     const achievements = [];
     
-    if (game1 > 0) achievements.push('Game Winner');
+    if (game1 > 0) achievements.push('Game 1 Winner');
     if (game2 > 0) achievements.push('Game 2 Winner');
     if (game3 > 0) achievements.push('Game 3 Winner');
     if (game6 > 0) achievements.push('Shadow Boxing Champion');
     
     const totalScore = game1 + game2 + game3 + game6;
-    if (totalScore > 50) achievements.push('High Scorer');
-    if (totalScore > 100) achievements.push('Elite Player');
+    if (totalScore > 100) achievements.push('High Scorer');
+    if (totalScore > 200) achievements.push('Elite Player');
     
     return achievements.join(', ');
   }
