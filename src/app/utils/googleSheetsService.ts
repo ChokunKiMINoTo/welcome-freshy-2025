@@ -19,8 +19,8 @@ export interface GameData {
 }
 
 export class GoogleSheetsService {
-  private auth: any;
-  private sheets: any;
+  private auth: unknown;
+  private sheets: unknown;
 
   constructor() {
     // Initialize Google Sheets API with service account credentials from environment
@@ -46,14 +46,14 @@ export class GoogleSheetsService {
     this.sheets = google.sheets({ version: 'v4', auth: this.auth });
   }
 
-  private async getWorksheetData(spreadsheetId: string, range: string): Promise<any[][]> {
+  private async getWorksheetData(spreadsheetId: string, range: string): Promise<string[][]> {
     try {
-      const response = await this.sheets.spreadsheets.values.get({
+      const response = await (this.sheets as any).spreadsheets.values.get({
         spreadsheetId,
         range,
       });
 
-      return response.data.values || [];
+      return (response.data.values as string[][]) || [];
     } catch (error) {
       console.error('Error fetching worksheet data:', error);
       return [];
@@ -64,7 +64,7 @@ export class GoogleSheetsService {
     return headers.findIndex(header => header.includes(columnName));
   }
 
-  private parseGameData(worksheetData: any[][]): GameData[] {
+  private parseGameData(worksheetData: string[][]): GameData[] {
     if (worksheetData.length < 2) return [];
 
     const headers = worksheetData[0];
