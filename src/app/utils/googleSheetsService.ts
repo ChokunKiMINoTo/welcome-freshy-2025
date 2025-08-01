@@ -19,8 +19,10 @@ export interface GameData {
 }
 
 export class GoogleSheetsService {
-  private auth: unknown;
-  private sheets: unknown;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private auth: any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private sheets: any;
 
   constructor() {
     // Initialize Google Sheets API with service account credentials from environment
@@ -48,7 +50,7 @@ export class GoogleSheetsService {
 
   private async getWorksheetData(spreadsheetId: string, range: string): Promise<string[][]> {
     try {
-      const response = await (this.sheets as any).spreadsheets.values.get({
+      const response = await this.sheets.spreadsheets.values.get({
         spreadsheetId,
         range,
       });
