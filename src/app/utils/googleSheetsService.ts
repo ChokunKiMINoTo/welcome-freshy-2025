@@ -25,6 +25,15 @@ export class GoogleSheetsService {
   private sheets: any;
 
   constructor() {
+    console.log('Initializing GoogleSheetsService...');
+    console.log('Environment variables check:', {
+      GOOGLE_SHEETS_ID: process.env.GOOGLE_SHEETS_ID ? 'SET' : 'NOT SET',
+      GOOGLE_PRIVATE_KEY_ID: process.env.GOOGLE_PRIVATE_KEY_ID ? 'SET' : 'NOT SET',
+      GOOGLE_CLIENT_EMAIL: process.env.GOOGLE_CLIENT_EMAIL ? 'SET' : 'NOT SET',
+      GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID ? 'SET' : 'NOT SET',
+      GOOGLE_CLIENT_X509_CERT_URL: process.env.GOOGLE_CLIENT_X509_CERT_URL ? 'SET' : 'NOT SET',
+    });
+
     // Initialize Google Sheets API with service account credentials from environment
     const serviceAccountCredentials = {
       type: "service_account",
@@ -40,6 +49,14 @@ export class GoogleSheetsService {
       universe_domain: "googleapis.com"
     };
 
+    console.log('Service account credentials:', {
+      type: serviceAccountCredentials.type,
+      project_id: serviceAccountCredentials.project_id,
+      private_key_id: serviceAccountCredentials.private_key_id ? 'SET' : 'NOT SET',
+      client_email: serviceAccountCredentials.client_email,
+      client_id: serviceAccountCredentials.client_id ? 'SET' : 'NOT SET',
+    });
+
     this.auth = new google.auth.GoogleAuth({
       credentials: serviceAccountCredentials,
       scopes: ['https://www.googleapis.com/auth/spreadsheets.readonly'],
@@ -50,26 +67,43 @@ export class GoogleSheetsService {
 
   private async getWorksheetData(spreadsheetId: string, range: string): Promise<string[][]> {
     try {
+      console.log(`Fetching data from spreadsheet: ${spreadsheetId}, range: ${range}`);
+      
       const response = await this.sheets.spreadsheets.values.get({
         spreadsheetId,
         range,
       });
 
-      return (response.data.values as string[][]) || [];
+      const data = (response.data.values as string[][]) || [];
+      console.log(`Received ${data.length} rows from ${range}`);
+      
+      if (data.length > 0) {
+        console.log(`First row headers:`, data[0]);
+      }
+
+      return data;
     } catch (error) {
-      console.error('Error fetching worksheet data:', error);
+      console.error(`Error fetching worksheet data for ${range}:`, error);
       return [];
     }
   }
 
   private findColumnIndex(headers: string[], columnName: string): number {
-    return headers.findIndex(header => header.includes(columnName));
+    const index = headers.findIndex(header => header.includes(columnName));
+    console.log(`Looking for column "${columnName}" in headers:`, headers);
+    console.log(`Found at index: ${index}`);
+    return index;
   }
 
   private parseGameData(worksheetData: string[][]): GameData[] {
-    if (worksheetData.length < 2) return [];
+    if (worksheetData.length < 2) {
+      console.log('Not enough data rows, need at least 2 (header + data)');
+      return [];
+    }
 
     const headers = worksheetData[0];
+    console.log('Parsing headers:', headers);
+    
     const teamNameColIndex = this.findColumnIndex(headers, 'ชื่อกลุ่มน้อง');
     const scoreColIndex = this.findColumnIndex(headers, 'คะแนนรวม');
 
@@ -92,9 +126,12 @@ export class GoogleSheetsService {
         
         if (teamName && score > 0) {
           gameData.push({ teamName, score });
+          console.log(`Found team: ${teamName}, score: ${score}`);
         }
       }
     }
+
+    console.log(`Raw game data entries: ${gameData.length}`);
 
     // Group by team name and sum scores
     const teamScores = new Map<string, number>();
@@ -104,15 +141,19 @@ export class GoogleSheetsService {
     });
 
     // Convert back to GameData array
-    return Array.from(teamScores.entries()).map(([teamName, totalScore]) => ({
+    const result = Array.from(teamScores.entries()).map(([teamName, totalScore]) => ({
       teamName,
       score: totalScore
     }));
+
+    console.log(`Aggregated team scores:`, result);
+    return result;
   }
 
   async getScoreboardData(): Promise<TeamScore[]> {
     try {
       const spreadsheetId = process.env.GOOGLE_SHEETS_ID || 'your-spreadsheet-id';
+      console.log('Using spreadsheet ID:', spreadsheetId);
       
       // Fetch data from all worksheets
       const [game1Data, game2Data, game3Data, game6Data] = await Promise.all([
@@ -150,6 +191,8 @@ export class GoogleSheetsService {
         ...game6Scores.map(g => g.teamName),
       ]);
 
+      console.log('All team names found:', Array.from(allTeamNames));
+
       // Create team scores
       const teamScores: TeamScore[] = Array.from(allTeamNames).map(teamName => {
         const game1Score = game1Scores.find(g => g.teamName === teamName)?.score || 0;
@@ -179,6 +222,7 @@ export class GoogleSheetsService {
         team.rank = index + 1;
       });
 
+      console.log('Final team scores:', teamScores);
       return teamScores;
     } catch (error) {
       console.error('Error fetching scoreboard data:', error);
