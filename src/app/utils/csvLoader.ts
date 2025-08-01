@@ -331,7 +331,18 @@ export async function loadScoreboardData(): Promise<ScoreboardItem[]> {
       const result = await response.json();
       if (result.success && result.data) {
         // Transform Google Sheets data to ScoreboardItem format
-        return result.data.map((item: any) => ({
+        return result.data.map((item: {
+          teamName: string;
+          totalScore: number;
+          game1: number;
+          game2: number;
+          game3: number;
+          game6: number;
+          rank: number;
+          trend: 'up' | 'down' | 'same';
+          lastUpdated: string;
+          achievements: string;
+        }) => ({
           id: item.teamName.toLowerCase().replace(/\s+/g, '-'),
           teamName: item.teamName,
           totalScore: item.totalScore,
