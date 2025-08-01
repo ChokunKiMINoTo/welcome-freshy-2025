@@ -75,6 +75,7 @@ export class GoogleSheetsService {
 
     if (teamNameColIndex === -1 || scoreColIndex === -1) {
       console.error('Required columns not found');
+      console.error('Available headers:', headers);
       return [];
     }
 
@@ -99,48 +100,48 @@ export class GoogleSheetsService {
     try {
       const spreadsheetId = process.env.GOOGLE_SHEETS_ID || 'your-spreadsheet-id';
       
-      // Fetch data from all worksheets
-      const [game1Data, game2Data, game3Data, game6Data] = await Promise.all([
-        this.getWorksheetData(spreadsheetId, 'เกมที่ 1 : เกมแน่จริงก็เรียงให้ตรง'),
-        this.getWorksheetData(spreadsheetId, 'เกมที่ 2 : เกมกระซิบต่อบอกให้ถูก'),
-        this.getWorksheetData(spreadsheetId, 'เกมที่ 3 : เกมคําเดียวก็เกินพอ'),
-        this.getWorksheetData(spreadsheetId, 'เกมที่ 6 : Shadow Boxing'),
-      ]);
+      // Try to get data from the first worksheet (Sheet1) first
+      let worksheetData = await this.getWorksheetData(spreadsheetId, 'Sheet1');
+      
+      // If Sheet1 is empty, try other common worksheet names
+      if (!worksheetData || worksheetData.length === 0) {
+        const commonRanges = [
+          'A:G', // Full range
+          'Sheet1!A:G',
+          'เกม!A:G',
+          'A1:G100', // Specific range
+        ];
+        
+        for (const range of commonRanges) {
+          worksheetData = await this.getWorksheetData(spreadsheetId, range);
+          if (worksheetData && worksheetData.length > 0) {
+            console.log('Found data in range:', range);
+            break;
+          }
+        }
+      }
 
-      // Parse each game's data
-      const game1Scores = this.parseGameData(game1Data);
-      const game2Scores = this.parseGameData(game2Data);
-      const game3Scores = this.parseGameData(game3Data);
-      const game6Scores = this.parseGameData(game6Data);
+      if (!worksheetData || worksheetData.length === 0) {
+        console.error('No data found in any worksheet');
+        return [];
+      }
 
-      // Combine all team names
-      const allTeamNames = new Set([
-        ...game1Scores.map(g => g.teamName),
-        ...game2Scores.map(g => g.teamName),
-        ...game3Scores.map(g => g.teamName),
-        ...game6Scores.map(g => g.teamName),
-      ]);
+      // Parse the data
+      const gameScores = this.parseGameData(worksheetData);
 
-      // Create team scores
-      const teamScores: TeamScore[] = Array.from(allTeamNames).map(teamName => {
-        const game1Score = game1Scores.find(g => g.teamName === teamName)?.score || 0;
-        const game2Score = game2Scores.find(g => g.teamName === teamName)?.score || 0;
-        const game3Score = game3Scores.find(g => g.teamName === teamName)?.score || 0;
-        const game6Score = game6Scores.find(g => g.teamName === teamName)?.score || 0;
-
-        const totalScore = game1Score + game2Score + game3Score + game6Score;
-
+      // Create team scores (treating this as a single game for now)
+      const teamScores: TeamScore[] = gameScores.map((game, index) => {
         return {
-          teamName,
-          game1: game1Score,
-          game2: game2Score,
-          game3: game3Score,
-          game6: game6Score,
-          totalScore,
+          teamName: game.teamName,
+          game1: game.score, // Use the total score as game1
+          game2: 0, // Not available in this format
+          game3: 0, // Not available in this format
+          game6: 0, // Not available in this format
+          totalScore: game.score,
           rank: 0, // Will be calculated after sorting
-          trend: 'same' as const, // Default trend
+          trend: 'same' as const,
           lastUpdated: new Date().toISOString(),
-          achievements: this.generateAchievements(game1Score, game2Score, game3Score, game6Score),
+          achievements: this.generateAchievements(game.score, 0, 0, 0),
         };
       });
 
@@ -160,14 +161,14 @@ export class GoogleSheetsService {
   private generateAchievements(game1: number, game2: number, game3: number, game6: number): string {
     const achievements = [];
     
-    if (game1 > 0) achievements.push('Game 1 Winner');
+    if (game1 > 0) achievements.push('Game Winner');
     if (game2 > 0) achievements.push('Game 2 Winner');
     if (game3 > 0) achievements.push('Game 3 Winner');
     if (game6 > 0) achievements.push('Shadow Boxing Champion');
     
     const totalScore = game1 + game2 + game3 + game6;
-    if (totalScore > 100) achievements.push('High Scorer');
-    if (totalScore > 200) achievements.push('Elite Player');
+    if (totalScore > 50) achievements.push('High Scorer');
+    if (totalScore > 100) achievements.push('Elite Player');
     
     return achievements.join(', ');
   }
