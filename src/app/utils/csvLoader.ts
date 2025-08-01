@@ -325,44 +325,8 @@ export async function loadContactData(): Promise<ContactItem[]> {
 
 export async function loadScoreboardData(): Promise<ScoreboardItem[]> {
   try {
-    // Try to load from Google Sheets API first
-    const response = await fetch('/api/scoreboard');
-    if (response.ok) {
-      const result = await response.json();
-      if (result.success && result.data) {
-        // Transform Google Sheets data to ScoreboardItem format
-        return result.data.map((item: {
-          teamName: string;
-          totalScore: number;
-          game1: number;
-          game2: number;
-          game3: number;
-          game6: number;
-          rank: number;
-          trend: 'up' | 'down' | 'same';
-          lastUpdated: string;
-          achievements: string;
-        }) => ({
-          id: item.teamName.toLowerCase().replace(/\s+/g, '-'),
-          teamName: item.teamName,
-          totalScore: item.totalScore,
-          gameI: item.game1,
-          gameII: item.game2,
-          gameIII: item.game3,
-          gameIV: 0, // Not available in Google Sheets
-          gameV: 0,   // Not available in Google Sheets
-          gameVI: item.game6,
-          rank: item.rank,
-          trend: item.trend,
-          lastUpdated: item.lastUpdated,
-          achievements: item.achievements
-        }));
-      }
-    }
-    
-    // Fallback to CSV if API is not available
-    const csvResponse = await fetch('/data/scoreboard.csv');
-    const csvText = await csvResponse.text();
+    const response = await fetch('/data/scoreboard.csv');
+    const csvText = await response.text();
     return parseCSVWithHeaders(csvText, scoreboardMapper);
   } catch (error) {
     console.error('Error loading scoreboard data:', error);
