@@ -26,9 +26,6 @@ import {
 } from '@mui/material';
 import {
   EmojiEvents as TrophyIcon,
-  TrendingUp as TrendingUpIcon,
-  TrendingDown as TrendingDownIcon,
-  Remove as RemoveIcon,
   Info as InfoIcon,
   Star as StarIcon,
   Close as CloseIcon,
@@ -60,28 +57,6 @@ const Scoreboard: React.FC = () => {
 
     loadData();
   }, [refreshTrigger]);
-
-  const getTrendIcon = (trend: string) => {
-    switch (trend) {
-      case 'up':
-        return <TrendingUpIcon color="success" fontSize="small" />;
-      case 'down':
-        return <TrendingDownIcon color="error" fontSize="small" />;
-      case 'same':
-        return <RemoveIcon color="action" fontSize="small" />;
-      default:
-        return <RemoveIcon color="action" fontSize="small" />;
-    }
-  };
-
-  const getTrendColor = (trend: string) => {
-    switch (trend) {
-      case 'up': return '#4caf50';
-      case 'down': return '#f44336';
-      case 'same': return '#9e9e9e';
-      default: return '#9e9e9e';
-    }
-  };
 
   const getRankColor = (rank: number) => {
     switch (rank) {
@@ -264,10 +239,7 @@ const Scoreboard: React.FC = () => {
                   <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game I</TableCell>
                   <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game II</TableCell>
                   <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game III</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game IV</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game V</TableCell>
                   <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Game VI</TableCell>
-                  <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Trend</TableCell>
                   <TableCell sx={{ color: 'white', fontWeight: 600 }} align="center">Actions</TableCell>
                 </TableRow>
               </TableHead>
@@ -365,34 +337,6 @@ const Scoreboard: React.FC = () => {
                     <TableCell align="center">
                       <Box>
                         <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {team.gameIV}
-                        </Typography>
-                        <LinearProgress
-                          variant="determinate"
-                          value={getScorePercentage(team.gameIV)}
-                          sx={{ width: 60, mt: 0.5 }}
-                          color="warning"
-                        />
-                      </Box>
-                    </TableCell>
-                    
-                    <TableCell align="center">
-                      <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
-                          {team.gameV}
-                        </Typography>
-                        <LinearProgress
-                          variant="determinate"
-                          value={getScorePercentage(team.gameV)}
-                          sx={{ width: 60, mt: 0.5 }}
-                          color="info"
-                        />
-                      </Box>
-                    </TableCell>
-                    
-                    <TableCell align="center">
-                      <Box>
-                        <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {team.gameVI}
                         </Typography>
                         <LinearProgress
@@ -402,19 +346,6 @@ const Scoreboard: React.FC = () => {
                           color="error"
                         />
                       </Box>
-                    </TableCell>
-                    
-                    <TableCell align="center">
-                      <Chip
-                        icon={getTrendIcon(team.trend)}
-                        label={team.trend.toUpperCase()}
-                        size="small"
-                        sx={{
-                          backgroundColor: getTrendColor(team.trend),
-                          color: 'white',
-                          fontWeight: 600,
-                        }}
-                      />
                     </TableCell>
                     
                     <TableCell align="center">
@@ -520,36 +451,6 @@ const Scoreboard: React.FC = () => {
                     
                     <Box>
                       <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-                        <Typography variant="body2">Game IV</Typography>
-                        <Typography variant="h6" sx={{ color: '#ff9800' }}>
-                          {selectedTeam.gameIV}
-                        </Typography>
-                      </Stack>
-                      <LinearProgress
-                        variant="determinate"
-                        value={getScorePercentage(selectedTeam.gameIV)}
-                        sx={{ height: 8, borderRadius: 4 }}
-                        color="warning"
-                      />
-                    </Box>
-                    
-                    <Box>
-                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-                        <Typography variant="body2">Game V</Typography>
-                        <Typography variant="h6" sx={{ color: '#2196f3' }}>
-                          {selectedTeam.gameV}
-                        </Typography>
-                      </Stack>
-                      <LinearProgress
-                        variant="determinate"
-                        value={getScorePercentage(selectedTeam.gameV)}
-                        sx={{ height: 8, borderRadius: 4 }}
-                        color="info"
-                      />
-                    </Box>
-                    
-                    <Box>
-                      <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
                         <Typography variant="body2">Game VI</Typography>
                         <Typography variant="h6" sx={{ color: '#f44336' }}>
                           {selectedTeam.gameVI}
@@ -575,16 +476,6 @@ const Scoreboard: React.FC = () => {
                       <Stack direction="row" spacing={1} alignItems="center">
                         {getRankIcon(selectedTeam.rank)}
                         <Typography variant="h6">#{selectedTeam.rank}</Typography>
-                      </Stack>
-                    </Box>
-                    
-                    <Box>
-                      <Typography variant="body2" color="text.secondary">Performance Trend</Typography>
-                      <Stack direction="row" spacing={1} alignItems="center">
-                        {getTrendIcon(selectedTeam.trend)}
-                        <Typography variant="body1" sx={{ textTransform: 'capitalize' }}>
-                          {selectedTeam.trend}
-                        </Typography>
                       </Stack>
                     </Box>
                     
